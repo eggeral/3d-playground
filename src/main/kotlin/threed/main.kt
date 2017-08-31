@@ -11,6 +11,7 @@ fun main(args: Array<String>) {
 
     val container = document.getElementById("container") as HTMLDivElement
     val canvas = document.createElement("canvas") as HTMLCanvasElement
+    canvas.style.height = "100%"
 
     val webGlContext = canvas.getContext("webgl")
 
