@@ -5,6 +5,7 @@
 ### WebGL
 * Introduction to WebGL: https://webglfundamentals.org/webgl/lessons/webgl-fundamentals.html
 * Mozilla Developer Network: https://developer.mozilla.org/de/docs/Web/API/WebGL_API
+* Khronos Group WebGL Specification: https://www.khronos.org/registry/webgl/specs/latest/
 
 ### Kotlin
 * Getting Started with IntelliJ and Kotlin: https://kotlinlang.org/docs/tutorials/javascript/getting-started-idea/getting-started-with-intellij-idea.html
