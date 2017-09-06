@@ -4,3 +4,5 @@
 
 # IntelliJ
 out/
+.idea/inspectionProfiles/
+.idea/uiDesigner.xml

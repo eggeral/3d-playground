@@ -3,8 +3,8 @@ package threed
 import org.khronos.webgl.WebGLRenderingContext
 import org.w3c.dom.HTMLCanvasElement
 import org.w3c.dom.HTMLDivElement
+import threed.example.drawExample
 import kotlin.browser.document
-import kotlin.browser.window
 
 
 fun main(args: Array<String>) {
@@ -26,14 +26,7 @@ fun main(args: Array<String>) {
         container.appendChild(canvas)
         webGlContext as WebGLRenderingContext
 
-        fun render() {
-
-            webGlContext.viewport(0, 0, canvas.width, canvas.height)
-            drawTriangle(webGlContext)
-            window.requestAnimationFrame { render() }
-
-        }
-        render()
+        drawExample(webGlContext)
 
     }
 
