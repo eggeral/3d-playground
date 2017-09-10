@@ -11,8 +11,7 @@ fun drawExample(gl: WebGLRenderingContext) {
     gl.fitDrawingBufferIntoCanvas()
     //drawTriangle(gl)
     //translateTriangle(gl)
-    scaleAndRotateTriangle(gl)
-    //projection(gl)
-    //rotateCube(gl)
+    //scaleAndRotateTriangle(gl)
+    rotateCube(gl)
 }
 
