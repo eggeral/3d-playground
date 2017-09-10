@@ -13,10 +13,11 @@ import org.khronos.webgl.WebGLRenderingContext.Companion.VERTEX_SHADER
 fun translateTriangle(gl: WebGLRenderingContext) {
 
     val vertices = arrayOf(
-            0.0f, 0.25f, 0.0f,
-            0.25f, -0.25f, 0.0f,
-            -0.25f, -0.25f, 0.0f
+            0.0f, 1.0f, 0.0f,
+            -1.0f, -1.0f, 0.0f,
+            1.0f, -1.0f, 0.0f
     )
+
 
     val vertexBuffer = gl.createBuffer()
     gl.bindBuffer(ARRAY_BUFFER, vertexBuffer)
@@ -24,11 +25,11 @@ fun translateTriangle(gl: WebGLRenderingContext) {
 
     val vertexShaderCode =
             """
-            attribute vec3 position;
+            attribute vec3 vertices;
             uniform mat4 translationMatrix;
 
             void main(void) {
-                gl_Position = translationMatrix*vec4(position, 1.0);
+                gl_Position = translationMatrix*vec4(vertices, 1.0);
             }
             """
 
@@ -58,9 +59,9 @@ fun translateTriangle(gl: WebGLRenderingContext) {
     gl.clearColor(0.5f, 0.5f, 0.5f, 0.9f)
     gl.clear(COLOR_BUFFER_BIT)
 
-    val position = gl.getAttribLocation(shaderProgram, "position")
-    gl.vertexAttribPointer(position, 3, FLOAT, false, 0, 0)
-    gl.enableVertexAttribArray(position)
+    val verticesAttribute = gl.getAttribLocation(shaderProgram, "vertices")
+    gl.vertexAttribPointer(verticesAttribute, 3, FLOAT, false, 0, 0)
+    gl.enableVertexAttribArray(verticesAttribute)
 
     // The actual translation
     val translationMatrix = arrayOf(

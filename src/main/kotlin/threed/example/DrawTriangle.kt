@@ -17,7 +17,8 @@ fun drawTriangle(gl: WebGLRenderingContext) {
     val vertices = arrayOf(
             0.0f, 1.0f, 0.0f,
             -1.0f, -1.0f, 0.0f,
-            1.0f, -1.0f, 0.0f)
+            1.0f, -1.0f, 0.0f
+    )
 
     // Create and store data into vertex buffer
     val vertexBuffer = gl.createBuffer()
@@ -28,9 +29,9 @@ fun drawTriangle(gl: WebGLRenderingContext) {
     // The result is a vec4. Why? -> https://developer.mozilla.org/docs/Web/API/WebGL_API/WebGL_model_view_projection
     val vertexShaderCode =
             """
-            attribute vec3 position;
+            attribute vec3 vertices;
             void main() {
-                gl_Position = vec4(position, 1.0);
+                gl_Position = vec4(vertices, 1.0);
             }
             """
 
@@ -60,9 +61,9 @@ fun drawTriangle(gl: WebGLRenderingContext) {
     gl.clearColor(0.9f, 0.9f, 0.9f, 1.0f)
     gl.clear(COLOR_BUFFER_BIT)
 
-    val position = gl.getAttribLocation(shaderProgram, "position") // position is the name of the attribute in the vertex shader code
-    gl.vertexAttribPointer(position, 3, FLOAT, false, 0, 0)
-    gl.enableVertexAttribArray(position)
+    val verticesAttribute = gl.getAttribLocation(shaderProgram, "vertices") // position is the name of the attribute in the vertex shader code
+    gl.vertexAttribPointer(verticesAttribute, 3, FLOAT, false, 0, 0)
+    gl.enableVertexAttribArray(verticesAttribute)
 
     gl.drawArrays(TRIANGLES, 0, 3)
 

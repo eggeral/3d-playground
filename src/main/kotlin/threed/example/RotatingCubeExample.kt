@@ -104,14 +104,14 @@ fun rotateCube(gl: WebGLRenderingContext) {
     val vertexShaderCode =
             """
             attribute vec3 position;
-            uniform mat4 Pmatrix;
-            uniform mat4 Vmatrix;
-            uniform mat4 Mmatrix;
+            uniform mat4 projectionMatrix;
+            uniform mat4 viewMatrix;
+            uniform mat4 modelMatrix;
             attribute vec3 color;
             varying vec3 vColor;
 
             void main(void) {
-                gl_Position = Pmatrix*Vmatrix*Mmatrix*vec4(position, 1.);
+                gl_Position = projectionMatrix*viewMatrix*modelMatrix*vec4(position, 1.);
                 vColor = color;
             }
             """
@@ -119,9 +119,9 @@ fun rotateCube(gl: WebGLRenderingContext) {
     val fragmentShaderCode =
             """
             precision mediump float;
-            varying vec3 vColor;
+            varying vec3 color;
             void main(void) {
-                gl_FragColor = vec4(vColor, 1.);
+                gl_FragColor = vec4(color, 1.);
             }
             """
 
@@ -138,28 +138,23 @@ fun rotateCube(gl: WebGLRenderingContext) {
     gl.attachShader(shaderProgram, fragmentShader)
     gl.linkProgram(shaderProgram)
 
-/* ====== Associating attributes to vertex shader =====*/
-    val Pmatrix = gl.getUniformLocation(shaderProgram, "Pmatrix")
-    val Vmatrix = gl.getUniformLocation(shaderProgram, "Vmatrix")
-    val Mmatrix = gl.getUniformLocation(shaderProgram, "Mmatrix")
+    val Pmatrix = gl.getUniformLocation(shaderProgram, "projectionMatrix")
+    val Vmatrix = gl.getUniformLocation(shaderProgram, "viewMatrix")
+    val Mmatrix = gl.getUniformLocation(shaderProgram, "modeMatrix")
 
     gl.bindBuffer(ARRAY_BUFFER, vertexBuffer)
     val position = gl.getAttribLocation(shaderProgram, "position")
     gl.vertexAttribPointer(position, 3, FLOAT, false, 0, 0)
 
-// Position
     gl.enableVertexAttribArray(position)
     gl.bindBuffer(ARRAY_BUFFER, colorBuffer)
     val color = gl.getAttribLocation(shaderProgram, "color")
     gl.vertexAttribPointer(color, 3, FLOAT, false, 0, 0)
 
-// Color
     gl.enableVertexAttribArray(color)
     gl.useProgram(shaderProgram)
 
-/*==================== MATRIX =====================*/
-
-    fun get_projection(angle: Float, aspectRatio: Float, zMin: Float, zMax: Float): Array<Float> {
+    fun createProjectionMatrix(angle: Float, aspectRatio: Float, zMin: Float, zMax: Float): Array<Float> {
         val ang = Math.tan((angle * .5) * Math.PI / 180).toFloat()//angle*.5
         return arrayOf(
                 0.5f / ang, 0.0f, 0.0f, 0.0f,
@@ -169,13 +164,23 @@ fun rotateCube(gl: WebGLRenderingContext) {
         )
     }
 
-    val proj_matrix = get_projection(40.0f, (gl.canvas.width.toFloat() / gl.canvas.height.toFloat()), 1.0f, 100.0f)
+    val projectionMatrix = createProjectionMatrix(40.0f, (gl.canvas.width.toFloat() / gl.canvas.height.toFloat()), 1.0f, 100.0f)
 
-    val mov_matrix = arrayOf(1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f)
-    val view_matrix = arrayOf(1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f)
+    val modelMatrix = arrayOf(
+            1.0f, 0.0f, 0.0f, 0.0f,
+            0.0f, 1.0f, 0.0f, 0.0f,
+            0.0f, 0.0f, 1.0f, 0.0f,
+            0.0f, 0.0f, 0.0f, 1.0f
+    )
+
+    val viewMatrix = arrayOf(
+            1.0f, 0.0f, 0.0f, 0.0f,
+            0.0f, 1.0f, 0.0f, 0.0f,
+            0.0f, 0.0f, 1.0f, 0.0f,
+            0.0f, 0.0f, 0.0f, 1.0f)
 
 // translating z
-    view_matrix[14] = view_matrix[14] - 6.0f //zoom
+    viewMatrix[14] = viewMatrix[14] - 6.0f //zoom
 
 /*==================== Rotation ====================*/
 
@@ -235,9 +240,9 @@ fun rotateCube(gl: WebGLRenderingContext) {
         gl.fitDrawingBufferIntoCanvas()
 
         val dt = (time - time_old) / 10.0
-        rotateZ(mov_matrix, dt * 0.005)//time
-        rotateY(mov_matrix, dt * 0.002)
-        rotateX(mov_matrix, dt * 0.003)
+        rotateZ(modelMatrix, dt * 0.005)//time
+        rotateY(modelMatrix, dt * 0.002)
+        rotateX(modelMatrix, dt * 0.003)
         time_old = time
 
         gl.enable(DEPTH_TEST)
@@ -246,9 +251,9 @@ fun rotateCube(gl: WebGLRenderingContext) {
         gl.clearDepth(1.0f)
 
         gl.clear(COLOR_BUFFER_BIT.or(DEPTH_BUFFER_BIT))
-        gl.uniformMatrix4fv(Pmatrix, false, proj_matrix)
-        gl.uniformMatrix4fv(Vmatrix, false, view_matrix)
-        gl.uniformMatrix4fv(Mmatrix, false, mov_matrix)
+        gl.uniformMatrix4fv(Pmatrix, false, projectionMatrix)
+        gl.uniformMatrix4fv(Vmatrix, false, viewMatrix)
+        gl.uniformMatrix4fv(Mmatrix, false, modelMatrix)
         gl.bindBuffer(ELEMENT_ARRAY_BUFFER, indexBuffer)
         gl.drawElements(TRIANGLES, indices.size, UNSIGNED_SHORT, 0)
 
