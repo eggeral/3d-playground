@@ -60,9 +60,9 @@ fun scaleAndRotateTriangle(gl: WebGLRenderingContext) {
     // Translate * Rotate * Scale -> First scale, then rotate, then translate
     val modeMatrix =
             translateMatrix(0.5f, 0.5f, 0.0f) *
-                    rotateXMatrix(rad(0.0)) *
-                    rotateYMatrix(rad(0.0)) *
-                    rotateZMatrix(rad(10.0)) *
+                    rotateXMatrix(0.0.asRad.toFloat()) *
+                    rotateYMatrix(0.0.asRad.toFloat()) *
+                    rotateZMatrix(10.0.asRad.toFloat()) *
                     scaleMatrix(0.5f, 0.5f, 1.0f)
 
 
