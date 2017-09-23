@@ -1,7 +1,7 @@
 package threed.example
 
 import org.khronos.webgl.WebGLRenderingContext
-import threed.fitDrawingBufferIntoCanvas
+import WebGL.fitDrawingBufferIntoCanvas
 
 
 fun drawExample(gl: WebGLRenderingContext) {

@@ -1,4 +1,4 @@
-package threed
+package WebGL
 
 import org.khronos.webgl.WebGLRenderingContext
 import kotlin.browser.window

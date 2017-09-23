@@ -1,5 +1,6 @@
 package threed.example
 
+import WebGL.fitDrawingBufferIntoCanvas
 import org.khronos.webgl.Float32Array
 import org.khronos.webgl.Uint16Array
 import org.khronos.webgl.WebGLRenderingContext

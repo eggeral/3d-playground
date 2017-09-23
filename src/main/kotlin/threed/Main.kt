@@ -1,5 +1,6 @@
 package threed
 
+import WebGL.createWebGLRenderingContext
 import org.khronos.webgl.WebGLRenderingContext
 import org.w3c.dom.HTMLCanvasElement
 import org.w3c.dom.HTMLDivElement
@@ -13,22 +14,12 @@ fun main(args: Array<String>) {
     val canvas = document.createElement("canvas") as HTMLCanvasElement
     canvas.style.height = "100%"
 
-    val webGlContext = canvas.getContext("webgl")
+    val webGlContext = createWebGLRenderingContext(canvas)
 
+    container.appendChild(canvas)
 
-    if (webGlContext == null) {
-
-        val text = document.createTextNode("WebGl not available in this browser!")
-        container.appendChild(text)
-
-    } else {
-
-        container.appendChild(canvas)
-        webGlContext as WebGLRenderingContext
-
-        drawExample(webGlContext)
-
-    }
+    drawExample(webGlContext)
+    
 
 }
 
