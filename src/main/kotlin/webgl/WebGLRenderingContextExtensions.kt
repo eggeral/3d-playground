@@ -1,4 +1,4 @@
-package WebGL
+package webgl
 
 import org.khronos.webgl.WebGLRenderingContext
 import kotlin.browser.window

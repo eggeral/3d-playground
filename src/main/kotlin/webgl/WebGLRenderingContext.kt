@@ -1,4 +1,4 @@
-package WebGL
+package webgl
 
 import org.khronos.webgl.WebGLRenderingContext
 import org.w3c.dom.HTMLCanvasElement

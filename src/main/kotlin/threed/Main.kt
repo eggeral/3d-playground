@@ -1,7 +1,6 @@
 package threed
 
-import WebGL.createWebGLRenderingContext
-import org.khronos.webgl.WebGLRenderingContext
+import webgl.createWebGLRenderingContext
 import org.w3c.dom.HTMLCanvasElement
 import org.w3c.dom.HTMLDivElement
 import threed.example.drawExample
