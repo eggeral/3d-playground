@@ -1,19 +1,32 @@
+package scene
 
-package spr5.scene;
-
-import spr5.util.assert
+import util.assert
 
 
 class SceneTriangle(var vertices: Array<Coordinate>, override var color: Rgba) : WebGLDrawable {
+
+    private val _vertices: Array<Float>
+    private val _color: Array<Float>
+
     init {
-        assert(vertices.size == 3, "vertices.size == 3");
+        assert(vertices.size == 3, "SceneTriangle expects 3 coordinates")
+
+        _vertices = arrayOf(
+                vertices[0].x, vertices[0].y, vertices[0].z,
+                vertices[1].x, vertices[1].y, vertices[1].z,
+                vertices[2].x, vertices[2].y, vertices[2].z
+        )
+
+        _color = arrayOf(
+                color.red, color.green, color.blue, color.alpha
+        )
     }
 
     override fun getColors(): Array<Float> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return _color
     }
 
     override fun getVertices(): Array<Float> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return _vertices
     }
 }
