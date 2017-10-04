@@ -56,12 +56,35 @@ fun rotateCube(gl: WebGLRenderingContext) {
     )
 
     val colors = arrayOf(
-            5.0f, 3.0f, 7.0f, 5.0f, 3.0f, 7.0f, 5.0f, 3.0f, 7.0f, 5.0f, 3.0f, 7.0f,
-            1.0f, 1.0f, 3.0f, 1.0f, 1.0f, 3.0f, 1.0f, 1.0f, 3.0f, 1.0f, 1.0f, 3.0f,
-            0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-            1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
-            1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f,
-            0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f
+            5.0f, 3.0f, 7.0f,
+            5.0f, 3.0f, 7.0f,
+            5.0f, 3.0f, 7.0f,
+            5.0f, 3.0f, 7.0f,
+
+            1.0f, 1.0f, 3.0f,
+            1.0f, 1.0f, 3.0f,
+            1.0f, 1.0f, 3.0f,
+            1.0f, 1.0f, 3.0f,
+
+            0.0f, 0.0f, 1.0f,
+            0.0f, 0.0f, 1.0f,
+            0.0f, 0.0f, 1.0f,
+            0.0f, 0.0f, 1.0f,
+
+            1.0f, 0.0f, 0.0f,
+            1.0f, 0.0f, 0.0f,
+            1.0f, 0.0f, 0.0f,
+            1.0f, 0.0f, 0.0f,
+
+            1.0f, 1.0f, 0.0f,
+            1.0f, 1.0f, 0.0f,
+            1.0f, 1.0f, 0.0f,
+            1.0f, 1.0f, 0.0f,
+
+            0.0f, 1.0f, 0.0f,
+            0.0f, 1.0f, 0.0f,
+            0.0f, 1.0f, 0.0f,
+            0.0f, 1.0f, 0.0f
     )
 
     val indices = arrayOf<Short>(
@@ -142,13 +165,13 @@ fun rotateCube(gl: WebGLRenderingContext) {
     gl.bindBuffer(ARRAY_BUFFER, vertexBuffer)
     val verticesAttribute = gl.getAttribLocation(shaderProgram, "vertices")
     gl.vertexAttribPointer(verticesAttribute, 3, FLOAT, false, 0, 0)
-
     gl.enableVertexAttribArray(verticesAttribute)
+
     gl.bindBuffer(ARRAY_BUFFER, colorBuffer)
     val color = gl.getAttribLocation(shaderProgram, "color")
     gl.vertexAttribPointer(color, 3, FLOAT, false, 0, 0)
-
     gl.enableVertexAttribArray(color)
+
     gl.useProgram(shaderProgram)
 
     val projectionMatrix = perspectiveProjectionMatrix(40.0.asRad.toFloat(), (gl.canvas.width.toFloat() / gl.canvas.height.toFloat()), 1.0f, 100.0f)
