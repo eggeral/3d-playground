@@ -12,6 +12,7 @@ fun drawExample(gl: WebGLRenderingContext) {
     //drawTriangle(gl)
     //translateTriangle(gl)
     //scaleAndRotateTriangle(gl)
-    rotateCube(gl)
+    //rotateCube(gl)
+    drawTwoRectangles(gl)
 }
 

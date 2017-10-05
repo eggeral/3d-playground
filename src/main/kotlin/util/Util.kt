@@ -1,4 +1,4 @@
-package spr5.util;
+package util
 
 fun assert(stmt: Boolean, message: String?) {
     if (!stmt)

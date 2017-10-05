@@ -2,9 +2,9 @@ package example
 
 import org.khronos.webgl.Float32Array
 import org.khronos.webgl.WebGLRenderingContext
+import scene.SceneTriangle
 import scene.Coordinate
 import scene.Rgba
-import scene.SceneTriangle
 
 fun drawSceneTriangle(gl: WebGLRenderingContext) {
 

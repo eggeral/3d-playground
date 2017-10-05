@@ -4,6 +4,7 @@ import webgl.createWebGLRenderingContext
 import org.w3c.dom.HTMLCanvasElement
 import org.w3c.dom.HTMLDivElement
 import threed.example.drawExample
+import webgl.fitDrawingBufferIntoCanvas
 import kotlin.browser.document
 
 
@@ -17,8 +18,10 @@ fun main(args: Array<String>) {
 
     container.appendChild(canvas)
 
+    webGlContext.fitDrawingBufferIntoCanvas()
+
     drawExample(webGlContext)
-    
+
 
 }
 
