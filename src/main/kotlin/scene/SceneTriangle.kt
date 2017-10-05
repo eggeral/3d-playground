@@ -1,6 +1,6 @@
-package scene
+package spr5.scene
 
-import util.assert
+import spr5.util.assert
 
 
 class SceneTriangle(var vertices: Array<Coordinate>, override var color: Rgba) : WebGLDrawable {
