@@ -1,6 +1,6 @@
-package spr5.scene;
+package scene
 
-import spr5.util.assert
+import util.assert
 
 class SceneBox(var faces: Array<SceneRectangle>, override var color: Rgba) : WebGLDrawable {
     init {

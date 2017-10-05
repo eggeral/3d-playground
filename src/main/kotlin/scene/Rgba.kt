@@ -1,6 +1,6 @@
-package spr5.scene;
+package scene
 
-import spr5.util.assert;
+import util.assert;
 
 class Rgba(val red: Float = 0.0f,
            val green: Float = 0.0f,

@@ -13,8 +13,8 @@ import org.khronos.webgl.WebGLRenderingContext.Companion.STATIC_DRAW
 import org.khronos.webgl.WebGLRenderingContext.Companion.TRIANGLES
 import org.khronos.webgl.WebGLRenderingContext.Companion.UNSIGNED_SHORT
 import org.khronos.webgl.WebGLRenderingContext.Companion.VERTEX_SHADER
-import spr5.scene.Coordinate
-import spr5.scene.Rgba
+import scene.Coordinate
+import scene.Rgba
 import threed.*
 
 

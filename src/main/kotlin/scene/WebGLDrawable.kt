@@ -1,4 +1,6 @@
-package spr5.scene;
+package scene
+
+import scene.Rgba
 
 interface WebGLDrawable {
     fun getVertices(): Array<Float>;

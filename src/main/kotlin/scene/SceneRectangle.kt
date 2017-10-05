@@ -1,7 +1,6 @@
-package spr5.scene;
+package scene
 
-import scene.SceneTriangle
-import spr5.util.assert
+import util.assert
 
 class SceneRectangle(var faces: Array<SceneTriangle>, override var color: Rgba) : WebGLDrawable {
     init {
