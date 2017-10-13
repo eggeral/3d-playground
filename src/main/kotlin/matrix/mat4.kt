@@ -38,29 +38,29 @@ class mat4 : glMatrix() {
         }
 
         /**
-         * Creates a new mat4 initialized with values from an existing matrix
+         * Creates matrixToClone new mat4 initialized with values from an existing matrix
          *
-         * @param {mat4} a matrix to clone
-         * @returns {mat4} a new 4x4 matrix
+         * @param {mat4} matrixToClone matrix to clone
+         * @returns {mat4} matrixToClone new 4x4 matrix
          */
-        fun clone(a: Float32Array): Float32Array {
+        fun clone(matrixToClone: Float32Array): Float32Array {
             val out = Float32Array(16)
-            out[0] = a[0]
-            out[1] = a[1]
-            out[2] = a[2]
-            out[3] = a[3]
-            out[4] = a[4]
-            out[5] = a[5]
-            out[6] = a[6]
-            out[7] = a[7]
-            out[8] = a[8]
-            out[9] = a[9]
-            out[10] = a[10]
-            out[11] = a[11]
-            out[12] = a[12]
-            out[13] = a[13]
-            out[14] = a[14]
-            out[15] = a[15]
+            out[0] = matrixToClone[0]
+            out[1] = matrixToClone[1]
+            out[2] = matrixToClone[2]
+            out[3] = matrixToClone[3]
+            out[4] = matrixToClone[4]
+            out[5] = matrixToClone[5]
+            out[6] = matrixToClone[6]
+            out[7] = matrixToClone[7]
+            out[8] = matrixToClone[8]
+            out[9] = matrixToClone[9]
+            out[10] = matrixToClone[10]
+            out[11] = matrixToClone[11]
+            out[12] = matrixToClone[12]
+            out[13] = matrixToClone[13]
+            out[14] = matrixToClone[14]
+            out[15] = matrixToClone[15]
             return out
         }
 
@@ -401,7 +401,7 @@ class mat4 : glMatrix() {
          * @param {mat4} source the source matrix
          * @returns {Number} determinant of source
          */
-        fun determinant(source: Float32Array): Float {
+        fun determinant(source: Float32Array): Double {
             val a00 = source[0]
             val a01 = source[1]
             val a02 = source[2]
@@ -431,7 +431,7 @@ class mat4 : glMatrix() {
             val b10 = a21 * a33 - a23 * a31
             val b11 = a22 * a33 - a23 * a32
             // Calculate the determinant
-            return b00 * b11 - b01 * b10 + b02 * b09 + b03 * b08 - b04 * b07 + b05 * b06
+            return (b00 * b11 - b01 * b10 + b02 * b09 + b03 * b08 - b04 * b07 + b05 * b06).toDouble()
         }
 
         /**
@@ -496,35 +496,35 @@ class mat4 : glMatrix() {
         }
 
         /**
-         * Translate matrixToTrans mat4 by the given vector
+         * Translate matrixToTranslate mat4 by the given vector
          *
          * @param {mat4} inOut the receiving matrix
-         * @param {mat4} matrixToTrans the matrix to translate
-         * @param {vec3} vec3ToTransBy vector to translate by
+         * @param {mat4} matrixToTranslate the matrix to translate
+         * @param {vec3} vec3ToTranslateBy vector to translate by
          * @returns {mat4} inOut
          */
-        fun translate(inOut: Float32Array, matrixToTrans: Float32Array, vec3ToTransBy: Float32Array): Float32Array {
-            val x = vec3ToTransBy[0]
-            val y = vec3ToTransBy[1]
-            val z = vec3ToTransBy[2]
-            if (matrixToTrans === inOut) {
-                inOut[12] = matrixToTrans[0] * x + matrixToTrans[4] * y + matrixToTrans[8] * z + matrixToTrans[12]
-                inOut[13] = matrixToTrans[1] * x + matrixToTrans[5] * y + matrixToTrans[9] * z + matrixToTrans[13]
-                inOut[14] = matrixToTrans[2] * x + matrixToTrans[6] * y + matrixToTrans[10] * z + matrixToTrans[14]
-                inOut[15] = matrixToTrans[3] * x + matrixToTrans[7] * y + matrixToTrans[11] * z + matrixToTrans[15]
+        fun translate(inOut: Float32Array, matrixToTranslate: Float32Array, vec3ToTranslateBy: Array<Double>): Float32Array {
+            val x = vec3ToTranslateBy[0].toFloat()
+            val y = vec3ToTranslateBy[1].toFloat()
+            val z = vec3ToTranslateBy[2].toFloat()
+            if (matrixToTranslate === inOut) {
+                inOut[12] = matrixToTranslate[0] * x + matrixToTranslate[4] * y + matrixToTranslate[8] * z + matrixToTranslate[12]
+                inOut[13] = matrixToTranslate[1] * x + matrixToTranslate[5] * y + matrixToTranslate[9] * z + matrixToTranslate[13]
+                inOut[14] = matrixToTranslate[2] * x + matrixToTranslate[6] * y + matrixToTranslate[10] * z + matrixToTranslate[14]
+                inOut[15] = matrixToTranslate[3] * x + matrixToTranslate[7] * y + matrixToTranslate[11] * z + matrixToTranslate[15]
             } else {
-                val a00 = matrixToTrans[0]
-                val a01 = matrixToTrans[1]
-                val a02 = matrixToTrans[2]
-                val a03 = matrixToTrans[3]
-                val a10 = matrixToTrans[4]
-                val a11 = matrixToTrans[5]
-                val a12 = matrixToTrans[6]
-                val a13 = matrixToTrans[7]
-                val a20 = matrixToTrans[8]
-                val a21 = matrixToTrans[9]
-                val a22 = matrixToTrans[10]
-                val a23 = matrixToTrans[11]
+                val a00 = matrixToTranslate[0]
+                val a01 = matrixToTranslate[1]
+                val a02 = matrixToTranslate[2]
+                val a03 = matrixToTranslate[3]
+                val a10 = matrixToTranslate[4]
+                val a11 = matrixToTranslate[5]
+                val a12 = matrixToTranslate[6]
+                val a13 = matrixToTranslate[7]
+                val a20 = matrixToTranslate[8]
+                val a21 = matrixToTranslate[9]
+                val a22 = matrixToTranslate[10]
+                val a23 = matrixToTranslate[11]
                 inOut[0] = a00
                 inOut[1] = a01
                 inOut[2] = a02
@@ -537,10 +537,10 @@ class mat4 : glMatrix() {
                 inOut[9] = a21
                 inOut[10] = a22
                 inOut[11] = a23
-                inOut[12] = a00 * x + a10 * y + a20 * z + matrixToTrans[12]
-                inOut[13] = a01 * x + a11 * y + a21 * z + matrixToTrans[13]
-                inOut[14] = a02 * x + a12 * y + a22 * z + matrixToTrans[14]
-                inOut[15] = a03 * x + a13 * y + a23 * z + matrixToTrans[15]
+                inOut[12] = a00 * x + a10 * y + a20 * z + matrixToTranslate[12]
+                inOut[13] = a01 * x + a11 * y + a21 * z + matrixToTranslate[13]
+                inOut[14] = a02 * x + a12 * y + a22 * z + matrixToTranslate[14]
+                inOut[15] = a03 * x + a13 * y + a23 * z + matrixToTranslate[15]
             }
             return inOut
         }
@@ -835,14 +835,14 @@ class mat4 : glMatrix() {
          * This is equivalent to (but much faster than):
          *
          *     mat4.identity(dest);
-         *     mat4.rotate(dest, dest, angleInRad, axisToRotateAround);
+         *     mat4.rotate(dest, dest, angleToRotateByInRad, axisToRotateAround);
          *
          * @param {mat4} inOut mat4 receiving operation result
-         * @param {Number} angleInRad the angle to rotate the matrix by
+         * @param {Number} angleToRotateByInRad the angle to rotate the matrix by
          * @param {vec3} axisToRotateAround the axisToRotateAround to rotate around
          * @returns {mat4} inOut
          */
-        fun fromRotation(inOut: Float32Array, angleInRad: Double, axisToRotateAround: Array<Int>): Float32Array {
+        fun fromRotation(inOut: Float32Array, angleToRotateByInRad: Double, axisToRotateAround: Array<Int>): Float32Array {
             var x = axisToRotateAround[0].toDouble()
             var y = axisToRotateAround[1].toDouble()
             var z = axisToRotateAround[2].toDouble()
@@ -854,8 +854,8 @@ class mat4 : glMatrix() {
             x *= len
             y *= len
             z *= len
-            val s = Math.sin(angleInRad)
-            val c = Math.cos(angleInRad)
+            val s = Math.sin(angleToRotateByInRad)
+            val c = Math.cos(angleToRotateByInRad)
             val t = 1 - c
             // Perform rotation-specific matrix multiplication
             inOut[0] = (x * x * t + c).toFloat()
@@ -1629,11 +1629,11 @@ class mat4 : glMatrix() {
          *
          * @param {mat4} inOut the receiving matrix
          * @param {mat4} matrixToScale the matrix to scale
-         * @param {Number} amountToScale amount to scale the matrix's elements by
+         * @param {Number} amountToScaleBy amount to scale the matrix's elements by
          * @returns {mat4} inOut
          */
-        fun multiplyScalar(inOut: Float32Array, matrixToScale: Float32Array, amountToScale: Double): Float32Array {
-            val amountToScaleTheMatrix = amountToScale.toFloat()
+        fun multiplyScalar(inOut: Float32Array, matrixToScale: Float32Array, amountToScaleBy: Double): Float32Array {
+            val amountToScaleTheMatrix = amountToScaleBy.toFloat()
             inOut[0] = matrixToScale[0] * amountToScaleTheMatrix
             inOut[1] = matrixToScale[1] * amountToScaleTheMatrix
             inOut[2] = matrixToScale[2] * amountToScaleTheMatrix
