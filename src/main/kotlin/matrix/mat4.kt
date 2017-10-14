@@ -553,10 +553,10 @@ class mat4 : glMatrix() {
          * @param {vec3} vec3ToScaleBy the vec3 to scale the matrix by
          * @returns {mat4} inOut
          **/
-        fun scale(inOut: Float32Array, matrixToScale: Float32Array, vec3ToScaleBy: Float32Array): Float32Array {
-            val x = vec3ToScaleBy[0]
-            val y = vec3ToScaleBy[1]
-            val z = vec3ToScaleBy[2]
+        fun scale(inOut: Float32Array, matrixToScale: Float32Array, vec3ToScaleBy: Array<Double>): Float32Array {
+            val x = vec3ToScaleBy[0].toFloat()
+            val y = vec3ToScaleBy[1].toFloat()
+            val z = vec3ToScaleBy[2].toFloat()
             inOut[0] = matrixToScale[0] * x
             inOut[1] = matrixToScale[1] * x
             inOut[2] = matrixToScale[2] * x
@@ -615,28 +615,28 @@ class mat4 : glMatrix() {
             val a22 = matrixToRotate[10]
             val a23 = matrixToRotate[11]
             // Construct the elements of the rotation matrix
-            val b00 = x * x * t + c
-            val b01 = y * x * t + z * s
-            val b02 = z * x * t - y * s
-            val b10 = x * y * t - z * s
-            val b11 = y * y * t + c
-            val b12 = z * y * t + x * s
-            val b20 = x * z * t + y * s
-            val b21 = y * z * t - x * s
-            val b22 = z * z * t + c
+            val b00 = (x * x * t + c).toFloat()
+            val b01 = (y * x * t + z * s).toFloat()
+            val b02 = (z * x * t - y * s).toFloat()
+            val b10 = (x * y * t - z * s).toFloat()
+            val b11 = (y * y * t + c).toFloat()
+            val b12 = (z * y * t + x * s).toFloat()
+            val b20 = (x * z * t + y * s).toFloat()
+            val b21 = (y * z * t - x * s).toFloat()
+            val b22 = (z * z * t + c).toFloat()
             // Perform rotation-specific matrix multiplication
-            inOut[0] = (a00 * b00 + a10 * b01 + a20 * b02).toFloat()
-            inOut[1] = (a01 * b00 + a11 * b01 + a21 * b02).toFloat()
-            inOut[2] = (a02 * b00 + a12 * b01 + a22 * b02).toFloat()
-            inOut[3] = (a03 * b00 + a13 * b01 + a23 * b02).toFloat()
-            inOut[4] = (a00 * b10 + a10 * b11 + a20 * b12).toFloat()
-            inOut[5] = (a01 * b10 + a11 * b11 + a21 * b12).toFloat()
-            inOut[6] = (a02 * b10 + a12 * b11 + a22 * b12).toFloat()
-            inOut[7] = (a03 * b10 + a13 * b11 + a23 * b12).toFloat()
-            inOut[8] = (a00 * b20 + a10 * b21 + a20 * b22).toFloat()
-            inOut[9] = (a01 * b20 + a11 * b21 + a21 * b22).toFloat()
-            inOut[10] = (a02 * b20 + a12 * b21 + a22 * b22).toFloat()
-            inOut[11] = (a03 * b20 + a13 * b21 + a23 * b22).toFloat()
+            inOut[0] = a00 * b00 + a10 * b01 + a20 * b02
+            inOut[1] = a01 * b00 + a11 * b01 + a21 * b02
+            inOut[2] = a02 * b00 + a12 * b01 + a22 * b02
+            inOut[3] = a03 * b00 + a13 * b01 + a23 * b02
+            inOut[4] = a00 * b10 + a10 * b11 + a20 * b12
+            inOut[5] = a01 * b10 + a11 * b11 + a21 * b12
+            inOut[6] = a02 * b10 + a12 * b11 + a22 * b12
+            inOut[7] = a03 * b10 + a13 * b11 + a23 * b12
+            inOut[8] = a00 * b20 + a10 * b21 + a20 * b22
+            inOut[9] = a01 * b20 + a11 * b21 + a21 * b22
+            inOut[10] = a02 * b20 + a12 * b21 + a22 * b22
+            inOut[11] = a03 * b20 + a13 * b21 + a23 * b22
             if (matrixToRotate !== inOut) { // If the source and destination differ, copy the unchanged last row
                 inOut[12] = matrixToRotate[12]
                 inOut[13] = matrixToRotate[13]
@@ -654,8 +654,8 @@ class mat4 : glMatrix() {
          * @returns {mat4} inOut
          */
         fun rotateX(inOut: Float32Array, matrixToRotate: Float32Array, angleInRad: Double): Float32Array {
-            val s = Math.sin(angleInRad)
-            val c = Math.cos(angleInRad)
+            val s = (Math.sin(angleInRad)).toFloat()
+            val c = (Math.cos(angleInRad)).toFloat()
             val a10 = matrixToRotate[4]
             val a11 = matrixToRotate[5]
             val a12 = matrixToRotate[6]
@@ -675,14 +675,14 @@ class mat4 : glMatrix() {
                 inOut[15] = matrixToRotate[15]
             }
             // Perform axis-specific matrix multiplication
-            inOut[4] = (a10 * c + a20 * s).toFloat()
-            inOut[5] = (a11 * c + a21 * s).toFloat()
-            inOut[6] = (a12 * c + a22 * s).toFloat()
-            inOut[7] = (a13 * c + a23 * s).toFloat()
-            inOut[8] = (a20 * c - a10 * s).toFloat()
-            inOut[9] = (a21 * c - a11 * s).toFloat()
-            inOut[10] = (a22 * c - a12 * s).toFloat()
-            inOut[11] = (a23 * c - a13 * s).toFloat()
+            inOut[4] = a10 * c + a20 * s
+            inOut[5] = a11 * c + a21 * s
+            inOut[6] = a12 * c + a22 * s
+            inOut[7] = a13 * c + a23 * s
+            inOut[8] = a20 * c - a10 * s
+            inOut[9] = a21 * c - a11 * s
+            inOut[10] = a22 * c - a12 * s
+            inOut[11] = a23 * c - a13 * s
             return inOut
         }
 
@@ -695,8 +695,8 @@ class mat4 : glMatrix() {
          * @returns {mat4} inOut
          */
         fun rotateY(inOut: Float32Array, matrixToRotate: Float32Array, angleInRad: Double): Float32Array {
-            val s = Math.sin(angleInRad)
-            val c = Math.cos(angleInRad)
+            val s = (Math.sin(angleInRad)).toFloat()
+            val c = (Math.cos(angleInRad)).toFloat()
             val a00 = matrixToRotate[0]
             val a01 = matrixToRotate[1]
             val a02 = matrixToRotate[2]
@@ -716,14 +716,14 @@ class mat4 : glMatrix() {
                 inOut[15] = matrixToRotate[15]
             }
             // Perform axis-specific matrix multiplication
-            inOut[0] = (a00 * c - a20 * s).toFloat()
-            inOut[1] = (a01 * c - a21 * s).toFloat()
-            inOut[2] = (a02 * c - a22 * s).toFloat()
-            inOut[3] = (a03 * c - a23 * s).toFloat()
-            inOut[8] = (a00 * s + a20 * c).toFloat()
-            inOut[9] = (a01 * s + a21 * c).toFloat()
-            inOut[10] = (a02 * s + a22 * c).toFloat()
-            inOut[11] = (a03 * s + a23 * c).toFloat()
+            inOut[0] = a00 * c - a20 * s
+            inOut[1] = a01 * c - a21 * s
+            inOut[2] = a02 * c - a22 * s
+            inOut[3] = a03 * c - a23 * s
+            inOut[8] = a00 * s + a20 * c
+            inOut[9] = a01 * s + a21 * c
+            inOut[10] = a02 * s + a22 * c
+            inOut[11] = a03 * s + a23 * c
             return inOut
         }
 
@@ -736,8 +736,8 @@ class mat4 : glMatrix() {
          * @returns {mat4} inOut
          */
         fun rotateZ(inOut: Float32Array, matrixToRotate: Float32Array, angleInRad: Double): Float32Array {
-            val s = Math.sin(angleInRad)
-            val c = Math.cos(angleInRad)
+            val s = (Math.sin(angleInRad)).toFloat()
+            val c = (Math.cos(angleInRad)).toFloat()
             val a00 = matrixToRotate[0]
             val a01 = matrixToRotate[1]
             val a02 = matrixToRotate[2]
@@ -757,14 +757,14 @@ class mat4 : glMatrix() {
                 inOut[15] = matrixToRotate[15]
             }
             // Perform axis-specific matrix multiplication
-            inOut[0] = (a00 * c + a10 * s).toFloat()
-            inOut[1] = (a01 * c + a11 * s).toFloat()
-            inOut[2] = (a02 * c + a12 * s).toFloat()
-            inOut[3] = (a03 * c + a13 * s).toFloat()
-            inOut[4] = (a10 * c - a00 * s).toFloat()
-            inOut[5] = (a11 * c - a01 * s).toFloat()
-            inOut[6] = (a12 * c - a02 * s).toFloat()
-            inOut[7] = (a13 * c - a03 * s).toFloat()
+            inOut[0] = a00 * c + a10 * s
+            inOut[1] = a01 * c + a11 * s
+            inOut[2] = a02 * c + a12 * s
+            inOut[3] = a03 * c + a13 * s
+            inOut[4] = a10 * c - a00 * s
+            inOut[5] = a11 * c - a01 * s
+            inOut[6] = a12 * c - a02 * s
+            inOut[7] = a13 * c - a03 * s
             return inOut
         }
 
@@ -1242,10 +1242,10 @@ class mat4 : glMatrix() {
          * @returns {mat4} inOut
          */
         fun fromQuat(inOut: Float32Array, quatToCreateMatrixFrom: Array<Double>): Float32Array {
-            val x = quatToCreateMatrixFrom[0]
-            val y = quatToCreateMatrixFrom[1]
-            val z = quatToCreateMatrixFrom[2]
-            val w = quatToCreateMatrixFrom[3]
+            val x = quatToCreateMatrixFrom[0].toFloat()
+            val y = quatToCreateMatrixFrom[1].toFloat()
+            val z = quatToCreateMatrixFrom[2].toFloat()
+            val w = quatToCreateMatrixFrom[3].toFloat()
             val x2 = x + x
             val y2 = y + y
             val z2 = z + z
@@ -1258,17 +1258,17 @@ class mat4 : glMatrix() {
             val wx = w * x2
             val wy = w * y2
             val wz = w * z2
-            inOut[0] = (1 - yy - zz).toFloat()
-            inOut[1] = (yx + wz).toFloat()
-            inOut[2] = (zx - wy).toFloat()
+            inOut[0] = 1 - yy - zz
+            inOut[1] = yx + wz
+            inOut[2] = zx - wy
             inOut[3] = 0.0f
-            inOut[4] = (yx - wz).toFloat()
-            inOut[5] = (1 - xx - zz).toFloat()
-            inOut[6] = (zy + wx).toFloat()
+            inOut[4] = yx - wz
+            inOut[5] = 1 - xx - zz
+            inOut[6] = zy + wx
             inOut[7] = 0.0f
-            inOut[8] = (zx + wy).toFloat()
-            inOut[9] = (zy - wx).toFloat()
-            inOut[10] = (1 - xx - yy).toFloat()
+            inOut[8] = zx + wy
+            inOut[9] = zy - wx
+            inOut[10] = 1 - xx - yy
             inOut[11] = 0.0f
             inOut[12] = 0.0f
             inOut[13] = 0.0f

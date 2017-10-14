@@ -255,18 +255,18 @@ class mat2d {
          *
          * @param {mat2d} inOut the receiving matrix
          * @param {mat2d} matrixToRotate the matrix to rotate
-         * @param {vec2} scaleVec2 the vec2 to scale the matrix by
+         * @param {vec2} vec2ToScaleBy the vec2 to scale the matrix by
          * @returns {mat2d} inOut
          **/
-        fun scale(inOut: Float32Array, matrixToRotate: Float32Array, scaleVec2: Array<Double>): Float32Array {
+        fun scale(inOut: Float32Array, matrixToRotate: Float32Array, vec2ToScaleBy: Array<Double>): Float32Array {
             val a0 = matrixToRotate[0]
             val a1 = matrixToRotate[1]
             val a2 = matrixToRotate[2]
             val a3 = matrixToRotate[3]
             val a4 = matrixToRotate[4]
             val a5 = matrixToRotate[5]
-            val v0 = scaleVec2[0].toFloat()
-            val v1 = scaleVec2[1].toFloat()
+            val v0 = vec2ToScaleBy[0].toFloat()
+            val v1 = vec2ToScaleBy[1].toFloat()
             inOut[0] = a0 * v0
             inOut[1] = a1 * v0
             inOut[2] = a2 * v1
@@ -373,7 +373,7 @@ class mat2d {
          * @param {mat2d} matrix matrix to represent as matrix string
          * @returns {String} string representation of the matrix
          */
-        fun str(matrix: Float32Array): String {
+        fun toString(matrix: Float32Array): String {
             return "mat2d(${matrix[0]}, ${matrix[1]}, ${matrix[2]}, ${matrix[3]})"
         }
 

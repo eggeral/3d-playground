@@ -252,16 +252,16 @@ class mat2 : glMatrix() {
          *
          * @param {mat2} out the receiving matrix
          * @param {mat2} matrixToRotate the matrix to rotate
-         * @param {vec2} scaleVec2 the vec2 to scale the matrix by
+         * @param {vec2} vec2ToScaleBy the vec2 to scale the matrix by
          * @returns {mat2} out
          **/
-        fun scale(inOut: Float32Array, matrixToRotate: Float32Array, scaleVec2: Float32Array): Float32Array {
+        fun scale(inOut: Float32Array, matrixToRotate: Float32Array, vec2ToScaleBy: Array<Double>): Float32Array {
             val a0 = matrixToRotate[0]
             val a1 = matrixToRotate[1]
             val a2 = matrixToRotate[2]
             val a3 = matrixToRotate[3]
-            val v0 = scaleVec2[0]
-            val v1 = scaleVec2[1]
+            val v0 = vec2ToScaleBy[0].toFloat()
+            val v1 = vec2ToScaleBy[1].toFloat()
             inOut[0] = a0 * v0
             inOut[1] = a1 * v0
             inOut[2] = a2 * v1
@@ -307,26 +307,6 @@ class mat2 : glMatrix() {
             inOut[2] = 0.0f
             inOut[3] = scalingVec2[1].toFloat()
             return inOut
-        }
-
-        /**
-         * Returns matrix string representation of matrix mat2
-         *
-         * @param {mat2} matrix matrix to represent as matrix string
-         * @returns {String} string representation of the matrix
-         */
-        fun str(matrix: Float32Array): String {
-            return "mat2(${matrix[0]}, ${matrix[1]}, ${matrix[2]}, ${matrix[3]})"
-        }
-
-        /**
-         * Returns Frobenius norm of a mat2
-         *
-         * @param {mat2} a the matrix to calculate Frobenius norm of
-         * @returns {Number} Frobenius norm
-         */
-        fun frob(a: Float32Array): Double {
-            return (Math.sqrt(Math.pow(a[0].toDouble(), 2.0) + Math.pow(a[1].toDouble(), 2.0) + Math.pow(a[2].toDouble(), 2.0) + Math.pow(a[3].toDouble(), 2.0)))
         }
 
         /**
@@ -442,6 +422,27 @@ class mat2 : glMatrix() {
             inOut[2] = firstSummand[2] + (secondSummand[2] * amountToScaleTheMatrix)
             inOut[3] = firstSummand[3] + (secondSummand[3] * amountToScaleTheMatrix)
             return inOut
+        }
+
+        /**
+         * Returns a string representation of a mat2
+         *
+         * @param {mat3} a matrix to represent as a string
+         * @returns {String} string representation of the matrix
+         */
+        fun toString(matrix: Float32Array): String {
+            return "mat2(${matrix[0]}, ${matrix[1]}, ${matrix[2]}, ${matrix[3]})"
+        }
+
+        /**
+         * Returns Frobenius norm of matrix mat2
+         *
+         * @param {mat2} matrix the matrix to calculate Frobenius norm of
+         * @returns {Number} Frobenius norm
+         */
+        fun frob(matrix: Float32Array): Double {
+            return (Math.sqrt(Math.pow(matrix[0].toDouble(), 2.0) + Math.pow(matrix[1].toDouble(), 2.0)
+                    + Math.pow(matrix[2].toDouble(), 2.0) + Math.pow(matrix[3].toDouble(), 2.0)))
         }
 
     }
