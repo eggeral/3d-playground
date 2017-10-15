@@ -5,7 +5,7 @@ import org.khronos.webgl.get
 import org.khronos.webgl.set
 import kotlin.js.Math
 
-class mat2d {
+class mat2d : glMatrix() {
     companion object {
         /**
          * 2x3 Matrix
@@ -48,6 +48,9 @@ class mat2d {
          * @returns {mat2d} matrixToClone new 2x3 matrix
          */
         fun clone(matrixToClone: Float32Array): Float32Array {
+            if (matrixToClone.length != 6) {
+                throw IllegalArgumentException("matrixToClone must be of size 6")
+            }
             val out = Float32Array(6)
             out[0] = matrixToClone[0]
             out[1] = matrixToClone[1]
@@ -497,12 +500,12 @@ class mat2d {
             val b3 = secondMatrix[3].toDouble()
             val b4 = secondMatrix[4].toDouble()
             val b5 = secondMatrix[5].toDouble()
-            return (Math.abs(a0 - b0) <= glMatrix.EPSILON * Math.max(1.0, Math.abs(a0), Math.abs(b0)) &&
-                    Math.abs(a1 - b1) <= glMatrix.EPSILON * Math.max(1.0, Math.abs(a1), Math.abs(b1)) &&
-                    Math.abs(a2 - b2) <= glMatrix.EPSILON * Math.max(1.0, Math.abs(a2), Math.abs(b2)) &&
-                    Math.abs(a3 - b3) <= glMatrix.EPSILON * Math.max(1.0, Math.abs(a3), Math.abs(b3)) &&
-                    Math.abs(a4 - b4) <= glMatrix.EPSILON * Math.max(1.0, Math.abs(a4), Math.abs(b4)) &&
-                    Math.abs(a5 - b5) <= glMatrix.EPSILON * Math.max(1.0, Math.abs(a5), Math.abs(b5)))
+            return (Math.abs(a0 - b0) <= EPSILON * Math.max(1.0, Math.abs(a0), Math.abs(b0)) &&
+                    Math.abs(a1 - b1) <= EPSILON * Math.max(1.0, Math.abs(a1), Math.abs(b1)) &&
+                    Math.abs(a2 - b2) <= EPSILON * Math.max(1.0, Math.abs(a2), Math.abs(b2)) &&
+                    Math.abs(a3 - b3) <= EPSILON * Math.max(1.0, Math.abs(a3), Math.abs(b3)) &&
+                    Math.abs(a4 - b4) <= EPSILON * Math.max(1.0, Math.abs(a4), Math.abs(b4)) &&
+                    Math.abs(a5 - b5) <= EPSILON * Math.max(1.0, Math.abs(a5), Math.abs(b5)))
         }
     }
 }

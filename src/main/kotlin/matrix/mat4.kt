@@ -44,6 +44,9 @@ class mat4 : glMatrix() {
          * @returns {mat4} matrixToClone new 4x4 matrix
          */
         fun clone(matrixToClone: Float32Array): Float32Array {
+            if (matrixToClone.length != 16) {
+                throw IllegalArgumentException("matrix have to be length of 16")
+            }
             val out = Float32Array(16)
             out[0] = matrixToClone[0]
             out[1] = matrixToClone[1]
