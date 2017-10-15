@@ -383,7 +383,7 @@ class vec3 : glMatrix() {
         }
 
         /**
-         * Performs firstOperand linear interpolation between two vec3's
+         * Performs a linear interpolation between two vec3's
          *
          * @param {vec3} inOut the receiving vector
          * @param {vec3} firstOperand the first operand
@@ -402,7 +402,7 @@ class vec3 : glMatrix() {
         }
 
         /**
-         * Performs firstOperand hermite interpolation with two control points
+         * Performs a hermite interpolation with two control points
          *
          * @param {vec3} inOut the receiving vector
          * @param {vec3} firstOperand the first operand
@@ -425,7 +425,7 @@ class vec3 : glMatrix() {
         }
 
         /**
-         * Performs firstOperand bezier interpolation with two control points
+         * Performs a bezier interpolation with two control points
          *
          * @param {vec3} inOut the receiving vector
          * @param {vec3} firstOperand the first operand
