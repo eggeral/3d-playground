@@ -32,15 +32,4 @@ class Vec2Test: TestClass() {
                 v2[1] == 0.0 &&
                 v2.size == 2);
     }
-
-    @Test
-    fun multiply() {
-        val result: Array<Double> = arrayOf();
-
-        assertEquals(2, result.size);
-
-        for (el: Double in result) {
-            assertEquals(el, 0.0);
-        }
-    }
 }

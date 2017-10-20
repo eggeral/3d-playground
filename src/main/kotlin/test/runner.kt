@@ -1,8 +1,6 @@
 package test
 
-import test.matrix.Mat2Test
-import test.matrix.Vec2Test
-
+import test.matrix.*
 
 fun runTestClass(testClass: TestClass, verbose: Boolean = false) {
     js("""
@@ -59,7 +57,10 @@ fun runTestClass(testClass: TestClass, verbose: Boolean = false) {
 fun run() {
     val tests = arrayOf(
             Vec2Test(),
-            Mat2Test()
+            Mat2Test(),
+            Mat2dTest(),
+            Mat3Test(),
+            Mat4Test()
     );
 
     for (testClass: TestClass in tests)
