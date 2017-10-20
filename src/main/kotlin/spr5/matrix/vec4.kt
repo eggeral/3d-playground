@@ -1,4 +1,4 @@
-package matrix
+package spr5.matrix
 
 import org.khronos.webgl.Float32Array
 import org.khronos.webgl.get
@@ -416,10 +416,10 @@ class vec4 : glMatrix() {
          */
         fun random(inOut: Array<Double>, vectorScale: Double = 1.0): Array<Double> {
             //TODO: This is a pretty awful way of doing this. Find something better.
-            inOut[0] = glMatrix.RANDOM
-            inOut[1] = glMatrix.RANDOM
-            inOut[2] = glMatrix.RANDOM
-            inOut[3] = glMatrix.RANDOM
+            inOut[0] = RANDOM
+            inOut[1] = RANDOM
+            inOut[2] = RANDOM
+            inOut[3] = RANDOM
             normalize(inOut, inOut)
             scale(inOut, inOut, vectorScale)
             return inOut

@@ -1,4 +1,4 @@
-package matrix
+package spr5.matrix
 
 import org.khronos.webgl.Float32Array
 import kotlin.js.Math
