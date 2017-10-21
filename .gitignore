@@ -1,4 +1,13 @@
-.idea
+# IDEA stuff
+.idea/*
+!.idea/runConfigurations/
 *.iml
+out
+
+# Grade stuff
 build
 .gradle
+
+# macOS stuff
+**/.DS_Store
+

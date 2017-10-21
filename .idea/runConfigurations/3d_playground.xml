@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="3d-playground" type="JavascriptDebugType" factoryName="JavaScript Debug" uri="http://localhost:63342/threed/out/production/resources/index.html">
+    <method>
+      <option name="MakeProject" enabled="true" />
+    </method>
+  </configuration>
+</component>
