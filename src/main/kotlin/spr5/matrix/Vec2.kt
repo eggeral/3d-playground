@@ -4,15 +4,15 @@ import org.khronos.webgl.Float32Array
 import org.khronos.webgl.get
 import kotlin.js.Math
 
-class vec2 : glMatrix() {
+class Vec2 : GlMatrix() {
     /**
      * 2 Dimensional Vector
-     * @module vec2
+     * @module Vec2
      */
     /**
-     * Creates a new, empty vec2
+     * Creates a new, empty Vec2
      *
-     * @returns {vec2} a new 2D vector
+     * @returns {Vec2} a new 2D vector
      */
     fun create(): Array<Double> {
         return arrayOf(
@@ -22,10 +22,10 @@ class vec2 : glMatrix() {
     }
 
     /**
-     * Creates vec2ToClone new vec2 initialized with values from an existing vector
+     * Creates vec2ToClone new Vec2 initialized with values from an existing vector
      *
-     * @param {vec2} vec2ToClone vector to clone
-     * @returns {vec2} vec2ToClone new 2D vector
+     * @param {Vec2} vec2ToClone vector to clone
+     * @returns {Vec2} vec2ToClone new 2D vector
      */
     fun clone(vec2ToClone: Array<Double>): Array<Double> {
         return arrayOf(
@@ -35,11 +35,11 @@ class vec2 : glMatrix() {
     }
 
     /**
-     * Creates a new vec2 initialized with the given values
+     * Creates a new Vec2 initialized with the given values
      *
      * @param {Number} componentX X component
      * @param {Number} componentY Y component
-     * @returns {vec2} a new 2D vector
+     * @returns {Vec2} a new 2D vector
      */
     fun fromValues(componentX: Double, componentY: Double): Array<Double> {
         return arrayOf(
@@ -49,11 +49,11 @@ class vec2 : glMatrix() {
     }
 
     /**
-     * Copy the values from one vec2 to another
+     * Copy the values from one Vec2 to another
      *
-     * @param {vec2} inOut the receiving vector
-     * @param {vec2} source the source vector
-     * @returns {vec2} inOut
+     * @param {Vec2} inOut the receiving vector
+     * @param {Vec2} source the source vector
+     * @returns {Vec2} inOut
      */
     fun copy(inOut: Array<Double>, source: Array<Double>): Array<Double> {
         inOut[0] = source[0]
@@ -62,12 +62,12 @@ class vec2 : glMatrix() {
     }
 
     /**
-     * Set the components of a vec2 to the given values
+     * Set the components of a Vec2 to the given values
      *
-     * @param {vec2} inOut the receiving vector
+     * @param {Vec2} inOut the receiving vector
      * @param {Number} componentX X component
      * @param {Number} componentY Y component
-     * @returns {vec2} inOut
+     * @returns {Vec2} inOut
      */
     fun set(inOut: Array<Double>, componentX: Double, componentY: Double): Array<Double> {
         inOut[0] = componentX
@@ -76,12 +76,12 @@ class vec2 : glMatrix() {
     }
 
     /**
-     * Adds two vec2's
+     * Adds two Vec2's
      *
-     * @param {vec2} inOut the receiving vector
-     * @param {vec2} firstSummand the first operand
-     * @param {vec2} secondSummand the second operand
-     * @returns {vec2} inOut
+     * @param {Vec2} inOut the receiving vector
+     * @param {Vec2} firstSummand the first operand
+     * @param {Vec2} secondSummand the second operand
+     * @returns {Vec2} inOut
      */
     fun add(inOut: Array<Double>, firstSummand: Array<Double>, secondSummand: Array<Double>): Array<Double> {
         inOut[0] = firstSummand[0] + secondSummand[0]
@@ -92,10 +92,10 @@ class vec2 : glMatrix() {
     /**
      * Subtracts vector subtrahend from vector minuend
      *
-     * @param {vec2} inOut the receiving vector
-     * @param {vec2} minuend the first operand
-     * @param {vec2} subtrahend the second operand
-     * @returns {vec2} inOut
+     * @param {Vec2} inOut the receiving vector
+     * @param {Vec2} minuend the first operand
+     * @param {Vec2} subtrahend the second operand
+     * @returns {Vec2} inOut
      */
     fun subtract(inOut: Array<Double>, minuend: Array<Double>, subtrahend: Array<Double>): Array<Double> {
         inOut[0] = minuend[0] - subtrahend[0]
@@ -104,12 +104,12 @@ class vec2 : glMatrix() {
     }
 
     /**
-     * Multiplies two vec2's
+     * Multiplies two Vec2's
      *
-     * @param {vec2} inOut the receiving vector
-     * @param {vec2} multiplier the first operand
-     * @param {vec2} multiplicand the second operand
-     * @returns {vec2} inOut
+     * @param {Vec2} inOut the receiving vector
+     * @param {Vec2} multiplier the first operand
+     * @param {Vec2} multiplicand the second operand
+     * @returns {Vec2} inOut
      */
     fun multiply(inOut: Array<Double>, multiplier: Array<Double>, multiplicand: Array<Double>): Array<Double> {
         inOut[0] = multiplier[0] * multiplicand[0]
@@ -118,12 +118,12 @@ class vec2 : glMatrix() {
     }
 
     /**
-     * Divides two vec2's
+     * Divides two Vec2's
      *
-     * @param {vec2} inOut the receiving vector
-     * @param {vec2} dividend the first operand
-     * @param {vec2} divisor the second operand
-     * @returns {vec2} inOut
+     * @param {Vec2} inOut the receiving vector
+     * @param {Vec2} dividend the first operand
+     * @param {Vec2} divisor the second operand
+     * @returns {Vec2} inOut
      */
     fun divide(inOut: Array<Double>, dividend: Array<Double>, divisor: Array<Double>): Array<Double> {
         inOut[0] = dividend[0] / divisor[0]
@@ -132,11 +132,11 @@ class vec2 : glMatrix() {
     }
 
     /**
-     * Math.ceil the components of vec2ToCeil vec2
+     * Math.ceil the components of vec2ToCeil Vec2
      *
-     * @param {vec2} inOut the receiving vector
-     * @param {vec2} vec2ToCeil vector to ceil
-     * @returns {vec2} inOut
+     * @param {Vec2} inOut the receiving vector
+     * @param {Vec2} vec2ToCeil vector to ceil
+     * @returns {Vec2} inOut
      */
     fun ceil(inOut: Array<Double>, vec2ToCeil: Array<Double>): Array<Double> {
         inOut[0] = (Math.ceil(vec2ToCeil[0])).toDouble()
@@ -145,11 +145,11 @@ class vec2 : glMatrix() {
     }
 
     /**
-     * Math.floor the components of vec2ToFloor vec2
+     * Math.floor the components of vec2ToFloor Vec2
      *
-     * @param {vec2} inOut the receiving vector
-     * @param {vec2} vec2ToFloor vector to floor
-     * @returns {vec2} inOut
+     * @param {Vec2} inOut the receiving vector
+     * @param {Vec2} vec2ToFloor vector to floor
+     * @returns {Vec2} inOut
      */
     fun floor(inOut: Array<Double>, vec2ToFloor: Array<Double>): Array<Double> {
         inOut[0] = (Math.floor(vec2ToFloor[0])).toDouble()
@@ -158,12 +158,12 @@ class vec2 : glMatrix() {
     }
 
     /**
-     * Returns the minimum of two vec2's
+     * Returns the minimum of two Vec2's
      *
-     * @param {vec2} inOut the receiving vector
-     * @param {vec2} firstOperand the first operand
-     * @param {vec2} secondOperand the second operand
-     * @returns {vec2} inOut
+     * @param {Vec2} inOut the receiving vector
+     * @param {Vec2} firstOperand the first operand
+     * @param {Vec2} secondOperand the second operand
+     * @returns {Vec2} inOut
      */
     fun min(inOut: Array<Double>, firstOperand: Array<Double>, secondOperand: Array<Double>): Array<Double> {
         inOut[0] = Math.min(firstOperand[0], secondOperand[0])
@@ -172,12 +172,12 @@ class vec2 : glMatrix() {
     }
 
     /**
-     * Returns the maximum of two vec2's
+     * Returns the maximum of two Vec2's
      *
-     * @param {vec2} inOut the receiving vector
-     * @param {vec2} firstOperand the first operand
-     * @param {vec2} secondOperand the second operand
-     * @returns {vec2} inOut
+     * @param {Vec2} inOut the receiving vector
+     * @param {Vec2} firstOperand the first operand
+     * @param {Vec2} secondOperand the second operand
+     * @returns {Vec2} inOut
      */
     fun max(inOut: Array<Double>, firstOperand: Array<Double>, secondOperand: Array<Double>): Array<Double> {
         inOut[0] = Math.max(firstOperand[0], secondOperand[0])
@@ -186,11 +186,11 @@ class vec2 : glMatrix() {
     }
 
     /**
-     * Math.round the components of vec2ToRound vec2
+     * Math.round the components of vec2ToRound Vec2
      *
-     * @param {vec2} inOut the receiving vector
-     * @param {vec2} vec2ToRound vector to round
-     * @returns {vec2} inOut
+     * @param {Vec2} inOut the receiving vector
+     * @param {Vec2} vec2ToRound vector to round
+     * @returns {Vec2} inOut
      */
     fun round(inOut: Array<Double>, vec2ToRound: Array<Double>): Array<Double> {
         inOut[0] = (Math.round(vec2ToRound[0])).toDouble()
@@ -199,12 +199,12 @@ class vec2 : glMatrix() {
     }
 
     /**
-     * Scales vec3ToScale vec2 by vec3ToScale scalar number
+     * Scales vec3ToScale Vec2 by vec3ToScale scalar number
      *
-     * @param {vec2} inOut the receiving vector
-     * @param {vec2} vec3ToScale the vector to scale
+     * @param {Vec2} inOut the receiving vector
+     * @param {Vec2} vec3ToScale the vector to scale
      * @param {Number} amountToScaleBy amount to scale the vector by
-     * @returns {vec2} inOut
+     * @returns {Vec2} inOut
      */
     fun scale(inOut: Array<Double>, vec3ToScale: Array<Double>, amountToScaleBy: Double): Array<Double> {
         inOut[0] = vec3ToScale[0] * amountToScaleBy
@@ -213,13 +213,13 @@ class vec2 : glMatrix() {
     }
 
     /**
-     * Adds two vec2's after scaling the second operand by firstSummand scalar value
+     * Adds two Vec2's after scaling the second operand by firstSummand scalar value
      *
-     * @param {vec2} inOut the receiving vector
-     * @param {vec2} firstSummand the first operand
-     * @param {vec2} secondSummand the second operand
+     * @param {Vec2} inOut the receiving vector
+     * @param {Vec2} firstSummand the first operand
+     * @param {Vec2} secondSummand the second operand
      * @param {Number} amountToScale the amount to amountToScale secondSummand by before adding
-     * @returns {vec2} inOut
+     * @returns {Vec2} inOut
      */
     fun scaleAndAdd(inOut: Array<Double>, firstSummand: Array<Double>, secondSummand: Array<Double>, amountToScale: Double): Array<Double> {
         inOut[0] = firstSummand[0] + (secondSummand[0] * amountToScale)
@@ -228,10 +228,10 @@ class vec2 : glMatrix() {
     }
 
     /**
-     * Calculates the euclidian distance between two vec2's
+     * Calculates the euclidian distance between two Vec2's
      *
-     * @param {vec2} firstOperand the first operand
-     * @param {vec2} secondOperand the second operand
+     * @param {Vec2} firstOperand the first operand
+     * @param {Vec2} secondOperand the second operand
      * @returns {Number} distance between firstOperand and secondOperand
      */
     fun distance(firstOperand: Array<Double>, secondOperand: Array<Double>): Double {
@@ -241,10 +241,10 @@ class vec2 : glMatrix() {
     }
 
     /**
-     * Calculates the squared euclidian distance between two vec2's
+     * Calculates the squared euclidian distance between two Vec2's
      *
-     * @param {vec2} firstOperand the first operand
-     * @param {vec2} secondOperand the second operand
+     * @param {Vec2} firstOperand the first operand
+     * @param {Vec2} secondOperand the second operand
      * @returns {Number} squared distance between firstOperand and secondOperand
      */
     fun squaredDistance(firstOperand: Array<Double>, secondOperand: Array<Double>): Double {
@@ -254,9 +254,9 @@ class vec2 : glMatrix() {
     }
 
     /**
-     * Calculates the length of vec2ToCalculateLengthOf vec2
+     * Calculates the length of vec2ToCalculateLengthOf Vec2
      *
-     * @param {vec2} vec2ToCalculateLengthOf vector to calculate length of
+     * @param {Vec2} vec2ToCalculateLengthOf vector to calculate length of
      * @returns {Number} length of vec2ToCalculateLengthOf
      */
     fun length(vec2ToCalculateLengthOf: Array<Double>): Double {
@@ -266,9 +266,9 @@ class vec2 : glMatrix() {
     }
 
     /**
-     * Calculates the squared length of vec2ToCalculateSquaredLength vec2
+     * Calculates the squared length of vec2ToCalculateSquaredLength Vec2
      *
-     * @param {vec2} vec2ToCalculateSquaredLength vector to calculate squared length of
+     * @param {Vec2} vec2ToCalculateSquaredLength vector to calculate squared length of
      * @returns {Number} squared length of vec2ToCalculateSquaredLength
      */
     fun squaredLength(vec2ToCalculateSquaredLength: Array<Double>): Double {
@@ -278,11 +278,11 @@ class vec2 : glMatrix() {
     }
 
     /**
-     * Negates the components of vec2ToNegate vec2
+     * Negates the components of vec2ToNegate Vec2
      *
-     * @param {vec2} inOut the receiving vector
-     * @param {vec2} vec2ToNegate vector to negate
-     * @returns {vec2} inOut
+     * @param {Vec2} inOut the receiving vector
+     * @param {Vec2} vec2ToNegate vector to negate
+     * @returns {Vec2} inOut
      */
     fun negate(inOut: Array<Double>, vec2ToNegate: Array<Double>): Array<Double> {
         inOut[0] = -vec2ToNegate[0]
@@ -291,11 +291,11 @@ class vec2 : glMatrix() {
     }
 
     /**
-     * Returns the inverse of the components of vec2ToInvert vec2
+     * Returns the inverse of the components of vec2ToInvert Vec2
      *
-     * @param {vec2} inOut the receiving vector
-     * @param {vec2} vec2ToInvert vector to invert
-     * @returns {vec2} inOut
+     * @param {Vec2} inOut the receiving vector
+     * @param {Vec2} vec2ToInvert vector to invert
+     * @returns {Vec2} inOut
      */
     fun inverse(inOut: Array<Double>, vec2ToInvert: Array<Double>): Array<Double> {
         inOut[0] = 1.0 / vec2ToInvert[0]
@@ -304,11 +304,11 @@ class vec2 : glMatrix() {
     }
 
     /**
-     * Normalize vec2ToNormalize vec2
+     * Normalize vec2ToNormalize Vec2
      *
-     * @param {vec2} inOut the receiving vector
-     * @param {vec2} vec2ToNormalize vector to normalize
-     * @returns {vec2} inOut
+     * @param {Vec2} inOut the receiving vector
+     * @param {Vec2} vec2ToNormalize vector to normalize
+     * @returns {Vec2} inOut
      */
     fun normalize(inOut: Array<Double>, vec2ToNormalize: Array<Double>): Array<Double> {
         val x = vec2ToNormalize[0]
@@ -324,10 +324,10 @@ class vec2 : glMatrix() {
     }
 
     /**
-     * Calculates the dot product of two vec2's
+     * Calculates the dot product of two Vec2's
      *
-     * @param {vec2} firstOperand the first operand
-     * @param {vec2} secondOperand the second operand
+     * @param {Vec2} firstOperand the first operand
+     * @param {Vec2} secondOperand the second operand
      * @returns {Number} dot product of firstOperand and secondOperand
      */
     fun dot(firstOperand: Array<Double>, secondOperand: Array<Double>): Double {
@@ -335,13 +335,13 @@ class vec2 : glMatrix() {
     }
 
     /**
-     * Computes the cross product of two vec2's
+     * Computes the cross product of two Vec2's
      * Note that the cross product must by definition produce firstOperand 3D vector
      *
-     * @param {vec3} inOut the receiving vector
-     * @param {vec2} firstOperand the first operand
-     * @param {vec2} secondOperand the second operand
-     * @returns {vec3} inOut
+     * @param {Vec3} inOut the receiving vector
+     * @param {Vec2} firstOperand the first operand
+     * @param {Vec2} secondOperand the second operand
+     * @returns {Vec3} inOut
      */
     fun cross(inOut: Array<Double>, firstOperand: Array<Double>, secondOperand: Array<Double>): Array<Double> {
         val z = firstOperand[0] * secondOperand[1] - firstOperand[1] * secondOperand[0]
@@ -352,13 +352,13 @@ class vec2 : glMatrix() {
     }
 
     /**
-     * Performs a linear interpolation between two vec2's
+     * Performs a linear interpolation between two Vec2's
      *
-     * @param {vec2} inOut the receiving vector
-     * @param {vec2} firstOperand the first operand
-     * @param {vec2} secondOperand the second operand
+     * @param {Vec2} inOut the receiving vector
+     * @param {Vec2} firstOperand the first operand
+     * @param {Vec2} secondOperand the second operand
      * @param {Number} interpolationAmount interpolation amount between the two inputs
-     * @returns {vec2} inOut
+     * @returns {Vec2} inOut
      */
     fun lerp(inOut: Array<Double>, firstOperand: Array<Double>, secondOperand: Array<Double>, interpolationAmount: Double): Array<Double> {
         val ax = firstOperand[0]
@@ -371,9 +371,9 @@ class vec2 : glMatrix() {
     /**
      * Generates a random vector with the given vec3ToScale
      *
-     * @param {vec2} inOut the receiving vector
+     * @param {Vec2} inOut the receiving vector
      * @param {Number} [vec3ToScale] Length of the resulting vector. If ommitted, a unit vector will be returned
-     * @returns {vec2} inOut
+     * @returns {Vec2} inOut
      */
     fun random(inOut: Array<Double>, vec3ToScale: Double = 1.0): Array<Double> {
         val r = RANDOM * 2.0 * Math.PI
@@ -383,12 +383,12 @@ class vec2 : glMatrix() {
     }
 
     /**
-     * Transforms the vec2 with vec2ToTransform mat2
+     * Transforms the Vec2 with vec2ToTransform Mat2
      *
-     * @param {vec2} inOut the receiving vector
-     * @param {vec2} vec2ToTransform the vector to transform
-     * @param {mat2} mat2ToTransformWith matrix to transform with
-     * @returns {vec2} inOut
+     * @param {Vec2} inOut the receiving vector
+     * @param {Vec2} vec2ToTransform the vector to transform
+     * @param {Mat2} mat2ToTransformWith matrix to transform with
+     * @returns {Vec2} inOut
      */
     fun transformMat2(inOut: Array<Double>, vec2ToTransform: Array<Double>, mat2ToTransformWith: Float32Array): Array<Double> {
         val x = vec2ToTransform[0]
@@ -399,12 +399,12 @@ class vec2 : glMatrix() {
     }
 
     /**
-     * Transforms the vec2 with vec2ToTransform mat2d
+     * Transforms the Vec2 with vec2ToTransform Mat2d
      *
-     * @param {vec2} inOut the receiving vector
-     * @param {vec2} vec2ToTransform the vector to transform
-     * @param {mat2d} mat2dToTransformWith matrix to transform with
-     * @returns {vec2} inOut
+     * @param {Vec2} inOut the receiving vector
+     * @param {Vec2} vec2ToTransform the vector to transform
+     * @param {Mat2d} mat2dToTransformWith matrix to transform with
+     * @returns {Vec2} inOut
      */
     fun transformMat2d(inOut: Array<Double>, vec2ToTransform: Array<Double>, mat2dToTransformWith: Float32Array): Array<Double> {
         val x = vec2ToTransform[0]
@@ -415,13 +415,13 @@ class vec2 : glMatrix() {
     }
 
     /**
-     * Transforms the vec2 with vec2ToTransform mat3
+     * Transforms the Vec2 with vec2ToTransform Mat3
      * 3rd vector component is implicitly '1'
      *
-     * @param {vec2} inOut the receiving vector
-     * @param {vec2} vec2ToTransform the vector to transform
-     * @param {mat3} mat3ToTransformWith matrix to transform with
-     * @returns {vec2} inOut
+     * @param {Vec2} inOut the receiving vector
+     * @param {Vec2} vec2ToTransform the vector to transform
+     * @param {Mat3} mat3ToTransformWith matrix to transform with
+     * @returns {Vec2} inOut
      */
     fun transformMat3(inOut: Array<Double>, vec2ToTransform: Array<Double>, mat3ToTransformWith: Float32Array): Array<Double> {
         val x = vec2ToTransform[0]
@@ -432,14 +432,14 @@ class vec2 : glMatrix() {
     }
 
     /**
-     * Transforms the vec2 with vec2ToTransform mat4
+     * Transforms the Vec2 with vec2ToTransform Mat4
      * 3rd vector component is implicitly '0'
      * 4th vector component is implicitly '1'
      *
-     * @param {vec2} inOut the receiving vector
-     * @param {vec2} vec2ToTransform the vector to transform
-     * @param {mat4} mat4ToTransformWith matrix to transform with
-     * @returns {vec2} inOut
+     * @param {Vec2} inOut the receiving vector
+     * @param {Vec2} vec2ToTransform the vector to transform
+     * @param {Mat4} mat4ToTransformWith matrix to transform with
+     * @returns {Vec2} inOut
      */
     fun transformMat4(inOut: Array<Double>, vec2ToTransform: Array<Double>, mat4ToTransformWith: Float32Array): Array<Double> {
         val x = vec2ToTransform[0]
@@ -452,18 +452,18 @@ class vec2 : glMatrix() {
     /**
      * Returns a string representation of a vector
      *
-     * @param {vec2} a vector to represent as a string
+     * @param {Vec2} a vector to represent as a string
      * @returns {String} string representation of the vector
      */
     fun toString(vector: Array<Double>): String {
-        return "vec2(${vector[0]}, ${vector[1]})"
+        return "Vec2(${vector[0]}, ${vector[1]})"
     }
 
     /**
      * Returns whether or not the vectors exactly have the same elements in the same position (when compared with ===)
      *
-     * @param {vec2} firstVector The first vector.
-     * @param {vec2} secondVector The second vector.
+     * @param {Vec2} firstVector The first vector.
+     * @param {Vec2} secondVector The second vector.
      * @returns {Boolean} True if the vectors are equal, false otherwise.
      */
     fun exactEquals(firstVector: Array<Double>, secondVector: Array<Double>): Boolean {
@@ -473,8 +473,8 @@ class vec2 : glMatrix() {
     /**
      * Returns whether or not the vectors have approximately the same elements in the same position.
      *
-     * @param {vec2} firstVector The first vector.
-     * @param {vec2} secondVector The second vector.
+     * @param {Vec2} firstVector The first vector.
+     * @param {Vec2} secondVector The second vector.
      * @returns {Boolean} True if the vectors are equal, false otherwise.
      */
     fun equals(firstVector: Array<Double>, secondVector: Array<Double>): Boolean {

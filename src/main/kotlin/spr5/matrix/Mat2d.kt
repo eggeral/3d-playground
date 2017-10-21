@@ -5,14 +5,14 @@ import org.khronos.webgl.get
 import org.khronos.webgl.set
 import kotlin.js.Math
 
-class mat2d : glMatrix() {
+class Mat2d : GlMatrix() {
     companion object {
         /**
          * 2x3 Matrix
-         * @module mat2d
+         * @module Mat2d
          *
          * @description
-         * A mat2d contains six elements defined as:
+         * A Mat2d contains six elements defined as:
          * <pre>
          * [a, c, tx,
          *  b, d, ty]
@@ -26,9 +26,9 @@ class mat2d : glMatrix() {
          * The last row is ignored so the array is shorter and operations are faster.
          */
         /**
-         * Creates a new identity mat2d
+         * Creates a new identity Mat2d
          *
-         * @returns {mat2d} a new 2x3 matrix
+         * @returns {Mat2d} a new 2x3 matrix
          */
         fun create(): Float32Array {
             val out = Float32Array(6)
@@ -42,10 +42,10 @@ class mat2d : glMatrix() {
         }
 
         /**
-         * Creates matrixToClone new mat2d initialized with values from an existing matrix
+         * Creates matrixToClone new Mat2d initialized with values from an existing matrix
          *
-         * @param {mat2d} matrixToClone matrix to clone
-         * @returns {mat2d} matrixToClone new 2x3 matrix
+         * @param {Mat2d} matrixToClone matrix to clone
+         * @returns {Mat2d} matrixToClone new 2x3 matrix
          */
         fun clone(matrixToClone: Float32Array): Float32Array {
             if (matrixToClone.length != 6) {
@@ -62,11 +62,11 @@ class mat2d : glMatrix() {
         }
 
         /**
-         * Copy the values from one mat2d to another
+         * Copy the values from one Mat2d to another
          *
-         * @param {mat2d} inOut the receiving matrix
-         * @param {mat2d} toCopy the toCopy matrix
-         * @returns {mat2d} inOut
+         * @param {Mat2d} inOut the receiving matrix
+         * @param {Mat2d} toCopy the toCopy matrix
+         * @returns {Mat2d} inOut
          */
         fun copy(inOut: Float32Array, toCopy: Float32Array): Float32Array {
             inOut[0] = toCopy[0]
@@ -79,10 +79,10 @@ class mat2d : glMatrix() {
         }
 
         /**
-         * Set a mat2d to the identity matrix
+         * Set a Mat2d to the identity matrix
          *
-         * @param {mat2d} inOut the receiving matrix
-         * @returns {mat2d} inOut
+         * @param {Mat2d} inOut the receiving matrix
+         * @returns {Mat2d} inOut
          */
         fun identity(inOut: Float32Array): Float32Array {
             inOut[0] = 1.0f
@@ -95,7 +95,7 @@ class mat2d : glMatrix() {
         }
 
         /**
-         * Create a new mat2d with the given values
+         * Create a new Mat2d with the given values
          *
          * @param {Number} a Component A (index 0)
          * @param {Number} b Component B (index 1)
@@ -103,7 +103,7 @@ class mat2d : glMatrix() {
          * @param {Number} d Component D (index 3)
          * @param {Number} tx Component TX (index 4)
          * @param {Number} ty Component TY (index 5)
-         * @returns {mat2d} A new mat2d
+         * @returns {Mat2d} A new Mat2d
          */
         fun fromValues(a: Float, b: Float, c: Float, d: Float, tx: Float, ty: Float): Float32Array {
             val out = Float32Array(6)
@@ -128,16 +128,16 @@ class mat2d : glMatrix() {
         }
 
         /**
-         * Set the components of a mat2d to the given values
+         * Set the components of a Mat2d to the given values
          *
-         * @param {mat2d} inOut the receiving matrix
+         * @param {Mat2d} inOut the receiving matrix
          * @param {Number} a Component A (index 0)
          * @param {Number} b Component B (index 1)
          * @param {Number} c Component C (index 2)
          * @param {Number} d Component D (index 3)
          * @param {Number} tx Component TX (index 4)
          * @param {Number} ty Component TY (index 5)
-         * @returns {mat2d} inOut
+         * @returns {Mat2d} inOut
          */
         fun set(inOut: Float32Array, a: Float, b: Float, c: Float, d: Float, tx: Float, ty: Float): Float32Array {
             inOut[0] = a
@@ -160,11 +160,11 @@ class mat2d : glMatrix() {
         }
 
         /**
-         * Inverts source mat2d
+         * Inverts source Mat2d
          *
-         * @param {mat2d} inOut the receiving matrix
-         * @param {mat2d} source the source matrix
-         * @returns {mat2d} inOut
+         * @param {Mat2d} inOut the receiving matrix
+         * @param {Mat2d} source the source matrix
+         * @returns {Mat2d} inOut
          */
         fun invert(inOut: Float32Array, source: Float32Array): Float32Array {
             val aa = source[0]
@@ -188,9 +188,9 @@ class mat2d : glMatrix() {
         }
 
         /**
-         * Calculates the determinant of source mat2d
+         * Calculates the determinant of source Mat2d
          *
-         * @param {mat2d} source the source matrix
+         * @param {Mat2d} source the source matrix
          * @returns {Number} determinant of source
          */
         fun determinant(source: Float32Array): Double {
@@ -198,12 +198,12 @@ class mat2d : glMatrix() {
         }
 
         /**
-         * Multiplies two mat2d's
+         * Multiplies two Mat2d's
          *
-         * @param {mat2d} inOut the receiving matrix
-         * @param {mat2d} multiplier the first operand
-         * @param {mat2d} multiplicand the second operand
-         * @returns {mat2d} inOut
+         * @param {Mat2d} inOut the receiving matrix
+         * @param {Mat2d} multiplier the first operand
+         * @param {Mat2d} multiplicand the second operand
+         * @returns {Mat2d} inOut
          */
         fun multiply(inOut: Float32Array, multiplier: Float32Array, multiplicand: Float32Array): Float32Array {
             val a0 = multiplier[0]
@@ -228,12 +228,12 @@ class mat2d : glMatrix() {
         }
 
         /**
-         * Rotates matrixToRotate mat2d by the given angle
+         * Rotates matrixToRotate Mat2d by the given angle
          *
-         * @param {mat2d} inOut the receiving matrix
-         * @param {mat2d} matrixToRotate the matrix to rotate
+         * @param {Mat2d} inOut the receiving matrix
+         * @param {Mat2d} matrixToRotate the matrix to rotate
          * @param {Number} angleInRad the angle to rotate the matrix by
-         * @returns {mat2d} inOut
+         * @returns {Mat2d} inOut
          */
         fun rotate(inOut: Float32Array, matrixToRotate: Float32Array, angleInRad: Double): Float32Array {
             val a0 = matrixToRotate[0]
@@ -254,12 +254,12 @@ class mat2d : glMatrix() {
         }
 
         /**
-         * Scales the mat2d by the dimensions in the given vec2
+         * Scales the Mat2d by the dimensions in the given Vec2
          *
-         * @param {mat2d} inOut the receiving matrix
-         * @param {mat2d} matrixToRotate the matrix to rotate
-         * @param {vec2} vec2ToScaleBy the vec2 to scale the matrix by
-         * @returns {mat2d} inOut
+         * @param {Mat2d} inOut the receiving matrix
+         * @param {Mat2d} matrixToRotate the matrix to rotate
+         * @param {Vec2} vec2ToScaleBy the Vec2 to scale the matrix by
+         * @returns {Mat2d} inOut
          **/
         fun scale(inOut: Float32Array, matrixToRotate: Float32Array, vec2ToScaleBy: Array<Double>): Float32Array {
             val a0 = matrixToRotate[0]
@@ -280,12 +280,12 @@ class mat2d : glMatrix() {
         }
 
         /**
-         * Translates the mat2d by the dimensions in the given vec2
+         * Translates the Mat2d by the dimensions in the given Vec2
          *
-         * @param {mat2d} inOut the receiving matrix
-         * @param {mat2d} matrixToTranslate the matrix to translate
-         * @param {vec2} vec2ToTranslateBy the vec2 to translate the matrix by
-         * @returns {mat2d} inOut
+         * @param {Mat2d} inOut the receiving matrix
+         * @param {Mat2d} matrixToTranslate the matrix to translate
+         * @param {Vec2} vec2ToTranslateBy the Vec2 to translate the matrix by
+         * @returns {Mat2d} inOut
          **/
         fun translate(inOut: Float32Array, matrixToTranslate: Float32Array, vec2ToTranslateBy: Array<Double>): Float32Array {
             val a0 = matrixToTranslate[0]
@@ -309,12 +309,12 @@ class mat2d : glMatrix() {
          * Creates a matrix from a given angle
          * This is equivalent to (but much faster than):
          *
-         *     mat2d.identity(dest);
-         *     mat2d.rotate(dest, dest, angleToRotateByInRad);
+         *     Mat2d.identity(dest);
+         *     Mat2d.rotate(dest, dest, angleToRotateByInRad);
          *
-         * @param {mat2d} inOut mat2d receiving operation result
+         * @param {Mat2d} inOut Mat2d receiving operation result
          * @param {Number} angleToRotateByInRad the angle to rotate the matrix by
-         * @returns {mat2d} inOut
+         * @returns {Mat2d} inOut
          */
         fun fromRotation(inOut: Float32Array, angleToRotateByInRad: Double): Float32Array {
             val s = (Math.sin(angleToRotateByInRad)).toFloat()
@@ -332,12 +332,12 @@ class mat2d : glMatrix() {
          * Creates a matrix from a vector scaling
          * This is equivalent to (but much faster than):
          *
-         *     mat2d.identity(dest);
-         *     mat2d.scale(dest, dest, vec);
+         *     Mat2d.identity(dest);
+         *     Mat2d.scale(dest, dest, vec);
          *
-         * @param {mat2d} inOut mat2d receiving operation result
-         * @param {vec2} scalingVec2 Scaling vector
-         * @returns {mat2d} inOut
+         * @param {Mat2d} inOut Mat2d receiving operation result
+         * @param {Vec2} scalingVec2 Scaling vector
+         * @returns {Mat2d} inOut
          */
         fun fromScaling(inOut: Float32Array, scalingVec2: Array<Double>): Float32Array {
             inOut[0] = scalingVec2[0].toFloat()
@@ -353,12 +353,12 @@ class mat2d : glMatrix() {
          * Creates a matrix from a vector translation
          * This is equivalent to (but much faster than):
          *
-         *     mat2d.identity(dest);
-         *     mat2d.translate(dest, dest, vec);
+         *     Mat2d.identity(dest);
+         *     Mat2d.translate(dest, dest, vec);
          *
-         * @param {mat2d} inOut mat2d receiving operation result
-         * @param {vec2} translationVec2 Translation vector
-         * @returns {mat2d} inOut
+         * @param {Mat2d} inOut Mat2d receiving operation result
+         * @param {Vec2} translationVec2 Translation vector
+         * @returns {Mat2d} inOut
          */
         fun fromTranslation(inOut: Float32Array, translationVec2: Array<Double>): Float32Array {
             inOut[0] = 1.0f
@@ -371,19 +371,19 @@ class mat2d : glMatrix() {
         }
 
         /**
-         * Returns matrix string representation of matrix mat2d
+         * Returns matrix string representation of matrix Mat2d
          *
-         * @param {mat2d} matrix matrix to represent as matrix string
+         * @param {Mat2d} matrix matrix to represent as matrix string
          * @returns {String} string representation of the matrix
          */
         fun toString(matrix: Float32Array): String {
-            return "mat2d(${matrix[0]}, ${matrix[1]}, ${matrix[2]}, ${matrix[3]})"
+            return "Mat2d(${matrix[0]}, ${matrix[1]}, ${matrix[2]}, ${matrix[3]})"
         }
 
         /**
-         * Returns Frobenius norm of matrix mat2d
+         * Returns Frobenius norm of matrix Mat2d
          *
-         * @param {mat2d} matrix the matrix to calculate Frobenius norm of
+         * @param {Mat2d} matrix the matrix to calculate Frobenius norm of
          * @returns {Number} Frobenius norm
          */
         fun frob(matrix: Float32Array): Double {
@@ -393,12 +393,12 @@ class mat2d : glMatrix() {
         }
 
         /**
-         * Adds two mat2d's
+         * Adds two Mat2d's
          *
-         * @param {mat2d} inOut the receiving matrix
-         * @param {mat2d} firstSummand the first operand
-         * @param {mat2d} secondSummand the second operand
-         * @returns {mat2d} inOut
+         * @param {Mat2d} inOut the receiving matrix
+         * @param {Mat2d} firstSummand the first operand
+         * @param {Mat2d} secondSummand the second operand
+         * @returns {Mat2d} inOut
          */
         fun add(inOut: Float32Array, firstSummand: Float32Array, secondSummand: Float32Array): Float32Array {
             inOut[0] = firstSummand[0] + secondSummand[0]
@@ -413,10 +413,10 @@ class mat2d : glMatrix() {
         /**
          * Subtracts matrix subtrahend from matrix minuend
          *
-         * @param {mat2d} inOut the receiving matrix
-         * @param {mat2d} minuend the first operand
-         * @param {mat2d} subtrahend the second operand
-         * @returns {mat2d} inOut
+         * @param {Mat2d} inOut the receiving matrix
+         * @param {Mat2d} minuend the first operand
+         * @param {Mat2d} subtrahend the second operand
+         * @returns {Mat2d} inOut
          */
         fun subtract(inOut: Float32Array, minuend: Float32Array, subtrahend: Float32Array): Float32Array {
             inOut[0] = minuend[0] - subtrahend[0]
@@ -431,10 +431,10 @@ class mat2d : glMatrix() {
         /**
          * Multiply each element of the matrix by matrixToScale scalar.
          *
-         * @param {mat2d} inOut the receiving matrix
-         * @param {mat2d} matrixToScale the matrix to scale
+         * @param {Mat2d} inOut the receiving matrix
+         * @param {Mat2d} matrixToScale the matrix to scale
          * @param {Number} amountToScaleBy amount to scale the matrix's elements by
-         * @returns {mat2d} inOut
+         * @returns {Mat2d} inOut
          */
         fun multiplyScalar(inOut: Float32Array, matrixToScale: Float32Array, amountToScaleBy: Double): Float32Array {
             val amountToScaleTheMatrix = amountToScaleBy.toFloat()
@@ -448,13 +448,13 @@ class mat2d : glMatrix() {
         }
 
         /**
-         * Adds two mat2d's after multiplying each element of the second operand by firstSummand scalar value.
+         * Adds two Mat2d's after multiplying each element of the second operand by firstSummand scalar value.
          *
-         * @param {mat2d} inOut the receiving vector
-         * @param {mat2d} firstSummand the first operand
-         * @param {mat2d} secondSummand the second operand
+         * @param {Mat2d} inOut the receiving vector
+         * @param {Mat2d} firstSummand the first operand
+         * @param {Mat2d} secondSummand the second operand
          * @param {Number} amountToScale the amount to amountToScale secondSummand's elements by before adding
-         * @returns {mat2d} inOut
+         * @returns {Mat2d} inOut
          */
         fun multiplyScalarAndAdd(inOut: Float32Array, firstSummand: Float32Array, secondSummand: Float32Array, amountToScale: Double): Float32Array {
             val amountToScaleTheMatrix = amountToScale.toFloat()
@@ -470,8 +470,8 @@ class mat2d : glMatrix() {
         /**
          * Returns whether or not the matrices have exactly the same elements in the same position (when compared with ===)
          *
-         * @param {mat2d} firstMatrix The first matrix.
-         * @param {mat2d} secondMatrix The second matrix.
+         * @param {Mat2d} firstMatrix The first matrix.
+         * @param {Mat2d} secondMatrix The second matrix.
          * @returns {Boolean} True if the matrices are equal, false otherwise.
          */
         fun exactEquals(firstMatrix: Float32Array, secondMatrix: Float32Array): Boolean {
@@ -483,8 +483,8 @@ class mat2d : glMatrix() {
         /**
          * Returns whether or not the matrices have approximately the same elements in the same position.
          *
-         * @param {mat2d} firstMatrix The first matrix.
-         * @param {mat2d} secondMatrix The second matrix.
+         * @param {Mat2d} firstMatrix The first matrix.
+         * @param {Mat2d} secondMatrix The second matrix.
          * @returns {Boolean} True if the matrices are equal, false otherwise.
          */
         fun equals(firstMatrix: Float32Array, secondMatrix: Float32Array): Boolean {

@@ -4,16 +4,16 @@ import org.khronos.webgl.Float32Array
 import org.khronos.webgl.get
 import kotlin.js.Math
 
-class vec3 : glMatrix() {
+class Vec3 : GlMatrix() {
     companion object {
         /**
          * 3 Dimensional Vector
-         * @module vec3
+         * @module Vec3
          */
         /**
-         * Creates a new, empty vec3
+         * Creates a new, empty Vec3
          *
-         * @returns {vec3} a new 3D vector
+         * @returns {Vec3} a new 3D vector
          */
         fun create(): Array<Double> {
             return arrayOf(
@@ -24,10 +24,10 @@ class vec3 : glMatrix() {
         }
 
         /**
-         * Creates vec3ToClone new vec3 initialized with values from an existing vector
+         * Creates vec3ToClone new Vec3 initialized with values from an existing vector
          *
-         * @param {vec3} vec3ToClone vector to clone
-         * @returns {vec3} vec3ToClone new 3D vector
+         * @param {Vec3} vec3ToClone vector to clone
+         * @returns {Vec3} vec3ToClone new 3D vector
          */
         fun clone(vec3ToClone: Array<Double>): Array<Double> {
             return arrayOf(
@@ -38,9 +38,9 @@ class vec3 : glMatrix() {
         }
 
         /**
-         * Calculates the length of vec3ToCalculateLengthOf vec3
+         * Calculates the length of vec3ToCalculateLengthOf Vec3
          *
-         * @param {vec3} vec3ToCalculateLengthOf vector to calculate length of
+         * @param {Vec3} vec3ToCalculateLengthOf vector to calculate length of
          * @returns {Number} length of vec3ToCalculateLengthOf
          */
         fun length(vec3ToCalculateLengthOf: Array<Double>): Double {
@@ -51,12 +51,12 @@ class vec3 : glMatrix() {
         }
 
         /**
-         * Creates a new vec3 initialized with the given values
+         * Creates a new Vec3 initialized with the given values
          *
          * @param {Number} componentX X component
          * @param {Number} componentY Y component
          * @param {Number} componentZ Z component
-         * @returns {vec3} a new 3D vector
+         * @returns {Vec3} a new 3D vector
          */
         fun fromValues(componentX: Double, componentY: Double, componentZ: Double): Array<Double> {
             return arrayOf(
@@ -67,11 +67,11 @@ class vec3 : glMatrix() {
         }
 
         /**
-         * Copy the values from one vec3 to another
+         * Copy the values from one Vec3 to another
          *
-         * @param {vec3} inOut the receiving vector
-         * @param {vec3} source the source vector
-         * @returns {vec3} inOut
+         * @param {Vec3} inOut the receiving vector
+         * @param {Vec3} source the source vector
+         * @returns {Vec3} inOut
          */
         fun copy(inOut: Array<Double>, source: Array<Double>): Array<Double> {
             inOut[0] = source[0]
@@ -81,13 +81,13 @@ class vec3 : glMatrix() {
         }
 
         /**
-         * Set the components of a vec3 to the given values
+         * Set the components of a Vec3 to the given values
          *
-         * @param {vec3} inOut the receiving vector
+         * @param {Vec3} inOut the receiving vector
          * @param {Number} componentX X component
          * @param {Number} componentY Y component
          * @param {Number} componentZ Z component
-         * @returns {vec3} inOut
+         * @returns {Vec3} inOut
          */
         fun set(inOut: Array<Double>, componentX: Double, componentY: Double, componentZ: Double): Array<Double> {
             inOut[0] = componentX
@@ -97,12 +97,12 @@ class vec3 : glMatrix() {
         }
 
         /**
-         * Adds two vec3's
+         * Adds two Vec3's
          *
-         * @param {vec3} inOut the receiving vector
-         * @param {vec3} firstSummand the first operand
-         * @param {vec3} secondSummand the second operand
-         * @returns {vec3} inOut
+         * @param {Vec3} inOut the receiving vector
+         * @param {Vec3} firstSummand the first operand
+         * @param {Vec3} secondSummand the second operand
+         * @returns {Vec3} inOut
          */
         fun add(inOut: Array<Double>, firstSummand: Array<Double>, secondSummand: Array<Double>): Array<Double> {
             inOut[0] = firstSummand[0] + secondSummand[0]
@@ -114,10 +114,10 @@ class vec3 : glMatrix() {
         /**
          * Subtracts vector subtrahend from vector minuend
          *
-         * @param {vec3} inOut the receiving vector
-         * @param {vec3} minuend the first operand
-         * @param {vec3} subtrahend the second operand
-         * @returns {vec3} inOut
+         * @param {Vec3} inOut the receiving vector
+         * @param {Vec3} minuend the first operand
+         * @param {Vec3} subtrahend the second operand
+         * @returns {Vec3} inOut
          */
         fun subtract(inOut: Array<Double>, minuend: Array<Double>, subtrahend: Array<Double>): Array<Double> {
             inOut[0] = minuend[0] - subtrahend[0]
@@ -127,12 +127,12 @@ class vec3 : glMatrix() {
         }
 
         /**
-         * Multiplies two vec3's
+         * Multiplies two Vec3's
          *
-         * @param {vec3} inOut the receiving vector
-         * @param {vec3} multiplier the first operand
-         * @param {vec3} multiplicand the second operand
-         * @returns {vec3} inOut
+         * @param {Vec3} inOut the receiving vector
+         * @param {Vec3} multiplier the first operand
+         * @param {Vec3} multiplicand the second operand
+         * @returns {Vec3} inOut
          */
         fun multiply(inOut: Array<Double>, multiplier: Array<Double>, multiplicand: Array<Double>): Array<Double> {
             inOut[0] = multiplier[0] * multiplicand[0]
@@ -142,12 +142,12 @@ class vec3 : glMatrix() {
         }
 
         /**
-         * Divides two vec3's
+         * Divides two Vec3's
          *
-         * @param {vec3} inOut the receiving vector
-         * @param {vec3} dividend the first operand
-         * @param {vec3} divisor the second operand
-         * @returns {vec3} inOut
+         * @param {Vec3} inOut the receiving vector
+         * @param {Vec3} dividend the first operand
+         * @param {Vec3} divisor the second operand
+         * @returns {Vec3} inOut
          */
         fun divide(inOut: Array<Double>, dividend: Array<Double>, divisor: Array<Double>): Array<Double> {
             inOut[0] = dividend[0] / divisor[0]
@@ -157,11 +157,11 @@ class vec3 : glMatrix() {
         }
 
         /**
-         * Math.ceil the components of vec3ToCeil vec3
+         * Math.ceil the components of vec3ToCeil Vec3
          *
-         * @param {vec3} inOut the receiving vector
-         * @param {vec3} vec3ToCeil vector to ceil
-         * @returns {vec3} inOut
+         * @param {Vec3} inOut the receiving vector
+         * @param {Vec3} vec3ToCeil vector to ceil
+         * @returns {Vec3} inOut
          */
         fun ceil(inOut: Array<Double>, vec3ToCeil: Array<Double>): Array<Double> {
             inOut[0] = (Math.ceil(vec3ToCeil[0])).toDouble()
@@ -171,11 +171,11 @@ class vec3 : glMatrix() {
         }
 
         /**
-         * Math.floor the components of vec3ToFloor vec3
+         * Math.floor the components of vec3ToFloor Vec3
          *
-         * @param {vec3} inOut the receiving vector
-         * @param {vec3} vec3ToFloor vector to floor
-         * @returns {vec3} inOut
+         * @param {Vec3} inOut the receiving vector
+         * @param {Vec3} vec3ToFloor vector to floor
+         * @returns {Vec3} inOut
          */
         fun floor(inOut: Array<Double>, vec3ToFloor: Array<Double>): Array<Double> {
             inOut[0] = (Math.floor(vec3ToFloor[0])).toDouble()
@@ -185,12 +185,12 @@ class vec3 : glMatrix() {
         }
 
         /**
-         * Returns the minimum of two vec3's
+         * Returns the minimum of two Vec3's
          *
-         * @param {vec3} inOut the receiving vector
-         * @param {vec3} firstOperand the first operand
-         * @param {vec3} secondOperand the second operand
-         * @returns {vec3} inOut
+         * @param {Vec3} inOut the receiving vector
+         * @param {Vec3} firstOperand the first operand
+         * @param {Vec3} secondOperand the second operand
+         * @returns {Vec3} inOut
          */
         fun min(inOut: Array<Double>, firstOperand: Array<Double>, secondOperand: Array<Double>): Array<Double> {
             inOut[0] = Math.min(firstOperand[0], secondOperand[0])
@@ -200,12 +200,12 @@ class vec3 : glMatrix() {
         }
 
         /**
-         * Returns the maximum of two vec3's
+         * Returns the maximum of two Vec3's
          *
-         * @param {vec3} inOut the receiving vector
-         * @param {vec3} firstOperand the first operand
-         * @param {vec3} secondOperand the second operand
-         * @returns {vec3} inOut
+         * @param {Vec3} inOut the receiving vector
+         * @param {Vec3} firstOperand the first operand
+         * @param {Vec3} secondOperand the second operand
+         * @returns {Vec3} inOut
          */
         fun max(inOut: Array<Double>, firstOperand: Array<Double>, secondOperand: Array<Double>): Array<Double> {
             inOut[0] = Math.max(firstOperand[0], secondOperand[0])
@@ -215,11 +215,11 @@ class vec3 : glMatrix() {
         }
 
         /**
-         * Math.round the components of vec3ToRound vec3
+         * Math.round the components of vec3ToRound Vec3
          *
-         * @param {vec3} inOut the receiving vector
-         * @param {vec3} vec3ToRound vector to round
-         * @returns {vec3} inOut
+         * @param {Vec3} inOut the receiving vector
+         * @param {Vec3} vec3ToRound vector to round
+         * @returns {Vec3} inOut
          */
         fun round(inOut: Array<Double>, vec3ToRound: Array<Double>): Array<Double> {
             inOut[0] = (Math.round(vec3ToRound[0])).toDouble()
@@ -229,12 +229,12 @@ class vec3 : glMatrix() {
         }
 
         /**
-         * Scales vec3ToScale vec3 by vec3ToScale scalar number
+         * Scales vec3ToScale Vec3 by vec3ToScale scalar number
          *
-         * @param {vec3} inOut the receiving vector
-         * @param {vec3} vec3ToScale the vector to scale
+         * @param {Vec3} inOut the receiving vector
+         * @param {Vec3} vec3ToScale the vector to scale
          * @param {Number} amountToScaleBy amount to scale the vector by
-         * @returns {vec3} inOut
+         * @returns {Vec3} inOut
          */
         fun scale(inOut: Array<Double>, vec3ToScale: Array<Double>, amountToScaleBy: Double): Array<Double> {
             inOut[0] = vec3ToScale[0] * amountToScaleBy
@@ -244,13 +244,13 @@ class vec3 : glMatrix() {
         }
 
         /**
-         * Adds two vec3's after scaling the second operand by firstSummand scalar value
+         * Adds two Vec3's after scaling the second operand by firstSummand scalar value
          *
-         * @param {vec3} inOut the receiving vector
-         * @param {vec3} firstSummand the first operand
-         * @param {vec3} secondSummand the second operand
+         * @param {Vec3} inOut the receiving vector
+         * @param {Vec3} firstSummand the first operand
+         * @param {Vec3} secondSummand the second operand
          * @param {Number} amountToScale the amount to amountToScale secondSummand by before adding
-         * @returns {vec3} inOut
+         * @returns {Vec3} inOut
          */
         fun scaleAndAdd(inOut: Array<Double>, firstSummand: Array<Double>, secondSummand: Array<Double>, amountToScale: Double): Array<Double> {
             inOut[0] = firstSummand[0] + (secondSummand[0] * amountToScale)
@@ -260,10 +260,10 @@ class vec3 : glMatrix() {
         }
 
         /**
-         * Calculates the euclidian distance between two vec3's
+         * Calculates the euclidian distance between two Vec3's
          *
-         * @param {vec3} firstOperand the first operand
-         * @param {vec3} secondOperand the second operand
+         * @param {Vec3} firstOperand the first operand
+         * @param {Vec3} secondOperand the second operand
          * @returns {Number} distance between firstOperand and secondOperand
          */
         fun distance(firstOperand: Array<Double>, secondOperand: Array<Double>): Double {
@@ -274,10 +274,10 @@ class vec3 : glMatrix() {
         }
 
         /**
-         * Calculates the squared euclidian distance between two vec3's
+         * Calculates the squared euclidian distance between two Vec3's
          *
-         * @param {vec3} firstOperand the first operand
-         * @param {vec3} secondOperand the second operand
+         * @param {Vec3} firstOperand the first operand
+         * @param {Vec3} secondOperand the second operand
          * @returns {Number} squared distance between firstOperand and secondOperand
          */
         fun squaredDistance(firstOperand: Array<Double>, secondOperand: Array<Double>): Double {
@@ -288,9 +288,9 @@ class vec3 : glMatrix() {
         }
 
         /**
-         * Calculates the squared length of vec3ToCalculateSquaredLength vec3
+         * Calculates the squared length of vec3ToCalculateSquaredLength Vec3
          *
-         * @param {vec3} vec3ToCalculateSquaredLength vector to calculate squared length of
+         * @param {Vec3} vec3ToCalculateSquaredLength vector to calculate squared length of
          * @returns {Number} squared length of vec3ToCalculateSquaredLength
          */
         fun squaredLength(vec3ToCalculateSquaredLength: Array<Double>): Double {
@@ -301,11 +301,11 @@ class vec3 : glMatrix() {
         }
 
         /**
-         * Negates the components of vec3ToNegate vec3
+         * Negates the components of vec3ToNegate Vec3
          *
-         * @param {vec3} inOut the receiving vector
-         * @param {vec3} vec3ToNegate vector to negate
-         * @returns {vec3} inOut
+         * @param {Vec3} inOut the receiving vector
+         * @param {Vec3} vec3ToNegate vector to negate
+         * @returns {Vec3} inOut
          */
         fun negate(inOut: Array<Double>, vec3ToNegate: Array<Double>): Array<Double> {
             inOut[0] = -vec3ToNegate[0]
@@ -315,11 +315,11 @@ class vec3 : glMatrix() {
         }
 
         /**
-         * Returns the inverse of the components of vec3ToInvert vec3
+         * Returns the inverse of the components of vec3ToInvert Vec3
          *
-         * @param {vec3} inOut the receiving vector
-         * @param {vec3} vec3ToInvert vector to invert
-         * @returns {vec3} inOut
+         * @param {Vec3} inOut the receiving vector
+         * @param {Vec3} vec3ToInvert vector to invert
+         * @returns {Vec3} inOut
          */
         fun inverse(inOut: Array<Double>, vec3ToInvert: Array<Double>): Array<Double> {
             inOut[0] = 1.0 / vec3ToInvert[0]
@@ -329,11 +329,11 @@ class vec3 : glMatrix() {
         }
 
         /**
-         * Normalize vec3ToNormalize vec3
+         * Normalize vec3ToNormalize Vec3
          *
-         * @param {vec3} inOut the receiving vector
-         * @param {vec3} vec3ToNormalize vector to normalize
-         * @returns {vec3} inOut
+         * @param {Vec3} inOut the receiving vector
+         * @param {Vec3} vec3ToNormalize vector to normalize
+         * @returns {Vec3} inOut
          */
         fun normalize(inOut: Array<Double>, vec3ToNormalize: Array<Double>): Array<Double> {
             val x = vec3ToNormalize[0]
@@ -351,10 +351,10 @@ class vec3 : glMatrix() {
         }
 
         /**
-         * Calculates the dot product of two vec3's
+         * Calculates the dot product of two Vec3's
          *
-         * @param {vec3} firstOperand the first operand
-         * @param {vec3} secondOperand the second operand
+         * @param {Vec3} firstOperand the first operand
+         * @param {Vec3} secondOperand the second operand
          * @returns {Number} dot product of firstOperand and secondOperand
          */
         fun dot(firstOperand: Array<Double>, secondOperand: Array<Double>): Double {
@@ -362,12 +362,12 @@ class vec3 : glMatrix() {
         }
 
         /**
-         * Computes the cross product of two vec3's
+         * Computes the cross product of two Vec3's
          *
-         * @param {vec3} inOut the receiving vector
-         * @param {vec3} firstOperand the first operand
-         * @param {vec3} secondOperand the second operand
-         * @returns {vec3} inOut
+         * @param {Vec3} inOut the receiving vector
+         * @param {Vec3} firstOperand the first operand
+         * @param {Vec3} secondOperand the second operand
+         * @returns {Vec3} inOut
          */
         fun cross(inOut: Array<Double>, firstOperand: Array<Double>, secondOperand: Array<Double>): Array<Double> {
             val ax = firstOperand[0]
@@ -383,13 +383,13 @@ class vec3 : glMatrix() {
         }
 
         /**
-         * Performs a linear interpolation between two vec3's
+         * Performs a linear interpolation between two Vec3's
          *
-         * @param {vec3} inOut the receiving vector
-         * @param {vec3} firstOperand the first operand
-         * @param {vec3} secondOperand the second operand
+         * @param {Vec3} inOut the receiving vector
+         * @param {Vec3} firstOperand the first operand
+         * @param {Vec3} secondOperand the second operand
          * @param {Number} interpolationAmount interpolation amount between the two inputs
-         * @returns {vec3} inOut
+         * @returns {Vec3} inOut
          */
         fun lerp(inOut: Array<Double>, firstOperand: Array<Double>, secondOperand: Array<Double>, interpolationAmount: Double): Array<Double> {
             val ax = firstOperand[0]
@@ -404,13 +404,13 @@ class vec3 : glMatrix() {
         /**
          * Performs a hermite interpolation with two control points
          *
-         * @param {vec3} inOut the receiving vector
-         * @param {vec3} firstOperand the first operand
-         * @param {vec3} secondOperand the second operand
-         * @param {vec3} thirdOperand the third operand
-         * @param {vec3} fourthOperand the fourth operand
+         * @param {Vec3} inOut the receiving vector
+         * @param {Vec3} firstOperand the first operand
+         * @param {Vec3} secondOperand the second operand
+         * @param {Vec3} thirdOperand the third operand
+         * @param {Vec3} fourthOperand the fourth operand
          * @param {Number} interpolationAmount interpolation amount between the two inputs
-         * @returns {vec3} inOut
+         * @returns {Vec3} inOut
          */
         fun hermite(inOut: Array<Double>, firstOperand: Array<Double>, secondOperand: Array<Double>, thirdOperand: Array<Double>, fourthOperand: Array<Double>, interpolationAmount: Double): Array<Double> {
             val factorTimes2 = interpolationAmount * interpolationAmount
@@ -427,13 +427,13 @@ class vec3 : glMatrix() {
         /**
          * Performs a bezier interpolation with two control points
          *
-         * @param {vec3} inOut the receiving vector
-         * @param {vec3} firstOperand the first operand
-         * @param {vec3} secondOperand the second operand
-         * @param {vec3} thirdOperand the third operand
-         * @param {vec3} fourthOperand the fourth operand
+         * @param {Vec3} inOut the receiving vector
+         * @param {Vec3} firstOperand the first operand
+         * @param {Vec3} secondOperand the second operand
+         * @param {Vec3} thirdOperand the third operand
+         * @param {Vec3} fourthOperand the fourth operand
          * @param {Number} interpolationAmount interpolation amount between the two inputs
-         * @returns {vec3} inOut
+         * @returns {Vec3} inOut
          */
         fun bezier(inOut: Array<Double>, firstOperand: Array<Double>, secondOperand: Array<Double>, thirdOperand: Array<Double>, fourthOperand: Array<Double>, interpolationAmount: Double): Array<Double> {
             val inverseFactor = 1 - interpolationAmount
@@ -452,9 +452,9 @@ class vec3 : glMatrix() {
         /**
          * Generates a random vector with the given vectorScale
          *
-         * @param {vec3} inOut the receiving vector
+         * @param {Vec3} inOut the receiving vector
          * @param {Number} [vectorScale] Length of the resulting vector. If ommitted, a unit vector will be returned
-         * @returns {vec3} inOut
+         * @returns {Vec3} inOut
          */
         fun random(inOut: Array<Double>, vectorScale: Double = 1.0): Array<Double> {
             val r = RANDOM * 2.0 * Math.PI
@@ -467,13 +467,13 @@ class vec3 : glMatrix() {
         }
 
         /**
-         * Transforms the vec3 with vec3ToTransform mat4.
+         * Transforms the Vec3 with vec3ToTransform Mat4.
          * 4th vector component is implicitly '1'
          *
-         * @param {vec3} inOut the receiving vector
-         * @param {vec3} vec3ToTransform the vector to transform
-         * @param {mat4} mat4ToTransformWith matrix to transform with
-         * @returns {vec3} inOut
+         * @param {Vec3} inOut the receiving vector
+         * @param {Vec3} vec3ToTransform the vector to transform
+         * @param {Mat4} mat4ToTransformWith matrix to transform with
+         * @returns {Vec3} inOut
          */
         fun transformMat4(inOut: Array<Double>, vec3ToTransform: Array<Double>, mat4ToTransformWith: Float32Array): Array<Double> {
             val x = vec3ToTransform[0]
@@ -490,12 +490,12 @@ class vec3 : glMatrix() {
         }
 
         /**
-         * Transforms the vec3 with vec3ToTransform mat3.
+         * Transforms the Vec3 with vec3ToTransform Mat3.
          *
-         * @param {vec3} inOut the receiving vector
-         * @param {vec3} vec3ToTransform the vector to transform
-         * @param {mat3} mat3ToTransformWith the 3x3 matrix to transform with
-         * @returns {vec3} inOut
+         * @param {Vec3} inOut the receiving vector
+         * @param {Vec3} vec3ToTransform the vector to transform
+         * @param {Mat3} mat3ToTransformWith the 3x3 matrix to transform with
+         * @returns {Vec3} inOut
          */
         fun transformMat3(inOut: Array<Double>, vec3ToTransform: Array<Double>, mat3ToTransformWith: Float32Array): Array<Double> {
             val x = vec3ToTransform[0]
@@ -508,12 +508,12 @@ class vec3 : glMatrix() {
         }
 
         /**
-         * Transforms the vec3 with vec3ToTransform quat
+         * Transforms the Vec3 with vec3ToTransform Quat
          *
-         * @param {vec3} inOut the receiving vector
-         * @param {vec3} vec3ToTransform the vector to transform
-         * @param {quat} quatToTransformWith quaternion to transform with
-         * @returns {vec3} inOut
+         * @param {Vec3} inOut the receiving vector
+         * @param {Vec3} vec3ToTransform the vector to transform
+         * @param {Quat} quatToTransformWith quaternion to transform with
+         * @returns {Vec3} inOut
          */
         fun transformQuat(inOut: Array<Double>, vec3ToTransform: Array<Double>, quatToTransformWith: Array<Double>): Array<Double> {
             // benchmarks: http://jsperf.com/quaternion-transform-vec3-implementations
@@ -524,12 +524,12 @@ class vec3 : glMatrix() {
             val qy = quatToTransformWith[1]
             val qz = quatToTransformWith[2]
             val qw = quatToTransformWith[3]
-            // calculate quat * vec
+            // calculate Quat * vec
             val ix = qw * x + qy * z - qz * y
             val iy = qw * y + qz * x - qx * z
             val iz = qw * z + qx * y - qy * x
             val iw = -qx * x - qy * y - qz * z
-            // calculate result * inverse quat
+            // calculate result * inverse Quat
             inOut[0] = ix * qw + iw * -qx + iy * -qz - iz * -qy
             inOut[1] = iy * qw + iw * -qy + iz * -qx - ix * -qz
             inOut[2] = iz * qw + iw * -qz + ix * -qy - iy * -qx
@@ -538,11 +538,11 @@ class vec3 : glMatrix() {
 
         /**
          * Rotate vec3ToRotate 3D vector around the x-axis
-         * @param {vec3} inOut The receiving vec3
-         * @param {vec3} vec3ToRotate The vec3 point to rotate
-         * @param {vec3} originOfRotation The origin of the rotation
+         * @param {Vec3} inOut The receiving Vec3
+         * @param {Vec3} vec3ToRotate The Vec3 point to rotate
+         * @param {Vec3} originOfRotation The origin of the rotation
          * @param {Number} angleInRad The angle of rotation
-         * @returns {vec3} inOut
+         * @returns {Vec3} inOut
          */
         fun rotateX(inOut: Array<Double>, vec3ToRotate: Array<Double>, originOfRotation: Array<Double>, angleInRad: Double): Array<Double> {
             //Translate point to the origin
@@ -566,11 +566,11 @@ class vec3 : glMatrix() {
 
         /**
          * Rotate vec3ToRotate 3D vector around the y-axis
-         * @param {vec3} inOut The receiving vec3
-         * @param {vec3} vec3ToRotate The vec3 point to rotate
-         * @param {vec3} originOfRotation The origin of the rotation
+         * @param {Vec3} inOut The receiving Vec3
+         * @param {Vec3} vec3ToRotate The Vec3 point to rotate
+         * @param {Vec3} originOfRotation The origin of the rotation
          * @param {Number} angleInRad The angle of rotation
-         * @returns {vec3} inOut
+         * @returns {Vec3} inOut
          */
         fun rotateY(inOut: Array<Double>, vec3ToRotate: Array<Double>, originOfRotation: Array<Double>, angleInRad: Double): Array<Double> {
             //Translate point to the origin
@@ -594,11 +594,11 @@ class vec3 : glMatrix() {
 
         /**
          * Rotate vec3ToRotate 3D vector around the z-axis
-         * @param {vec3} inOut The receiving vec3
-         * @param {vec3} vec3ToRotate The vec3 point to rotate
-         * @param {vec3} originOfRotation The origin of the rotation
+         * @param {Vec3} inOut The receiving Vec3
+         * @param {Vec3} vec3ToRotate The Vec3 point to rotate
+         * @param {Vec3} originOfRotation The origin of the rotation
          * @param {Number} angleInRad The angle of rotation
-         * @returns {vec3} inOut
+         * @returns {Vec3} inOut
          */
         fun rotateZ(inOut: Array<Double>, vec3ToRotate: Array<Double>, originOfRotation: Array<Double>, angleInRad: Double): Array<Double> {
             //Translate point to the origin
@@ -622,8 +622,8 @@ class vec3 : glMatrix() {
 
         /**
          * Get the angle between two 3D vectors
-         * @param {vec3} firstVec3 The first operand
-         * @param {vec3} secondVec3 The second operand
+         * @param {Vec3} firstVec3 The first operand
+         * @param {Vec3} secondVec3 The second operand
          * @returns {Number} The angle in radians
          */
         fun angle(firstVec3: Array<Double>, secondVec3: Array<Double>): Double {
@@ -644,18 +644,18 @@ class vec3 : glMatrix() {
         /**
          * Returns a string representation of a vector
          *
-         * @param {vec3} a vector to represent as a string
+         * @param {Vec3} a vector to represent as a string
          * @returns {String} string representation of the vector
          */
         fun toString(vector: Array<Double>): String {
-            return "vec3(${vector[0]}, ${vector[1]}, ${vector[2]})"
+            return "Vec3(${vector[0]}, ${vector[1]}, ${vector[2]})"
         }
 
         /**
          * Returns whether or not the vectors have exactly the same elements in the same position (when compared with ===)
          *
-         * @param {vec3} firstVector The first vector.
-         * @param {vec3} secondVector The second vector.
+         * @param {Vec3} firstVector The first vector.
+         * @param {Vec3} secondVector The second vector.
          * @returns {Boolean} True if the vectors are equal, false otherwise.
          */
         fun exactEquals(firstVector: Array<Double>, secondVector: Array<Double>): Boolean {
@@ -665,8 +665,8 @@ class vec3 : glMatrix() {
         /**
          * Returns whether or not the vectors have approximately the same elements in the same position.
          *
-         * @param {vec3} firstVector The first vector.
-         * @param {vec3} secondVector The second vector.
+         * @param {Vec3} firstVector The first vector.
+         * @param {Vec3} secondVector The second vector.
          * @returns {Boolean} True if the vectors are equal, false otherwise.
          */
         fun equals(firstVector: Array<Double>, secondVector: Array<Double>): Boolean {

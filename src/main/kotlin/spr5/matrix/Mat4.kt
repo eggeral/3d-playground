@@ -5,16 +5,16 @@ import org.khronos.webgl.get
 import org.khronos.webgl.set
 import kotlin.js.Math
 
-class mat4 : glMatrix() {
+class Mat4 : GlMatrix() {
     companion object {
         /**
          * 4x4 Matrix
-         * @module mat4
+         * @module Mat4
          */
         /**
-         * Creates a new identity mat4
+         * Creates a new identity Mat4
          *
-         * @returns {mat4} a new 4x4 matrix
+         * @returns {Mat4} a new 4x4 matrix
          */
         fun create(): Float32Array {
             val out = Float32Array(16)
@@ -38,10 +38,10 @@ class mat4 : glMatrix() {
         }
 
         /**
-         * Creates matrixToClone new mat4 initialized with values from an existing matrix
+         * Creates matrixToClone new Mat4 initialized with values from an existing matrix
          *
-         * @param {mat4} matrixToClone matrix to clone
-         * @returns {mat4} matrixToClone new 4x4 matrix
+         * @param {Mat4} matrixToClone matrix to clone
+         * @returns {Mat4} matrixToClone new 4x4 matrix
          */
         fun clone(matrixToClone: Float32Array): Float32Array {
             if (matrixToClone.length != 16) {
@@ -68,11 +68,11 @@ class mat4 : glMatrix() {
         }
 
         /**
-         * Copy the values from one mat4 to another
+         * Copy the values from one Mat4 to another
          *
-         * @param {mat4} inOut the receiving matrix
-         * @param {mat4} toCopy the source matrix
-         * @returns {mat4} inOut
+         * @param {Mat4} inOut the receiving matrix
+         * @param {Mat4} toCopy the source matrix
+         * @returns {Mat4} inOut
          */
         fun copy(inOut: Float32Array, toCopy: Float32Array): Float32Array {
             inOut[0] = toCopy[0]
@@ -95,7 +95,7 @@ class mat4 : glMatrix() {
         }
 
         /**
-         * Create a new mat4 with the given values
+         * Create a new Mat4 with the given values
          *
          * @param {Number} m00 Component in column 0, row 0 position (index 0)
          * @param {Number} m01 Component in column 0, row 1 position (index 1)
@@ -113,7 +113,7 @@ class mat4 : glMatrix() {
          * @param {Number} m31 Component in column 3, row 1 position (index 13)
          * @param {Number} m32 Component in column 3, row 2 position (index 14)
          * @param {Number} m33 Component in column 3, row 3 position (index 15)
-         * @returns {mat4} A new mat4
+         * @returns {Mat4} A new Mat4
          */
         fun fromValues(m00: Float, m01: Float, m02: Float, m03: Float, m10: Float, m11: Float, m12: Float, m13: Float, m20: Float, m21: Float, m22: Float, m23: Float, m30: Float, m31: Float, m32: Float, m33: Float): Float32Array {
             val out = Float32Array(16)
@@ -158,9 +158,9 @@ class mat4 : glMatrix() {
         }
 
         /**
-         * Set the components of a mat4 to the given values
+         * Set the components of a Mat4 to the given values
          *
-         * @param {mat4} inOut the receiving matrix
+         * @param {Mat4} inOut the receiving matrix
          * @param {Number} m00 Component in column 0, row 0 position (index 0)
          * @param {Number} m01 Component in column 0, row 1 position (index 1)
          * @param {Number} m02 Component in column 0, row 2 position (index 2)
@@ -177,7 +177,7 @@ class mat4 : glMatrix() {
          * @param {Number} m31 Component in column 3, row 1 position (index 13)
          * @param {Number} m32 Component in column 3, row 2 position (index 14)
          * @param {Number} m33 Component in column 3, row 3 position (index 15)
-         * @returns {mat4} inOut
+         * @returns {Mat4} inOut
          */
         fun set(inOut: Float32Array, m00: Float, m01: Float, m02: Float, m03: Float, m10: Float, m11: Float, m12: Float, m13: Float, m20: Float, m21: Float, m22: Float, m23: Float, m30: Float, m31: Float, m32: Float, m33: Float): Float32Array {
             inOut[0] = m00
@@ -220,10 +220,10 @@ class mat4 : glMatrix() {
         }
 
         /**
-         * Set a mat4 to the identity matrix
+         * Set a Mat4 to the identity matrix
          *
-         * @param {mat4} inOut the receiving matrix
-         * @returns {mat4} inOut
+         * @param {Mat4} inOut the receiving matrix
+         * @returns {Mat4} inOut
          */
         fun identity(inOut: Float32Array): Float32Array {
             inOut[0] = 1.0f
@@ -246,11 +246,11 @@ class mat4 : glMatrix() {
         }
 
         /**
-         * Transpose the values of a mat4
+         * Transpose the values of a Mat4
          *
-         * @param {mat4} inOut the receiving matrix
-         * @param {mat4} source the source matrix
-         * @returns {mat4} inOut
+         * @param {Mat4} inOut the receiving matrix
+         * @param {Mat4} source the source matrix
+         * @returns {Mat4} inOut
          */
         fun transpose(inOut: Float32Array, source: Float32Array): Float32Array {
             // If we are transposing ourselves we can skip a few steps but have to cache some values
@@ -295,11 +295,11 @@ class mat4 : glMatrix() {
         }
 
         /**
-         * Inverts a mat4
+         * Inverts a Mat4
          *
-         * @param {mat4} inOut the receiving matrix
-         * @param {mat4} source the source matrix
-         * @returns {mat4} inOut
+         * @param {Mat4} inOut the receiving matrix
+         * @param {Mat4} source the source matrix
+         * @returns {Mat4} inOut
          */
         fun invert(inOut: Float32Array, source: Float32Array): Float32Array {
             val a00 = source[0]
@@ -356,11 +356,11 @@ class mat4 : glMatrix() {
         }
 
         /**
-         * Calculates the adjugate of a mat4
+         * Calculates the adjugate of a Mat4
          *
-         * @param {mat4} inOut the receiving matrix
-         * @param {mat4} a the source matrix
-         * @returns {mat4} inOut
+         * @param {Mat4} inOut the receiving matrix
+         * @param {Mat4} a the source matrix
+         * @returns {Mat4} inOut
          */
         fun adjoint(inOut: Float32Array, source: Float32Array): Float32Array {
             val a00 = source[0]
@@ -399,9 +399,9 @@ class mat4 : glMatrix() {
         }
 
         /**
-         * Calculates the determinant of source mat4
+         * Calculates the determinant of source Mat4
          *
-         * @param {mat4} source the source matrix
+         * @param {Mat4} source the source matrix
          * @returns {Number} determinant of source
          */
         fun determinant(source: Float32Array): Double {
@@ -440,10 +440,10 @@ class mat4 : glMatrix() {
         /**
          * Multiplies two mat4s
          *
-         * @param {mat4} inOut the receiving matrix
-         * @param {mat4} multiplier the first operand
-         * @param {mat4} multiplicand the second operand
-         * @returns {mat4} inOut
+         * @param {Mat4} inOut the receiving matrix
+         * @param {Mat4} multiplier the first operand
+         * @param {Mat4} multiplicand the second operand
+         * @returns {Mat4} inOut
          */
         fun multiply(inOut: Float32Array, multiplier: Float32Array, multiplicand: Float32Array): Float32Array {
             val a00 = multiplier[0]
@@ -499,12 +499,12 @@ class mat4 : glMatrix() {
         }
 
         /**
-         * Translate matrixToTranslate mat4 by the given vector
+         * Translate matrixToTranslate Mat4 by the given vector
          *
-         * @param {mat4} inOut the receiving matrix
-         * @param {mat4} matrixToTranslate the matrix to translate
-         * @param {vec3} vec3ToTranslateBy vector to translate by
-         * @returns {mat4} inOut
+         * @param {Mat4} inOut the receiving matrix
+         * @param {Mat4} matrixToTranslate the matrix to translate
+         * @param {Vec3} vec3ToTranslateBy vector to translate by
+         * @returns {Mat4} inOut
          */
         fun translate(inOut: Float32Array, matrixToTranslate: Float32Array, vec3ToTranslateBy: Array<Double>): Float32Array {
             val x = vec3ToTranslateBy[0].toFloat()
@@ -549,12 +549,12 @@ class mat4 : glMatrix() {
         }
 
         /**
-         * Scales the mat4 by the dimensions in the given vec3 not using vectorization
+         * Scales the Mat4 by the dimensions in the given Vec3 not using vectorization
          *
-         * @param {mat4} inOut the receiving matrix
-         * @param {mat4} matrixToScale the matrix to scale
-         * @param {vec3} vec3ToScaleBy the vec3 to scale the matrix by
-         * @returns {mat4} inOut
+         * @param {Mat4} inOut the receiving matrix
+         * @param {Mat4} matrixToScale the matrix to scale
+         * @param {Vec3} vec3ToScaleBy the Vec3 to scale the matrix by
+         * @returns {Mat4} inOut
          **/
         fun scale(inOut: Float32Array, matrixToScale: Float32Array, vec3ToScaleBy: Array<Double>): Float32Array {
             val x = vec3ToScaleBy[0].toFloat()
@@ -580,13 +580,13 @@ class mat4 : glMatrix() {
         }
 
         /**
-         * Rotates matrixToRotate mat4 by the given angle around the given axisToRotateAround
+         * Rotates matrixToRotate Mat4 by the given angle around the given axisToRotateAround
          *
-         * @param {mat4} inOut the receiving matrix
-         * @param {mat4} matrixToRotate the matrix to rotate
+         * @param {Mat4} inOut the receiving matrix
+         * @param {Mat4} matrixToRotate the matrix to rotate
          * @param {Number} angleInRad the angle to rotate the matrix by
-         * @param {vec3} axisToRotateAround the axisToRotateAround to rotate around
-         * @returns {mat4} inOut
+         * @param {Vec3} axisToRotateAround the axisToRotateAround to rotate around
+         * @returns {Mat4} inOut
          */
         fun rotate(inOut: Float32Array, matrixToRotate: Float32Array, angleInRad: Double, axisToRotateAround: Array<Int>) {
             var x = axisToRotateAround[0].toDouble()
@@ -651,10 +651,10 @@ class mat4 : glMatrix() {
         /**
          * Rotates matrixToRotate matrix by the given angle around the X axis
          *
-         * @param {mat4} inOut the receiving matrix
-         * @param {mat4} matrixToRotate the matrix to rotate
+         * @param {Mat4} inOut the receiving matrix
+         * @param {Mat4} matrixToRotate the matrix to rotate
          * @param {Number} angleInRad the angle to rotate the matrix by
-         * @returns {mat4} inOut
+         * @returns {Mat4} inOut
          */
         fun rotateX(inOut: Float32Array, matrixToRotate: Float32Array, angleInRad: Double): Float32Array {
             val s = (Math.sin(angleInRad)).toFloat()
@@ -692,10 +692,10 @@ class mat4 : glMatrix() {
         /**
          * Rotates matrixToRotate matrix by the given angle around the Y axis
          *
-         * @param {mat4} inOut the receiving matrix
-         * @param {mat4} matrixToRotate the matrix to rotate
+         * @param {Mat4} inOut the receiving matrix
+         * @param {Mat4} matrixToRotate the matrix to rotate
          * @param {Number} angleInRad the angle to rotate the matrix by
-         * @returns {mat4} inOut
+         * @returns {Mat4} inOut
          */
         fun rotateY(inOut: Float32Array, matrixToRotate: Float32Array, angleInRad: Double): Float32Array {
             val s = (Math.sin(angleInRad)).toFloat()
@@ -733,10 +733,10 @@ class mat4 : glMatrix() {
         /**
          * Rotates matrixToRotate matrix by the given angle around the Z axis
          *
-         * @param {mat4} inOut the receiving matrix
-         * @param {mat4} matrixToRotate the matrix to rotate
+         * @param {Mat4} inOut the receiving matrix
+         * @param {Mat4} matrixToRotate the matrix to rotate
          * @param {Number} angleInRad the angle to rotate the matrix by
-         * @returns {mat4} inOut
+         * @returns {Mat4} inOut
          */
         fun rotateZ(inOut: Float32Array, matrixToRotate: Float32Array, angleInRad: Double): Float32Array {
             val s = (Math.sin(angleInRad)).toFloat()
@@ -775,12 +775,12 @@ class mat4 : glMatrix() {
          * Creates a matrix from a vector translation
          * This is equivalent to (but much faster than):
          *
-         *     mat4.identity(dest);
-         *     mat4.translate(dest, dest, vec);
+         *     Mat4.identity(dest);
+         *     Mat4.translate(dest, dest, vec);
          *
-         * @param {mat4} inOut mat4 receiving operation result
-         * @param {vec3} translationVec3 Translation vector
-         * @returns {mat4} inOut
+         * @param {Mat4} inOut Mat4 receiving operation result
+         * @param {Vec3} translationVec3 Translation vector
+         * @returns {Mat4} inOut
          */
         fun fromTranslation(inOut: Float32Array, translationVec3: Array<Double>): Float32Array {
             inOut[0] = 1.0f
@@ -806,12 +806,12 @@ class mat4 : glMatrix() {
          * Creates a matrix from a vector scaling
          * This is equivalent to (but much faster than):
          *
-         *     mat4.identity(dest);
-         *     mat4.scale(dest, dest, vec);
+         *     Mat4.identity(dest);
+         *     Mat4.scale(dest, dest, vec);
          *
-         * @param {mat4} inOut mat4 receiving operation result
-         * @param {vec3} scalingVec3 Scaling vector
-         * @returns {mat4} inOut
+         * @param {Mat4} inOut Mat4 receiving operation result
+         * @param {Vec3} scalingVec3 Scaling vector
+         * @returns {Mat4} inOut
          */
         fun fromScaling(inOut: Float32Array, scalingVec3: Array<Double>): Float32Array {
             inOut[0] = scalingVec3[0].toFloat()
@@ -837,13 +837,13 @@ class mat4 : glMatrix() {
          * Creates a matrix from a given angle around a given axisToRotateAround
          * This is equivalent to (but much faster than):
          *
-         *     mat4.identity(dest);
-         *     mat4.rotate(dest, dest, angleToRotateByInRad, axisToRotateAround);
+         *     Mat4.identity(dest);
+         *     Mat4.rotate(dest, dest, angleToRotateByInRad, axisToRotateAround);
          *
-         * @param {mat4} inOut mat4 receiving operation result
+         * @param {Mat4} inOut Mat4 receiving operation result
          * @param {Number} angleToRotateByInRad the angle to rotate the matrix by
-         * @param {vec3} axisToRotateAround the axisToRotateAround to rotate around
-         * @returns {mat4} inOut
+         * @param {Vec3} axisToRotateAround the axisToRotateAround to rotate around
+         * @returns {Mat4} inOut
          */
         fun fromRotation(inOut: Float32Array, angleToRotateByInRad: Double, axisToRotateAround: Array<Int>): Float32Array {
             var x = axisToRotateAround[0].toDouble()
@@ -884,12 +884,12 @@ class mat4 : glMatrix() {
          * Creates a matrix from the given angle around the X axis
          * This is equivalent to (but much faster than):
          *
-         *     mat4.identity(dest);
-         *     mat4.rotateX(dest, dest, angleInRad);
+         *     Mat4.identity(dest);
+         *     Mat4.rotateX(dest, dest, angleInRad);
          *
-         * @param {mat4} inOut mat4 receiving operation result
+         * @param {Mat4} inOut Mat4 receiving operation result
          * @param {Number} angleInRad the angle to rotate the matrix by
-         * @returns {mat4} inOut
+         * @returns {Mat4} inOut
          */
         fun fromXRotation(inOut: Float32Array, angleInRad: Double): Float32Array {
             val s = (Math.sin(angleInRad)).toFloat()
@@ -918,12 +918,12 @@ class mat4 : glMatrix() {
          * Creates a matrix from the given angle around the Y axis
          * This is equivalent to (but much faster than):
          *
-         *     mat4.identity(dest);
-         *     mat4.rotateY(dest, dest, angleInRad);
+         *     Mat4.identity(dest);
+         *     Mat4.rotateY(dest, dest, angleInRad);
          *
-         * @param {mat4} inOut mat4 receiving operation result
+         * @param {Mat4} inOut Mat4 receiving operation result
          * @param {Number} angleInRad the angle to rotate the matrix by
-         * @returns {mat4} inOut
+         * @returns {Mat4} inOut
          */
         fun fromYRotation(inOut: Float32Array, angleInRad: Double): Float32Array {
             val s = (Math.sin(angleInRad)).toFloat()
@@ -952,12 +952,12 @@ class mat4 : glMatrix() {
          * Creates a matrix from the given angle around the Z axis
          * This is equivalent to (but much faster than):
          *
-         *     mat4.identity(dest);
-         *     mat4.rotateZ(dest, dest, angleInRad);
+         *     Mat4.identity(dest);
+         *     Mat4.rotateZ(dest, dest, angleInRad);
          *
-         * @param {mat4} inOut mat4 receiving operation result
+         * @param {Mat4} inOut Mat4 receiving operation result
          * @param {Number} angleInRad the angle to rotate the matrix by
-         * @returns {mat4} inOut
+         * @returns {Mat4} inOut
          */
         fun fromZRotation(inOut: Float32Array, angleInRad: Double): Float32Array {
             val s = (Math.sin(angleInRad)).toFloat()
@@ -986,16 +986,16 @@ class mat4 : glMatrix() {
          * Creates a matrix from a quaternion rotation and vector translation
          * This is equivalent to (but much faster than):
          *
-         *     mat4.identity(dest);
-         *     mat4.translate(dest, vec);
-         *     let quatMat = mat4.create();
-         *     quat4.toMat4(quat, quatMat);
-         *     mat4.multiply(dest, quatMat);
+         *     Mat4.identity(dest);
+         *     Mat4.translate(dest, vec);
+         *     let quatMat = Mat4.create();
+         *     quat4.toMat4(Quat, quatMat);
+         *     Mat4.multiply(dest, quatMat);
          *
-         * @param {mat4} inOut mat4 receiving operation result
+         * @param {Mat4} inOut Mat4 receiving operation result
          * @param {quat4} rotationQuat4 Rotation quaternion
-         * @param {vec3} translationVec3 Translation vector
-         * @returns {mat4} inOut
+         * @param {Vec3} translationVec3 Translation vector
+         * @returns {Mat4} inOut
          */
         fun fromRotationTranslation(inOut: Float32Array, rotationQuat4: Array<Double>, translationVec3: Array<Double>): Float32Array {
             // Quaternion math
@@ -1039,9 +1039,9 @@ class mat4 : glMatrix() {
          *  matrix. If a matrix is built with fromRotationTranslation,
          *  the returned vector will be the same as the translation vector
          *  originally supplied.
-         * @param  {vec3} inOut Vector to receive translation component
-         * @param  {mat4} matrixToBeDecomposed Matrix to be decomposed (input)
-         * @return {vec3} inOut
+         * @param  {Vec3} inOut Vector to receive translation component
+         * @param  {Mat4} matrixToBeDecomposed Matrix to be decomposed (input)
+         * @return {Vec3} inOut
          */
         fun getTranslation(inOut: Array<Double>, matrixToBeDecomposed: Float32Array): Array<Double> {
             inOut[0] = matrixToBeDecomposed[12].toDouble()
@@ -1056,9 +1056,9 @@ class mat4 : glMatrix() {
          *  with a normalized Quaternion paramter, the returned vector will be
          *  the same as the scaling vector
          *  originally supplied.
-         * @param  {vec3} inOut Vector to receive scaling factor component
-         * @param  {mat4} matrixToBeDecomposed Matrix to be decomposed (input)
-         * @return {vec3} inOut
+         * @param  {Vec3} inOut Vector to receive scaling factor component
+         * @param  {Mat4} matrixToBeDecomposed Matrix to be decomposed (input)
+         * @return {Vec3} inOut
          */
         fun getScaling(inOut: Array<Double>, matrixToBeDecomposed: Float32Array): Array<Double> {
             val m11 = matrixToBeDecomposed[0].toDouble()
@@ -1081,9 +1081,9 @@ class mat4 : glMatrix() {
          *  of a transformation matrix. If a matrix is built with
          *  fromRotationTranslation, the returned quaternion will be the
          *  same as the quaternion originally supplied.
-         * @param {quat} inOut Quaternion to receive the rotation component
-         * @param {mat4} matrixToBeDecomposed Matrix to be decomposed (input)
-         * @return {quat} inOut
+         * @param {Quat} inOut Quaternion to receive the rotation component
+         * @param {Mat4} matrixToBeDecomposed Matrix to be decomposed (input)
+         * @return {Quat} inOut
          */
         fun getRotation(inOut: Array<Double>, matrixToBeDecomposed: Float32Array): Array<Double> {
             // Algorithm taken from http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion/index.htm
@@ -1120,18 +1120,18 @@ class mat4 : glMatrix() {
          * Creates a matrix from a quaternion rotation, vector translation and vector scale
          * This is equivalent to (but much faster than):
          *
-         *     mat4.identity(dest);
-         *     mat4.translate(dest, vec);
-         *     let quatMat = mat4.create();
-         *     quat4.toMat4(quat, quatMat);
-         *     mat4.multiply(dest, quatMat);
-         *     mat4.scale(dest, scale)
+         *     Mat4.identity(dest);
+         *     Mat4.translate(dest, vec);
+         *     let quatMat = Mat4.create();
+         *     quat4.toMat4(Quat, quatMat);
+         *     Mat4.multiply(dest, quatMat);
+         *     Mat4.scale(dest, scale)
          *
-         * @param {mat4} inOut mat4 receiving operation result
+         * @param {Mat4} inOut Mat4 receiving operation result
          * @param {quat4} rotationQuat4 Rotation quaternion
-         * @param {vec3} translationVec3 Translation vector
-         * @param {vec3} scalingVec3 Scaling vector
-         * @returns {mat4} inOut
+         * @param {Vec3} translationVec3 Translation vector
+         * @param {Vec3} scalingVec3 Scaling vector
+         * @returns {Mat4} inOut
          */
         fun fromRotationTranslationScale(inOut: Float32Array, rotationQuat4: Array<Double>, translationVec3: Array<Double>, scalingVec3: Array<Double>): Float32Array {
             // Quaternion math
@@ -1177,21 +1177,21 @@ class mat4 : glMatrix() {
          * Creates a matrix from a quaternion rotation, vector translation and vector scale, rotating and scaling around the given origin
          * This is equivalent to (but much faster than):
          *
-         *     mat4.identity(dest);
-         *     mat4.translate(dest, vec);
-         *     mat4.translate(dest, origin);
-         *     let quatMat = mat4.create();
-         *     quat4.toMat4(quat, quatMat);
-         *     mat4.multiply(dest, quatMat);
-         *     mat4.scale(dest, scale)
-         *     mat4.translate(dest, negativeOrigin);
+         *     Mat4.identity(dest);
+         *     Mat4.translate(dest, vec);
+         *     Mat4.translate(dest, origin);
+         *     let quatMat = Mat4.create();
+         *     quat4.toMat4(Quat, quatMat);
+         *     Mat4.multiply(dest, quatMat);
+         *     Mat4.scale(dest, scale)
+         *     Mat4.translate(dest, negativeOrigin);
          *
-         * @param {mat4} inOut mat4 receiving operation result
+         * @param {Mat4} inOut Mat4 receiving operation result
          * @param {quat4} rotationQuat4 Rotation quaternion
-         * @param {vec3} translationVec3 Translation vector
-         * @param {vec3} scalingVec3 Scaling vector
-         * @param {vec3} originVec3ToScaleRotateAround The origin vector around which to scale and rotate
-         * @returns {mat4} inOut
+         * @param {Vec3} translationVec3 Translation vector
+         * @param {Vec3} scalingVec3 Scaling vector
+         * @param {Vec3} originVec3ToScaleRotateAround The origin vector around which to scale and rotate
+         * @returns {Mat4} inOut
          */
         fun fromRotationTranslationScaleOrigin(inOut: Float32Array, rotationQuat4: Array<Double>, translationVec3: Array<Double>, scalingVec3: Array<Double>, originVec3ToScaleRotateAround: Array<Double>): Float32Array {
             // Quaternion math
@@ -1239,10 +1239,10 @@ class mat4 : glMatrix() {
         /**
          * Calculates a 4x4 matrix from the given quaternion
          *
-         * @param {mat4} inOut mat4 receiving operation result
-         * @param {quat} quatToCreateMatrixFrom Quaternion to create matrix from
+         * @param {Mat4} inOut Mat4 receiving operation result
+         * @param {Quat} quatToCreateMatrixFrom Quaternion to create matrix from
          *
-         * @returns {mat4} inOut
+         * @returns {Mat4} inOut
          */
         fun fromQuat(inOut: Float32Array, quatToCreateMatrixFrom: Array<Double>): Float32Array {
             val x = quatToCreateMatrixFrom[0].toFloat()
@@ -1283,14 +1283,14 @@ class mat4 : glMatrix() {
         /**
          * Generates a frustum matrix with the given bounds
          *
-         * @param {mat4} inOut mat4 frustum matrix will be written into
+         * @param {Mat4} inOut Mat4 frustum matrix will be written into
          * @param {Number} left Left bound of the frustum
          * @param {Number} right Right bound of the frustum
          * @param {Number} bottom Bottom bound of the frustum
          * @param {Number} top Top bound of the frustum
          * @param {Number} near Near bound of the frustum
          * @param {Number} far Far bound of the frustum
-         * @returns {mat4} inOut
+         * @returns {Mat4} inOut
          */
         fun frustum(inOut: Float32Array, left: Double, right: Double, bottom: Double, top: Double, near: Double, far: Double): Float32Array {
             val rl = 1 / (right - left)
@@ -1318,12 +1318,12 @@ class mat4 : glMatrix() {
         /**
          * Generates a perspective projection matrix with the given bounds
          *
-         * @param {mat4} inOut mat4 frustum matrix will be written into
+         * @param {Mat4} inOut Mat4 frustum matrix will be written into
          * @param {number} verticalFieldOfViewInRad Vertical field of view in radians
          * @param {number} aspectRatio Aspect ratio. typically viewport width/height
          * @param {number} nearBound Near bound of the frustum
          * @param {number} farBound Far bound of the frustum
-         * @returns {mat4} inOut
+         * @returns {Mat4} inOut
          */
         fun perspective(inOut: Float32Array, verticalFieldOfViewInRad: Double, aspectRatio: Double, nearBound: Double, farBound: Double): Float32Array {
             val f = (1.0 / Math.tan(verticalFieldOfViewInRad / 2)).toFloat()
@@ -1352,11 +1352,11 @@ class mat4 : glMatrix() {
          * This is primarily useful for generating projection matrices to be used
          * with the still experiemental WebVR API.
          *
-         * @param {mat4} inOut mat4 frustum matrix will be written into
+         * @param {Mat4} inOut Mat4 frustum matrix will be written into
          * @param {Object} fieldOfViewObject Object containing the following values: upDegrees, downDegrees, leftDegrees, rightDegrees
          * @param {number} nearBound Near bound of the frustum
          * @param {number} farBound Far bound of the frustum
-         * @returns {mat4} inOut
+         * @returns {Mat4} inOut
          */
         fun perspectiveFromFieldOfView(inOut: Float32Array, fieldOfViewObject: FieldOfView, nearBound: Double, farBound: Double): Float32Array {
             val upTan = Math.tan(fieldOfViewObject.upDegrees * Math.PI / 180.0)
@@ -1387,14 +1387,14 @@ class mat4 : glMatrix() {
         /**
          * Generates a orthogonal projection matrix with the given bounds
          *
-         * @param {mat4} inOut mat4 frustum matrix will be written into
+         * @param {Mat4} inOut Mat4 frustum matrix will be written into
          * @param {number} leftBound Left bound of the frustum
          * @param {number} rightBound Right bound of the frustum
          * @param {number} bottomBound Bottom bound of the frustum
          * @param {number} topBound Top bound of the frustum
          * @param {number} nearBound Near bound of the frustum
          * @param {number} farBound Far bound of the frustum
-         * @returns {mat4} inOut
+         * @returns {Mat4} inOut
          */
         fun ortho(inOut: Float32Array, leftBound: Double, rightBound: Double, bottomBound: Double, topBound: Double, nearBound: Double, farBound: Double): Float32Array {
             val lr = 1 / (leftBound - rightBound)
@@ -1422,11 +1422,11 @@ class mat4 : glMatrix() {
         /**
          * Generates a look-at matrix with the given eye position, focal point, and up axis
          *
-         * @param {mat4} out mat4 frustum matrix will be written into
-         * @param {vec3} eye Position of the viewer
-         * @param {vec3} center Point the viewer is looking at
-         * @param {vec3} up vec3 pointing up
-         * @returns {mat4} out
+         * @param {Mat4} out Mat4 frustum matrix will be written into
+         * @param {Vec3} eye Position of the viewer
+         * @param {Vec3} center Point the viewer is looking at
+         * @param {Vec3} up Vec3 pointing up
+         * @returns {Mat4} out
          */
         fun lookAt(inOut: Float32Array, eye: Array<Int>, center: Array<Int>, up: Array<Int>) {
             val eyex = eye[0].toDouble()
@@ -1500,11 +1500,11 @@ class mat4 : glMatrix() {
         /**
          * Generates a matrix that makes something look at something else.
          *
-         * @param {mat4} inOut mat4 frustum matrix will be written into
-         * @param {vec3} eye Position of the viewer
-         * @param {vec3} center Point the viewer is looking at
-         * @param {vec3} up vec3 pointing up
-         * @returns {mat4} inOut
+         * @param {Mat4} inOut Mat4 frustum matrix will be written into
+         * @param {Vec3} eye Position of the viewer
+         * @param {Vec3} center Point the viewer is looking at
+         * @param {Vec3} up Vec3 pointing up
+         * @returns {Mat4} inOut
          */
         fun targetTo(inOut: Float32Array, eye: Array<Int>, target: Array<Int>, up: Array<Int>): Float32Array {
             val eyex = eye[0]
@@ -1546,20 +1546,20 @@ class mat4 : glMatrix() {
         }
 
         /**
-         * Returns matrix string representation of matrix mat4
+         * Returns matrix string representation of matrix Mat4
          *
-         * @param {mat4} matrix matrix to represent as matrix string
+         * @param {Mat4} matrix matrix to represent as matrix string
          * @returns {String} string representation of the matrix
          */
         fun str(matrix: Float32Array): String {
-            return "mat4(${matrix[0]}, ${matrix[1]}, ${matrix[2]}, ${matrix[3]}, ${matrix[4]}, ${matrix[5]}, ${matrix[6]}, ${matrix[7]}," +
+            return "Mat4(${matrix[0]}, ${matrix[1]}, ${matrix[2]}, ${matrix[3]}, ${matrix[4]}, ${matrix[5]}, ${matrix[6]}, ${matrix[7]}," +
                     " ${matrix[8]}, ${matrix[9]}, ${matrix[10]}, ${matrix[11]}, ${matrix[12]}, ${matrix[13]}, ${matrix[14]}, ${matrix[15]})"
         }
 
         /**
-         * Returns Frobenius norm of matrix mat4
+         * Returns Frobenius norm of matrix Mat4
          *
-         * @param {mat4} matrix the matrix to calculate Frobenius norm of
+         * @param {Mat4} matrix the matrix to calculate Frobenius norm of
          * @returns {Number} Frobenius norm
          */
         fun frob(matrix: Float32Array): Double {
@@ -1572,12 +1572,12 @@ class mat4 : glMatrix() {
         }
 
         /**
-         * Adds two mat4's
+         * Adds two Mat4's
          *
-         * @param {mat4} inOut the receiving matrix
-         * @param {mat4} firstSummand the first operand
-         * @param {mat4} secondSummand the second operand
-         * @returns {mat4} inOut
+         * @param {Mat4} inOut the receiving matrix
+         * @param {Mat4} firstSummand the first operand
+         * @param {Mat4} secondSummand the second operand
+         * @returns {Mat4} inOut
          */
         fun add(inOut: Float32Array, firstSummand: Float32Array, secondSummand: Float32Array): Float32Array {
             inOut[0] = firstSummand[0] + secondSummand[0]
@@ -1602,10 +1602,10 @@ class mat4 : glMatrix() {
         /**
          * Subtracts matrix subtrahend from matrix minuend
          *
-         * @param {mat4} inOut the receiving matrix
-         * @param {mat4} minuend the first operand
-         * @param {mat4} subtrahend the second operand
-         * @returns {mat4} inOut
+         * @param {Mat4} inOut the receiving matrix
+         * @param {Mat4} minuend the first operand
+         * @param {Mat4} subtrahend the second operand
+         * @returns {Mat4} inOut
          */
         fun subtract(inOut: Float32Array, minuend: Float32Array, subtrahend: Float32Array): Float32Array {
             inOut[0] = minuend[0] - subtrahend[0]
@@ -1630,10 +1630,10 @@ class mat4 : glMatrix() {
         /**
          * Multiply each element of the matrix by matrixToScale scalar.
          *
-         * @param {mat4} inOut the receiving matrix
-         * @param {mat4} matrixToScale the matrix to scale
+         * @param {Mat4} inOut the receiving matrix
+         * @param {Mat4} matrixToScale the matrix to scale
          * @param {Number} amountToScaleBy amount to scale the matrix's elements by
-         * @returns {mat4} inOut
+         * @returns {Mat4} inOut
          */
         fun multiplyScalar(inOut: Float32Array, matrixToScale: Float32Array, amountToScaleBy: Double): Float32Array {
             val amountToScaleTheMatrix = amountToScaleBy.toFloat()
@@ -1657,13 +1657,13 @@ class mat4 : glMatrix() {
         }
 
         /**
-         * Adds two mat4's after multiplying each element of the second operand by firstSummand scalar value.
+         * Adds two Mat4's after multiplying each element of the second operand by firstSummand scalar value.
          *
-         * @param {mat4} inOut the receiving vector
-         * @param {mat4} firstSummand the first operand
-         * @param {mat4} secondSummand the second operand
+         * @param {Mat4} inOut the receiving vector
+         * @param {Mat4} firstSummand the first operand
+         * @param {Mat4} secondSummand the second operand
          * @param {Number} amountToScale the amount to amountToScale secondSummand's elements by before adding
-         * @returns {mat4} inOut
+         * @returns {Mat4} inOut
          */
         fun multiplyScalarAndAdd(inOut: Float32Array, firstSummand: Float32Array, secondSummand: Float32Array, amountToScale: Double): Float32Array {
             val amountToScaleTheMatrix = amountToScale.toFloat()
@@ -1689,8 +1689,8 @@ class mat4 : glMatrix() {
         /**
          * Returns whether or not the matrices have exactly the same elements in the same position (when compared with ===)
          *
-         * @param {mat4} firstMatrix The first matrix.
-         * @param {mat4} secondMatrix The second matrix.
+         * @param {Mat4} firstMatrix The first matrix.
+         * @param {Mat4} secondMatrix The second matrix.
          * @returns {Boolean} True if the matrices are equal, false otherwise.
          */
         fun exactEquals(firstMatrix: Float32Array, secondMatrix: Float32Array): Boolean {
@@ -1703,8 +1703,8 @@ class mat4 : glMatrix() {
         /**
          * Returns whether or not the matrices have approximately the same elements in the same position.
          *
-         * @param {mat4} firstMatrix The first matrix.
-         * @param {mat4} secondMatrix The second matrix.
+         * @param {Mat4} firstMatrix The first matrix.
+         * @param {Mat4} secondMatrix The second matrix.
          * @returns {Boolean} True if the matrices are equal, false otherwise.
          */
         fun equals(firstMatrix: Float32Array, secondMatrix: Float32Array): Boolean {

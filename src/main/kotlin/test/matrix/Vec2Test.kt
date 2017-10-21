@@ -1,8 +1,7 @@
 package test.matrix
 
-import spr5.matrix.vec2;
+import spr5.matrix.Vec2;
 import spr5.util.assert;
-import spr5.util.assertEquals
 
 import test.TestClass
 
@@ -12,8 +11,8 @@ class Vec2Test: TestClass() {
 
     @Before
     fun setUp() {
-        v1 = vec2().create();
-        v2 = vec2().create();
+        v1 = Vec2().create();
+        v2 = Vec2().create();
     }
 
     @After
