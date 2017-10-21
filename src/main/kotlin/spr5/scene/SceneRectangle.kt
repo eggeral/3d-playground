@@ -44,6 +44,13 @@ fun createSquare(direction: Direction, leftTop: Coordinate, size: Float, color: 
                 Coordinate(leftTop.x, leftTop.y - size, leftTop.z),
                 Coordinate(leftTop.x + size, leftTop.y - size, leftTop.z)
         );
+    } else if (direction == Direction.Sideways) {
+        coordinates = arrayOf(
+                leftTop,    // back top
+                Coordinate(leftTop.x, leftTop.y - size, leftTop.z),     // back bottom
+                Coordinate(leftTop.x, leftTop.y, leftTop.z + size),     // front top
+                Coordinate(leftTop.x, leftTop.y - size, leftTop.z + size)   // front bottom
+        );
     } else {
         throw IllegalArgumentException("Unsupported direction: " + direction);
     }

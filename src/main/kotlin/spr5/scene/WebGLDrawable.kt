@@ -2,7 +2,8 @@ package spr5.scene;
 
 enum class Direction {
     Horizontal,
-    Vertical
+    Vertical,
+    Sideways
 };
 
 interface WebGLDrawable {
