@@ -5,16 +5,16 @@ import org.khronos.webgl.get
 import org.khronos.webgl.set
 import kotlin.js.Math
 
-class quat : glMatrix() {
+class Quat : GlMatrix() {
     companion object {
         /**
          * Quaternion
-         * @module quat
+         * @module Quat
          */
         /**
-         * Creates a new identity quat
+         * Creates a new identity Quat
          *
-         * @returns {quat} a new quaternion
+         * @returns {Quat} a new quaternion
          */
         fun create(): Array<Double> {
             return arrayOf(
@@ -26,10 +26,10 @@ class quat : glMatrix() {
         }
 
         /**
-         * Set a quat to the identity quaternion
+         * Set a Quat to the identity quaternion
          *
-         * @param {quat} inOut the receiving quaternion
-         * @returns {quat} inOut
+         * @param {Quat} inOut the receiving quaternion
+         * @returns {Quat} inOut
          */
         fun identity(inOut: Array<Double>): Array<Double> {
             inOut[0] = 0.0
@@ -40,13 +40,13 @@ class quat : glMatrix() {
         }
 
         /**
-         * Sets a quat from the given angle and rotation axisToRotateAround,
+         * Sets a Quat from the given angle and rotation axisToRotateAround,
          * then returns it.
          *
-         * @param {quat} inOut the receiving quaternion
-         * @param {vec3} axisToRotateAround the axisToRotateAround around which to rotate
+         * @param {Quat} inOut the receiving quaternion
+         * @param {Vec3} axisToRotateAround the axisToRotateAround around which to rotate
          * @param {Number} angleInRad the angle in radians
-         * @returns {quat} inOut
+         * @returns {Quat} inOut
          **/
         fun setAxisAngle(inOut: Array<Double>, axisToRotateAround: Array<Double>, angleInRad: Double): Array<Double> {
             val rad = angleInRad * 0.5
@@ -67,8 +67,8 @@ class quat : glMatrix() {
          * Example: The quaternion formed by axis [0, 0, 1] and
          *  angle -90 is the same as the quaternion formed by
          *  [0, 0, 1] and 270. This method favors the latter.
-         * @param  {vec3} inOutAxis  Vector receiving the axis of rotation
-         * @param  {quat} quadToBeDecomposed     Quaternion to be decomposed
+         * @param  {Vec3} inOutAxis  Vector receiving the axis of rotation
+         * @param  {Quat} quadToBeDecomposed     Quaternion to be decomposed
          * @return {Number}     Angle, in radians, of the rotation
          */
         fun getAxisAngle(inOutAxis: Array<Double>, quadToBeDecomposed: Array<Double>): Double {
@@ -88,12 +88,12 @@ class quat : glMatrix() {
         }
 
         /**
-         * Multiplies two quat's
+         * Multiplies two Quat's
          *
-         * @param {quat} inOut the receiving quaternion
-         * @param {quat} multiplier the first operand
-         * @param {quat} multiplicand the second operand
-         * @returns {quat} inOut
+         * @param {Quat} inOut the receiving quaternion
+         * @param {Quat} multiplier the first operand
+         * @param {Quat} multiplicand the second operand
+         * @returns {Quat} inOut
          */
         fun multiply(inOut: Array<Double>, multiplier: Array<Double>, multiplicand: Array<Double>): Array<Double> {
             val ax = multiplier[0]
@@ -114,10 +114,10 @@ class quat : glMatrix() {
         /**
          * Rotates quatToRotate quaternion by the given angle about the X axis
          *
-         * @param {quat} inOut quat receiving operation result
-         * @param {quat} quatToRotate quat to rotate
+         * @param {Quat} inOut Quat receiving operation result
+         * @param {Quat} quatToRotate Quat to rotate
          * @param {number} angleInRad angle (in radians) to rotate
-         * @returns {quat} inOut
+         * @returns {Quat} inOut
          */
         fun rotateX(inOut: Array<Double>, quatToRotate: Array<Double>, angleInRad: Double): Array<Double> {
             val rad = angleInRad * 0.5
@@ -137,10 +137,10 @@ class quat : glMatrix() {
         /**
          * Rotates quatToRotate quaternion by the given angle about the Y axis
          *
-         * @param {quat} inOut quat receiving operation result
-         * @param {quat} quatToRotate quat to rotate
+         * @param {Quat} inOut Quat receiving operation result
+         * @param {Quat} quatToRotate Quat to rotate
          * @param {number} angleInRad angle (in radians) to rotate
-         * @returns {quat} inOut
+         * @returns {Quat} inOut
          */
         fun rotateY(inOut: Array<Double>, quatToRotate: Array<Double>, angleInRad: Double): Array<Double> {
             val rad = angleInRad * 0.5
@@ -160,10 +160,10 @@ class quat : glMatrix() {
         /**
          * Rotates quatToRotate quaternion by the given angle about the Z axis
          *
-         * @param {quat} inOut quat receiving operation result
-         * @param {quat} quatToRotate quat to rotate
+         * @param {Quat} inOut Quat receiving operation result
+         * @param {Quat} quatToRotate Quat to rotate
          * @param {number} angleInRad angle (in radians) to rotate
-         * @returns {quat} inOut
+         * @returns {Quat} inOut
          */
         fun rotateZ(inOut: Array<Double>, quatToRotate: Array<Double>, angleInRad: Double): Array<Double> {
             val rad = angleInRad * 0.5
@@ -181,13 +181,13 @@ class quat : glMatrix() {
         }
 
         /**
-         * Calculates the W component of quadToCalculateW quat from the X, Y, and Z components.
+         * Calculates the W component of quadToCalculateW Quat from the X, Y, and Z components.
          * Assumes that quaternion is 1 unit in length.
          * Any existing W component will be ignored.
          *
-         * @param {quat} inOut the receiving quaternion
-         * @param {quat} quadToCalculateW quat to calculate W component of
-         * @returns {quat} inOut
+         * @param {Quat} inOut the receiving quaternion
+         * @param {Quat} quadToCalculateW Quat to calculate W component of
+         * @returns {Quat} inOut
          */
         fun calculateW(inOut: Array<Double>, quadToCalculateW: Array<Double>): Array<Double> {
             val x = quadToCalculateW[0]
@@ -201,13 +201,13 @@ class quat : glMatrix() {
         }
 
         /**
-         * Performs firstOperand spherical linear interpolation between two quat
+         * Performs firstOperand spherical linear interpolation between two Quat
          *
-         * @param {quat} inOut the receiving quaternion
-         * @param {quat} firstOperand the first operand
-         * @param {quat} secondOperand the second operand
+         * @param {Quat} inOut the receiving quaternion
+         * @param {Quat} firstOperand the first operand
+         * @param {Quat} secondOperand the second operand
          * @param {Number} interpolationAmount interpolation amount between the two inputs
-         * @returns {quat} inOut
+         * @returns {Quat} inOut
          */
         fun slerp(inOut: Array<Double>, firstOperand: Array<Double>, secondOperand: Array<Double>, interpolationAmount: Double): Array<Double> {
             // benchmarks:
@@ -255,11 +255,11 @@ class quat : glMatrix() {
         }
 
         /**
-         * Calculates the inverse of quatToCalculateInverseOf quat
+         * Calculates the inverse of quatToCalculateInverseOf Quat
          *
-         * @param {quat} inOut the receiving quaternion
-         * @param {quat} quatToCalculateInverseOf quat to calculate inverse of
-         * @returns {quat} inOut
+         * @param {Quat} inOut the receiving quaternion
+         * @param {Quat} quatToCalculateInverseOf Quat to calculate inverse of
+         * @returns {Quat} inOut
          */
         fun invert(inOut: Array<Double>, quatToCalculateInverseOf: Array<Double>): Array<Double> {
             val a0 = quatToCalculateInverseOf[0]
@@ -283,12 +283,12 @@ class quat : glMatrix() {
         }
 
         /**
-         * Calculates the conjugate of quatToCalculateConjugateOf quat
-         * If the quaternion is normalized, this function is faster than quat.inverse and produces the same result.
+         * Calculates the conjugate of quatToCalculateConjugateOf Quat
+         * If the quaternion is normalized, this function is faster than Quat.inverse and produces the same result.
          *
-         * @param {quat} inOut the receiving quaternion
-         * @param {quat} quatToCalculateConjugateOf quat to calculate conjugate of
-         * @returns {quat} inOut
+         * @param {Quat} inOut the receiving quaternion
+         * @param {Quat} quatToCalculateConjugateOf Quat to calculate conjugate of
+         * @returns {Quat} inOut
          */
         fun conjugate(inOut: Array<Double>, quatToCalculateConjugateOf: Array<Double>): Array<Double> {
             inOut[0] = -quatToCalculateConjugateOf[0]
@@ -304,9 +304,9 @@ class quat : glMatrix() {
          * NOTE: The resultant quaternion is not normalized, so you should be sure
          * to renormalize the quaternion yourself where necessary.
          *
-         * @param {quat} inOut the receiving quaternion
-         * @param {mat3} rotationMatrix rotation matrix
-         * @returns {quat} inOut
+         * @param {Quat} inOut the receiving quaternion
+         * @param {Mat3} rotationMatrix rotation matrix
+         * @returns {Quat} inOut
          * @function
          */
         fun fromMat3(inOut: Array<Double>, rotationMatrix: Float32Array): Array<Double> {
@@ -344,11 +344,11 @@ class quat : glMatrix() {
         /**
          * Creates a quaternion from the given euler angle angleToRotateAroundX, angleToRotateAroundY, angleToRotateAroundZ.
          *
-         * @param {quat} inOut the receiving quaternion
+         * @param {Quat} inOut the receiving quaternion
          * @param {angleToRotateAroundX} Angle to rotate around X axis in degrees.
          * @param {angleToRotateAroundY} Angle to rotate around Y axis in degrees.
          * @param {angleToRotateAroundZ} Angle to rotate around Z axis in degrees.
-         * @returns {quat} inOut
+         * @returns {Quat} inOut
          * @function
          */
         fun fromEuler(inOut: Array<Double>, angleToRotateAroundX: Double, angleToRotateAroundY: Double, angleToRotateAroundZ: Double): Array<Double> {
@@ -372,171 +372,171 @@ class quat : glMatrix() {
         /**
          * Returns a string representation of a quatenion
          *
-         * @param {quat} a vector to represent as a string
+         * @param {Quat} a vector to represent as a string
          * @returns {String} string representation of the vector
          */
         fun toString(matrix: Array<Double>): String {
-            return "quat(${matrix[0]}, ${matrix[1]}, ${matrix[2]}, ${matrix[3]})"
+            return "Quat(${matrix[0]}, ${matrix[1]}, ${matrix[2]}, ${matrix[3]})"
         }
 
         /**
-         * Creates a new quat initialized with values from an existing quaternion
+         * Creates a new Quat initialized with values from an existing quaternion
          *
-         * @param {quat} a quaternion to clone
-         * @returns {quat} a new quaternion
+         * @param {Quat} a quaternion to clone
+         * @returns {Quat} a new quaternion
          * @function
          */
         fun clone(matrixToClone: Array<Double>): Array<Double> {
-            return vec4.clone(matrixToClone)
+            return Vec4.clone(matrixToClone)
 
         }
 
         /**
-         * Creates a new quat initialized with the given values
+         * Creates a new Quat initialized with the given values
          *
          * @param {Number} x X component
          * @param {Number} y Y component
          * @param {Number} z Z component
          * @param {Number} w W component
-         * @returns {quat} a new quaternion
+         * @returns {Quat} a new quaternion
          * @function
          */
         fun fromValues(componentX: Double, componentY: Double, componentZ: Double, componentW: Double): Array<Double> {
-            return vec4.fromValues(componentX, componentY, componentZ, componentW)
+            return Vec4.fromValues(componentX, componentY, componentZ, componentW)
         }
 
         /**
-         * Copy the values from one quat to another
+         * Copy the values from one Quat to another
          *
-         * @param {quat} out the receiving quaternion
-         * @param {quat} a the source quaternion
-         * @returns {quat} out
+         * @param {Quat} out the receiving quaternion
+         * @param {Quat} a the source quaternion
+         * @returns {Quat} out
          * @function
          */
         fun copy(inOut: Array<Double>, toCopy: Array<Double>): Array<Double> {
-            return vec4.copy(inOut, toCopy)
+            return Vec4.copy(inOut, toCopy)
         }
 
         /**
-         * Set the components of a quat to the given values
+         * Set the components of a Quat to the given values
          *
-         * @param {quat} out the receiving quaternion
+         * @param {Quat} out the receiving quaternion
          * @param {Number} x X component
          * @param {Number} y Y component
          * @param {Number} z Z component
          * @param {Number} w W component
-         * @returns {quat} out
+         * @returns {Quat} out
          * @function
          */
         fun set(inOut: Array<Double>, componentX: Double, componentY: Double, componentZ: Double, componentW: Double): Array<Double> {
-            return vec4.set(inOut, componentX, componentY, componentZ, componentW)
+            return Vec4.set(inOut, componentX, componentY, componentZ, componentW)
         }
 
         /**
-         * Adds two quat's
+         * Adds two Quat's
          *
-         * @param {quat} out the receiving quaternion
-         * @param {quat} a the first operand
-         * @param {quat} b the second operand
-         * @returns {quat} out
+         * @param {Quat} out the receiving quaternion
+         * @param {Quat} a the first operand
+         * @param {Quat} b the second operand
+         * @returns {Quat} out
          * @function
          */
         fun add(inOut: Array<Double>, firstSummand: Array<Double>, secondSummand: Array<Double>): Array<Double> {
-            return vec4.add(inOut, firstSummand, secondSummand)
+            return Vec4.add(inOut, firstSummand, secondSummand)
         }
 
         /**
-         * Scales a quat by a scalar number
+         * Scales a Quat by a scalar number
          *
-         * @param {quat} out the receiving vector
-         * @param {quat} a the vector to scale
+         * @param {Quat} out the receiving vector
+         * @param {Quat} a the vector to scale
          * @param {Number} b amount to scale the vector by
-         * @returns {quat} out
+         * @returns {Quat} out
          * @function
          */
         fun scale(inOut: Array<Double>, matrixToScale: Array<Double>, vec4ToScaleBy: Double): Array<Double> {
-            return vec4.scale(inOut, matrixToScale, vec4ToScaleBy)
+            return Vec4.scale(inOut, matrixToScale, vec4ToScaleBy)
         }
 
         /**
-         * Calculates the dot product of two quat's
+         * Calculates the dot product of two Quat's
          *
-         * @param {quat} a the first operand
-         * @param {quat} b the second operand
+         * @param {Quat} a the first operand
+         * @param {Quat} b the second operand
          * @returns {Number} dot product of a and b
          * @function
          */
         fun dot(firstOperand: Array<Double>, secondOperand: Array<Double>): Double {
-            return vec4.dot(firstOperand, secondOperand)
+            return Vec4.dot(firstOperand, secondOperand)
         }
 
         /**
-         * Performs a linear interpolation between two quat's
+         * Performs a linear interpolation between two Quat's
          *
-         * @param {quat} out the receiving quaternion
-         * @param {quat} a the first operand
-         * @param {quat} b the second operand
+         * @param {Quat} out the receiving quaternion
+         * @param {Quat} a the first operand
+         * @param {Quat} b the second operand
          * @param {Number} t interpolation amount between the two inputs
-         * @returns {quat} out
+         * @returns {Quat} out
          * @function
          */
         fun lerp(inOut: Array<Double>, firstOperand: Array<Double>, secondOperand: Array<Double>, interpolationAmount: Double): Array<Double> {
-            return vec4.lerp(inOut, firstOperand, secondOperand, interpolationAmount)
+            return Vec4.lerp(inOut, firstOperand, secondOperand, interpolationAmount)
         }
 
         /**
-         * Calculates the length of a quat
+         * Calculates the length of a Quat
          *
-         * @param {quat} a vector to calculate length of
+         * @param {Quat} a vector to calculate length of
          * @returns {Number} length of a
          */
         fun length(quatToCalculateLengthOf: Array<Double>): Double {
-            return vec4.length(quatToCalculateLengthOf)
+            return Vec4.length(quatToCalculateLengthOf)
         }
 
         /**
-         * Calculates the squared length of a quat
+         * Calculates the squared length of a Quat
          *
-         * @param {quat} a vector to calculate squared length of
+         * @param {Quat} a vector to calculate squared length of
          * @returns {Number} squared length of a
          * @function
          */
         fun squaredLength(quatToCalculateSquaredLength: Array<Double>): Double {
-            return vec4.squaredLength(quatToCalculateSquaredLength)
+            return Vec4.squaredLength(quatToCalculateSquaredLength)
         }
 
         /**
-         * Normalize a quat
+         * Normalize a Quat
          *
-         * @param {quat} out the receiving quaternion
-         * @param {quat} a quaternion to normalize
-         * @returns {quat} out
+         * @param {Quat} out the receiving quaternion
+         * @param {Quat} a quaternion to normalize
+         * @returns {Quat} out
          * @function
          */
         fun normalize(inOut: Array<Double>, quatToNormalize: Array<Double>): Array<Double> {
-            return vec4.normalize(inOut, quatToNormalize)
+            return Vec4.normalize(inOut, quatToNormalize)
         }
 
         /**
          * Returns whether or not the quaternions have exactly the same elements in the same position (when compared with ===)
          *
-         * @param {quat} a The first quaternion.
-         * @param {quat} b The second quaternion.
+         * @param {Quat} a The first quaternion.
+         * @param {Quat} b The second quaternion.
          * @returns {Boolean} True if the vectors are equal, false otherwise.
          */
         fun exactEquals(firstMatrix: Array<Double>, secondMatrix: Array<Double>): Boolean {
-            return vec4.exactEquals(firstMatrix, secondMatrix)
+            return Vec4.exactEquals(firstMatrix, secondMatrix)
         }
 
         /**
          * Returns whether or not the quaternions have approximately the same elements in the same position.
          *
-         * @param {quat} a The first vector.
-         * @param {quat} b The second vector.
+         * @param {Quat} a The first vector.
+         * @param {Quat} b The second vector.
          * @returns {Boolean} True if the vectors are equal, false otherwise.
          */
         fun equals(firstMatrix: Array<Double>, secondMatrix: Array<Double>): Boolean {
-            return vec4.equals(firstMatrix, secondMatrix)
+            return Vec4.equals(firstMatrix, secondMatrix)
         }
 
         /**
@@ -545,21 +545,21 @@ class quat : glMatrix() {
          *
          * Both vectors are assumed to be unit length.
          *
-         * @param {quat} out the receiving quaternion.
-         * @param {vec3} a the initial vector
-         * @param {vec3} b the destination vector
-         * @returns {quat} out
+         * @param {Quat} out the receiving quaternion.
+         * @param {Vec3} a the initial vector
+         * @param {Vec3} b the destination vector
+         * @returns {Quat} out
          */
         fun rotationTo(inOut: Array<Double>, initialVec3: Array<Double>, destinationVec3: Array<Double>): Array<Double> {
-            val tmpvec3 = vec3.create()
-            val xUnitVec3 = vec3.fromValues(1.0, 0.0, 0.0)
-            val yUnitVec3 = vec3.fromValues(0.0, 1.0, 0.0)
-            var dot = vec3.dot(initialVec3, destinationVec3)
+            val tmpvec3 = Vec3.create()
+            val xUnitVec3 = Vec3.fromValues(1.0, 0.0, 0.0)
+            val yUnitVec3 = Vec3.fromValues(0.0, 1.0, 0.0)
+            var dot = Vec3.dot(initialVec3, destinationVec3)
             if (dot < -0.999999) {
-                vec3.cross(tmpvec3, xUnitVec3, initialVec3)
-                if (vec3.length(tmpvec3) < 0.000001)
-                    vec3.cross(tmpvec3, yUnitVec3, initialVec3)
-                vec3.normalize(tmpvec3, tmpvec3)
+                Vec3.cross(tmpvec3, xUnitVec3, initialVec3)
+                if (Vec3.length(tmpvec3) < 0.000001)
+                    Vec3.cross(tmpvec3, yUnitVec3, initialVec3)
+                Vec3.normalize(tmpvec3, tmpvec3)
                 setAxisAngle(inOut, tmpvec3, Math.PI)
                 return inOut
             } else if (dot > 0.999999) {
@@ -569,7 +569,7 @@ class quat : glMatrix() {
                 inOut[3] = 1.0
                 return inOut
             } else {
-                vec3.cross(tmpvec3, initialVec3, destinationVec3);
+                Vec3.cross(tmpvec3, initialVec3, destinationVec3);
                 inOut[0] = tmpvec3[0]
                 inOut[1] = tmpvec3[1]
                 inOut[2] = tmpvec3[2]
@@ -581,13 +581,13 @@ class quat : glMatrix() {
         /**
          * Performs firstOperand spherical linear interpolation with two control points
          *
-         * @param {quat} inOut the receiving quaternion
-         * @param {quat} firstOperand the first operand
-         * @param {quat} secondOperand the second operand
-         * @param {quat} thirdOperand the third operand
-         * @param {quat} fourthOperand the fourth operand
+         * @param {Quat} inOut the receiving quaternion
+         * @param {Quat} firstOperand the first operand
+         * @param {Quat} secondOperand the second operand
+         * @param {Quat} thirdOperand the third operand
+         * @param {Quat} fourthOperand the fourth operand
          * @param {Number} interpolationAmount interpolation amount
-         * @returns {quat} inOut
+         * @returns {Quat} inOut
          */
         fun sqlerp(inOut: Array<Double>, firstOperand: Array<Double>, secondOperand: Array<Double>, thirdOperand: Array<Double>, fourthOperand: Array<Double>, interpolationAmount: Double): Array<Double> {
             val temp1 = create()
@@ -601,16 +601,16 @@ class quat : glMatrix() {
 
         /**
          * Sets the specified quaternion with values corresponding to the given
-         * axes. Each axis is a vec3 and is expected to be unit length and
+         * axes. Each axis is a Vec3 and is expected to be unit length and
          * perpendicular to all other specified axes.
          *
-         * @param {vec3} viewDirection  the vector representing the viewing direction
-         * @param {vec3} rightDirection the vector representing the local "rightDirection" direction
-         * @param {vec3} upDirection    the vector representing the local "upDirection" direction
-         * @returns {quat} inOut
+         * @param {Vec3} viewDirection  the vector representing the viewing direction
+         * @param {Vec3} rightDirection the vector representing the local "rightDirection" direction
+         * @param {Vec3} upDirection    the vector representing the local "upDirection" direction
+         * @returns {Quat} inOut
          */
         fun setAxes(inOut: Array<Double>, viewDirection: Array<Double>, rightDirection: Array<Double>, upDirection: Array<Int>): Array<Double> {
-            var matr = mat3.create()
+            var matr = Mat3.create()
             matr[0] = rightDirection[0].toFloat()
             matr[3] = rightDirection[1].toFloat()
             matr[6] = rightDirection[2].toFloat()

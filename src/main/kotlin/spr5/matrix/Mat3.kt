@@ -5,16 +5,16 @@ import org.khronos.webgl.get
 import org.khronos.webgl.set
 import kotlin.js.Math
 
-class mat3 : glMatrix() {
+class Mat3 : GlMatrix() {
     companion object {
         /**
          * 3x3 Matrix
-         * @module mat3
+         * @module Mat3
          */
         /**
-         * Creates a new identity mat3
+         * Creates a new identity Mat3
          *
-         * @returns {mat3} a new 3x3 matrix
+         * @returns {Mat3} a new 3x3 matrix
          */
         fun create(): Float32Array {
             val out = Float32Array(9)
@@ -31,11 +31,11 @@ class mat3 : glMatrix() {
         }
 
         /**
-         * Copies the upper-left 3x3 values into the given mat3.
+         * Copies the upper-left 3x3 values into the given Mat3.
          *
-         * @param {mat3} inOut the receiving 3x3 matrix
-         * @param {mat4} source   the source 4x4 matrix
-         * @returns {mat3} inOut
+         * @param {Mat3} inOut the receiving 3x3 matrix
+         * @param {Mat4} source   the source 4x4 matrix
+         * @returns {Mat3} inOut
          */
         fun fromMat4(inOut: Float32Array, source: Float32Array): Float32Array {
             inOut[0] = source[0]
@@ -51,10 +51,10 @@ class mat3 : glMatrix() {
         }
 
         /**
-         * Creates matrixToClone new mat3 initialized with values from an existing matrix
+         * Creates matrixToClone new Mat3 initialized with values from an existing matrix
          *
-         * @param {mat3} matrixToClone matrix to clone
-         * @returns {mat3} matrixToClone new 3x3 matrix
+         * @param {Mat3} matrixToClone matrix to clone
+         * @returns {Mat3} matrixToClone new 3x3 matrix
          */
         fun clone(matrixToClone: Float32Array): Float32Array {
             val out = Float32Array(9)
@@ -66,11 +66,11 @@ class mat3 : glMatrix() {
         }
 
         /**
-         * Copy the values from one mat3 to another
+         * Copy the values from one Mat3 to another
          *
-         * @param {mat3} inOut the receiving matrix
-         * @param {mat3} toCopy the source matrix
-         * @returns {mat3} inOut
+         * @param {Mat3} inOut the receiving matrix
+         * @param {Mat3} toCopy the source matrix
+         * @returns {Mat3} inOut
          */
         fun copy(inOut: Float32Array, toCopy: Float32Array): Float32Array {
             inOut[0] = toCopy[0]
@@ -86,7 +86,7 @@ class mat3 : glMatrix() {
         }
 
         /**
-         * Create a new mat3 with the given values
+         * Create a new Mat3 with the given values
          *
          * @param {Number} m00 Component in column 0, row 0 position (index 0)
          * @param {Number} m01 Component in column 0, row 1 position (index 1)
@@ -97,7 +97,7 @@ class mat3 : glMatrix() {
          * @param {Number} m20 Component in column 2, row 0 position (index 6)
          * @param {Number} m21 Component in column 2, row 1 position (index 7)
          * @param {Number} m22 Component in column 2, row 2 position (index 8)
-         * @returns {mat3} A new mat3
+         * @returns {Mat3} A new Mat3
          */
         fun fromValues(m00: Float, m01: Float, m02: Float, m10: Float, m11: Float, m12: Float, m20: Float, m21: Float, m22: Float): Float32Array {
             val out = Float32Array(9)
@@ -128,9 +128,9 @@ class mat3 : glMatrix() {
         }
 
         /**
-         * Set the components of a mat3 to the given values
+         * Set the components of a Mat3 to the given values
          *
-         * @param {mat3} inOut the receiving matrix
+         * @param {Mat3} inOut the receiving matrix
          * @param {Number} m00 Component in column 0, row 0 position (index 0)
          * @param {Number} m01 Component in column 0, row 1 position (index 1)
          * @param {Number} m02 Component in column 0, row 2 position (index 2)
@@ -140,7 +140,7 @@ class mat3 : glMatrix() {
          * @param {Number} m20 Component in column 2, row 0 position (index 6)
          * @param {Number} m21 Component in column 2, row 1 position (index 7)
          * @param {Number} m22 Component in column 2, row 2 position (index 8)
-         * @returns {mat3} inOut
+         * @returns {Mat3} inOut
          */
         fun set(inOut: Float32Array, m00: Float, m01: Float, m02: Float, m10: Float, m11: Float, m12: Float, m20: Float, m21: Float, m22: Float): Float32Array {
             inOut[0] = m00
@@ -169,10 +169,10 @@ class mat3 : glMatrix() {
         }
 
         /**
-         * Set a mat3 to the identity matrix
+         * Set a Mat3 to the identity matrix
          *
-         * @param {mat3} inOut the receiving matrix
-         * @returns {mat3} inOut
+         * @param {Mat3} inOut the receiving matrix
+         * @returns {Mat3} inOut
          */
         fun identity(inOut: Float32Array): Float32Array {
             inOut[0] = 1.0f
@@ -188,11 +188,11 @@ class mat3 : glMatrix() {
         }
 
         /**
-         * Transpose the values of source mat3
+         * Transpose the values of source Mat3
          *
-         * @param {mat3} inOut the receiving matrix
-         * @param {mat3} source the source matrix
-         * @returns {mat3} inOut
+         * @param {Mat3} inOut the receiving matrix
+         * @param {Mat3} source the source matrix
+         * @returns {Mat3} inOut
          */
         fun transpose(inOut: Float32Array, source: Float32Array): Float32Array {
             // If we are transposing ourselves we can skip source few steps but have to cache some values
@@ -221,11 +221,11 @@ class mat3 : glMatrix() {
         }
 
         /**
-         * Inverts source mat3
+         * Inverts source Mat3
          *
-         * @param {mat3} inOut the receiving matrix
-         * @param {mat3} source the source matrix
-         * @returns {mat3} inOut
+         * @param {Mat3} inOut the receiving matrix
+         * @param {Mat3} source the source matrix
+         * @returns {Mat3} inOut
          */
         fun invert(inOut: Float32Array, source: Float32Array): Float32Array {
             val a00 = source[0]
@@ -259,11 +259,11 @@ class mat3 : glMatrix() {
         }
 
         /**
-         * Calculates the adjugate of source mat3
+         * Calculates the adjugate of source Mat3
          *
-         * @param {mat3} inOut the receiving matrix
-         * @param {mat3} source the source matrix
-         * @returns {mat3} inOut
+         * @param {Mat3} inOut the receiving matrix
+         * @param {Mat3} source the source matrix
+         * @returns {Mat3} inOut
          */
         fun adjoint(inOut: Float32Array, source: Float32Array): Float32Array {
             val a00 = source[0]
@@ -288,9 +288,9 @@ class mat3 : glMatrix() {
         }
 
         /**
-         * Calculates the determinant of source mat3
+         * Calculates the determinant of source Mat3
          *
-         * @param {mat3} source the source matrix
+         * @param {Mat3} source the source matrix
          * @returns {Number} determinant of source
          */
         fun determinant(source: Float32Array): Double {
@@ -307,12 +307,12 @@ class mat3 : glMatrix() {
         }
 
         /**
-         * Multiplies two mat3's
+         * Multiplies two Mat3's
          *
-         * @param {mat3} inOut the receiving matrix
-         * @param {mat3} multiplier the first operand
-         * @param {mat3} multiplicand the second operand
-         * @returns {mat3} inOut
+         * @param {Mat3} inOut the receiving matrix
+         * @param {Mat3} multiplier the first operand
+         * @param {Mat3} multiplicand the second operand
+         * @returns {Mat3} inOut
          */
         fun multiply(inOut: Float32Array, multiplier: Float32Array, multiplicand: Float32Array): Float32Array {
             val a00 = multiplier[0]
@@ -346,12 +346,12 @@ class mat3 : glMatrix() {
         }
 
         /**
-         * Translate matrixToTranslate mat3 by the given vector
+         * Translate matrixToTranslate Mat3 by the given vector
          *
-         * @param {mat3} inOut the receiving matrix
-         * @param {mat3} matrixToTranslate the matrix to translate
-         * @param {vec2} vec2ToTranslateBy vector to translate by
-         * @returns {mat3} inOut
+         * @param {Mat3} inOut the receiving matrix
+         * @param {Mat3} matrixToTranslate the matrix to translate
+         * @param {Vec2} vec2ToTranslateBy vector to translate by
+         * @returns {Mat3} inOut
          */
         fun translate(inOut: Float32Array, matrixToTranslate: Float32Array, vec2ToTranslateBy: Array<Double>): Float32Array {
             val x = vec2ToTranslateBy[0].toFloat()
@@ -378,12 +378,12 @@ class mat3 : glMatrix() {
         }
 
         /**
-         * Rotates matrixToRotate mat3 by the given angle
+         * Rotates matrixToRotate Mat3 by the given angle
          *
-         * @param {mat3} inOut the receiving matrix
-         * @param {mat3} matrixToRotate the matrix to rotate
+         * @param {Mat3} inOut the receiving matrix
+         * @param {Mat3} matrixToRotate the matrix to rotate
          * @param {Number} angleInRad the angle to rotate the matrix by
-         * @returns {mat3} inOut
+         * @returns {Mat3} inOut
          */
         fun rotate(inOut: Float32Array, matrixToRotate: Float32Array, angleInRad: Double): Float32Array {
             val a00 = matrixToRotate[0]
@@ -410,12 +410,12 @@ class mat3 : glMatrix() {
         }
 
         /**
-         * Scales the mat3 by the dimensions in the given vec2
+         * Scales the Mat3 by the dimensions in the given Vec2
          *
-         * @param {mat3} inOut the receiving matrix
-         * @param {mat3} matrixToScale the matrix to scale
-         * @param {vec2} vec2ToScaleBy the vec2 to scale the matrix by
-         * @returns {mat3} inOut
+         * @param {Mat3} inOut the receiving matrix
+         * @param {Mat3} matrixToScale the matrix to scale
+         * @param {Vec2} vec2ToScaleBy the Vec2 to scale the matrix by
+         * @returns {Mat3} inOut
          **/
         fun scale(inOut: Float32Array, matrixToScale: Float32Array, vec2ToScaleBy: Array<Double>): Float32Array {
             val x = vec2ToScaleBy[0].toFloat()
@@ -436,12 +436,12 @@ class mat3 : glMatrix() {
          * Creates a matrix from a vector translation
          * This is equivalent to (but much faster than):
          *
-         *     mat3.identity(dest);
-         *     mat3.translate(dest, dest, vec);
+         *     Mat3.identity(dest);
+         *     Mat3.translate(dest, dest, vec);
          *
-         * @param {mat3} inOut mat3 receiving operation result
-         * @param {vec2} translationVec2 Translation vector
-         * @returns {mat3} inOut
+         * @param {Mat3} inOut Mat3 receiving operation result
+         * @param {Vec2} translationVec2 Translation vector
+         * @returns {Mat3} inOut
          */
         fun fromTranslation(inOut: Float32Array, translationVec2: Array<Double>): Float32Array {
             inOut[0] = 1.0f
@@ -460,12 +460,12 @@ class mat3 : glMatrix() {
          * Creates a matrix from a given angle
          * This is equivalent to (but much faster than):
          *
-         *     mat3.identity(dest);
-         *     mat3.rotate(dest, dest, angleToRotateByInRad);
+         *     Mat3.identity(dest);
+         *     Mat3.rotate(dest, dest, angleToRotateByInRad);
          *
-         * @param {mat3} inOut mat3 receiving operation result
+         * @param {Mat3} inOut Mat3 receiving operation result
          * @param {Number} angleToRotateByInRad the angle to rotate the matrix by
-         * @returns {mat3} inOut
+         * @returns {Mat3} inOut
          */
         fun fromRotation(inOut: Float32Array, angleToRotateByInRad: Double): Float32Array {
             val s = (Math.sin(angleToRotateByInRad)).toFloat()
@@ -486,12 +486,12 @@ class mat3 : glMatrix() {
          * Creates a matrix from a vector scaling
          * This is equivalent to (but much faster than):
          *
-         *     mat3.identity(dest);
-         *     mat3.scale(dest, dest, vec);
+         *     Mat3.identity(dest);
+         *     Mat3.scale(dest, dest, vec);
          *
-         * @param {mat3} inOut mat3 receiving operation result
-         * @param {vec2} scalingVec2 Scaling vector
-         * @returns {mat3} inOut
+         * @param {Mat3} inOut Mat3 receiving operation result
+         * @param {Vec2} scalingVec2 Scaling vector
+         * @returns {Mat3} inOut
          */
         fun fromScaling(inOut: Float32Array, scalingVec2: Array<Double>): Float32Array {
             inOut[0] = scalingVec2[0].toFloat()
@@ -507,11 +507,11 @@ class mat3 : glMatrix() {
         }
 
         /**
-         * Copies the values from mat2dToCreateMatrixFrom mat2d into mat2dToCreateMatrixFrom mat3
+         * Copies the values from mat2dToCreateMatrixFrom Mat2d into mat2dToCreateMatrixFrom Mat3
          *
-         * @param {mat3} inOut the receiving matrix
-         * @param {mat2d} mat2dToCreateMatrixFrom the matrix to copy
-         * @returns {mat3} inOut
+         * @param {Mat3} inOut the receiving matrix
+         * @param {Mat2d} mat2dToCreateMatrixFrom the matrix to copy
+         * @returns {Mat3} inOut
          **/
         fun fromMat2d(inOut: Float32Array, mat2dToCreateMatrixFrom: Float32Array): Float32Array {
             inOut[0] = mat2dToCreateMatrixFrom[0]
@@ -529,10 +529,10 @@ class mat3 : glMatrix() {
         /**
          * Calculates a 3x3 matrix from the given quaternion
          *
-         * @param {mat3} inOut mat3 receiving operation result
-         * @param {quat} quatToCreateMatrixFrom Quaternion to create matrix from
+         * @param {Mat3} inOut Mat3 receiving operation result
+         * @param {Quat} quatToCreateMatrixFrom Quaternion to create matrix from
          *
-         * @returns {mat3} inOut
+         * @returns {Mat3} inOut
          */
         fun fromQuat(inOut: Float32Array, quatToCreateMatrixFrom: Array<Double>): Float32Array {
             val x = quatToCreateMatrixFrom[0].toFloat()
@@ -566,10 +566,10 @@ class mat3 : glMatrix() {
         /**
          * Calculates mat4ToDeriveNormalMatrix 3x3 normal matrix (transpose inverse) from the 4x4 matrix
          *
-         * @param {mat3} inOut mat3 receiving operation result
-         * @param {mat4} mat4ToDeriveNormalMatrix Mat4 to derive the normal matrix from
+         * @param {Mat3} inOut Mat3 receiving operation result
+         * @param {Mat4} mat4ToDeriveNormalMatrix Mat4 to derive the normal matrix from
          *
-         * @returns {mat3} inOut
+         * @returns {Mat3} inOut
          */
         fun normalFromMat4(inOut: Float32Array, mat4ToDeriveNormalMatrix: Float32Array): Float32Array {
             val a00 = mat4ToDeriveNormalMatrix[0]
@@ -621,10 +621,10 @@ class mat3 : glMatrix() {
         /**
          * Generates a 2D projection matrix with the given bounds
          *
-         * @param {mat3} inOut mat3 frustum matrix will be written into
+         * @param {Mat3} inOut Mat3 frustum matrix will be written into
          * @param {number} glContextWith Width of your gl context
          * @param {number} glContextHeight Height of gl context
-         * @returns {mat3} inOut
+         * @returns {Mat3} inOut
          */
         fun projection(inOut: Float32Array, glContextWith: Double, glContextHeight: Double): Float32Array {
             inOut[0] = (2 / glContextWith).toFloat()
@@ -640,21 +640,21 @@ class mat3 : glMatrix() {
         }
 
         /**
-         * Returns a string representation of a mat3
+         * Returns a string representation of a Mat3
          *
-         * @param {mat3} a matrix to represent as a string
+         * @param {Mat3} a matrix to represent as a string
          * @returns {String} string representation of the matrix
          */
         fun toString(matrix: Float32Array): String {
-            return "mat2d(${matrix[0]}, ${matrix[1]}, ${matrix[2]}, " +
+            return "Mat2d(${matrix[0]}, ${matrix[1]}, ${matrix[2]}, " +
                     "${matrix[3]}, ${matrix[4]}, ${matrix[5]}," +
                     " ${matrix[6]}, ${matrix[7]}, ${matrix[8]})"
         }
 
         /**
-         * Returns Frobenius norm of a mat3
+         * Returns Frobenius norm of a Mat3
          *
-         * @param {mat3} a the matrix to calculate Frobenius norm of
+         * @param {Mat3} a the matrix to calculate Frobenius norm of
          * @returns {Number} Frobenius norm
          */
         fun frob(matrix: Float32Array): Double {
@@ -664,12 +664,12 @@ class mat3 : glMatrix() {
         }
 
         /**
-         * Adds two mat3's
+         * Adds two Mat3's
          *
-         * @param {mat3} inOut the receiving matrix
-         * @param {mat3} firstSummand the first operand
-         * @param {mat3} secondSummand the second operand
-         * @returns {mat3} inOut
+         * @param {Mat3} inOut the receiving matrix
+         * @param {Mat3} firstSummand the first operand
+         * @param {Mat3} secondSummand the second operand
+         * @returns {Mat3} inOut
          */
         fun add(inOut: Float32Array, firstSummand: Float32Array, secondSummand: Float32Array): Float32Array {
             inOut[0] = firstSummand[0] + secondSummand[0]
@@ -687,10 +687,10 @@ class mat3 : glMatrix() {
         /**
          * Subtracts matrix subtrahend from matrix minuend
          *
-         * @param {mat3} inOut the receiving matrix
-         * @param {mat3} minuend the first operand
-         * @param {mat3} subtrahend the second operand
-         * @returns {mat3} inOut
+         * @param {Mat3} inOut the receiving matrix
+         * @param {Mat3} minuend the first operand
+         * @param {Mat3} subtrahend the second operand
+         * @returns {Mat3} inOut
          */
         fun subtract(inOut: Float32Array, minuend: Float32Array, subtrahend: Float32Array): Float32Array {
             inOut[0] = minuend[0] - subtrahend[0]
@@ -708,10 +708,10 @@ class mat3 : glMatrix() {
         /**
          * Multiply each element of the matrix by matrixToScale scalar.
          *
-         * @param {mat3} inOut the receiving matrix
-         * @param {mat3} matrixToScale the matrix to scale
+         * @param {Mat3} inOut the receiving matrix
+         * @param {Mat3} matrixToScale the matrix to scale
          * @param {Number} amountToScaleBy amount to scale the matrix's elements by
-         * @returns {mat3} inOut
+         * @returns {Mat3} inOut
          */
         fun multiplyScalar(inOut: Float32Array, matrixToScale: Float32Array, amountToScaleBy: Double): Float32Array {
             val amountToScaleTheMatrix = amountToScaleBy.toFloat()
@@ -728,13 +728,13 @@ class mat3 : glMatrix() {
         }
 
         /**
-         * Adds two mat3's after multiplying each element of the second operand by firstSummand scalar value.
+         * Adds two Mat3's after multiplying each element of the second operand by firstSummand scalar value.
          *
-         * @param {mat3} inOut the receiving vector
-         * @param {mat3} firstSummand the first operand
-         * @param {mat3} secondSummand the second operand
+         * @param {Mat3} inOut the receiving vector
+         * @param {Mat3} firstSummand the first operand
+         * @param {Mat3} secondSummand the second operand
          * @param {Number} amountToScale the amount to amountToScale secondSummand's elements by before adding
-         * @returns {mat3} inOut
+         * @returns {Mat3} inOut
          */
         fun multiplyScalarAndAdd(inOut: Float32Array, firstSummand: Float32Array, secondSummand: Float32Array, amountToScale: Double): Float32Array {
             val amountToScaleTheMatrix = amountToScale.toFloat()
@@ -753,8 +753,8 @@ class mat3 : glMatrix() {
         /**
          * Returns whether or not the matrices have exactly the same elements in the same position (when compared with ===)
          *
-         * @param {mat3} firstMatrix The first matrix.
-         * @param {mat3} secondMatrix The second matrix.
+         * @param {Mat3} firstMatrix The first matrix.
+         * @param {Mat3} secondMatrix The second matrix.
          * @returns {Boolean} True if the matrices are equal, false otherwise.
          */
         fun exactEquals(firstMatrix: Float32Array, secondMatrix: Float32Array): Boolean {
@@ -766,8 +766,8 @@ class mat3 : glMatrix() {
         /**
          * Returns whether or not the matrices have approximately the same elements in the same position.
          *
-         * @param {mat3} firstMatrix The first matrix.
-         * @param {mat3} secondMatrix The second matrix.
+         * @param {Mat3} firstMatrix The first matrix.
+         * @param {Mat3} secondMatrix The second matrix.
          * @returns {Boolean} True if the matrices are equal, false otherwise.
          */
         fun equals(firstMatrix: Float32Array, secondMatrix: Float32Array): Boolean {

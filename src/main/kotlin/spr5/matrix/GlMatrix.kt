@@ -3,11 +3,11 @@ package spr5.matrix
 import org.khronos.webgl.Float32Array
 import kotlin.js.Math
 
-open class glMatrix {
+open class GlMatrix {
     companion object {
         /**
          * Common utilities
-         * @module glMatrix
+         * @module GlMatrix
          */
         // Configuration Constants
         var ARRAY_TYPE = Any()
@@ -38,7 +38,7 @@ open class glMatrix {
 
         /**
          * Tests whether or not the arguments have approximately the same value, within an absolute
-         * or relative tolerance of glMatrix.EPSILON (an absolute tolerance is used for values less
+         * or relative tolerance of GlMatrix.EPSILON (an absolute tolerance is used for values less
          * than or equal to 1.0, and a relative tolerance is used for larger values)
          *
          * @param {Number} a The first number to test.
