@@ -2,7 +2,7 @@ package test
 
 import test.matrix.*
 
-fun runTestClass(testClass: TestClass, verbose: Boolean = false) {
+fun runTestClass(testClass: Any, verbose: Boolean = false) {
     js("""
         var testClassName = testClass.constructor.name;
         var hasSetUp = false;
@@ -63,6 +63,6 @@ fun run() {
             Mat4Test()
     );
 
-    for (testClass: TestClass in tests)
+    for (testClass: Any in tests)
         runTestClass(testClass);
 }
