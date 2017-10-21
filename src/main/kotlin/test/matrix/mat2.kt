@@ -1,14 +1,14 @@
 package test.matrix
 
-import org.khronos.webgl.Float32Array
 import org.khronos.webgl.get
 import spr5.matrix.mat2
 import spr5.util.assertEquals
 import spr5.util.assertFalse
 import spr5.util.assertTrue
-import test.TestClass
 
-class Mat2Test: TestClass() {
+import test.annotations.*
+
+class Mat2Test {
     @Before
     fun setUp() {
     }
@@ -41,7 +41,7 @@ class Mat2Test: TestClass() {
 
     @Test
     fun multiplyWithIdentity() {
-        val identity = mat2.identity(Float32Array(4));
+        val identity = mat2.identity(mat2.create());
         val m = mat2.fromValues(1.0, 2.0, 3.0, 4.0);
 
         // test m * I

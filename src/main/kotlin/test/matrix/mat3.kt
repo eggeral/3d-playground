@@ -1,14 +1,13 @@
 package test.matrix
 
-import org.khronos.webgl.Float32Array
 import org.khronos.webgl.get
 import spr5.matrix.mat3
 import spr5.util.assertEquals
 import spr5.util.assertFalse
 import spr5.util.assertTrue
-import test.TestClass
+import test.annotations.*
 
-class Mat3Test: TestClass() {
+class Mat3Test {
     @Before
     fun setUp() {
     }

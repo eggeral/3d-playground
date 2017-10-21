@@ -2,11 +2,10 @@ package test.matrix
 
 import spr5.matrix.vec2;
 import spr5.util.assert;
-import spr5.util.assertEquals
 
-import test.TestClass
+import test.annotations.*
 
-class Vec2Test: TestClass() {
+class Vec2Test {
     private var v1: Array<Double> = emptyArray();
     private var v2: Array<Double> = emptyArray();
 
