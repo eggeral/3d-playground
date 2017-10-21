@@ -16,6 +16,9 @@ fun assertEquals(expected: Double, actual: Double, message: String = "Values are
 fun<T> assertEquals(expected: T, actual: T, message: String = "Values are not equal") {
     assert(expected == actual, message);
 }
+fun<T> assertNotEquals(expected: T, actual: T, message: String = "Values are not equal") {
+    assert(expected != actual, message);
+}
 
 fun<T> assertNull(v: T, message: String = "Value is not null") {
     assert(v == null, message);
