@@ -1,5 +1,5 @@
 package example
-
+/*
 import org.khronos.webgl.Float32Array
 import org.khronos.webgl.WebGLRenderingContext
 import spr5.scene.Coordinate
@@ -75,7 +75,7 @@ fun drawSceneCubeVarying(gl: WebGLRenderingContext) {
     gl.vertexAttribPointer(verticesAttribute, 3, WebGLRenderingContext.FLOAT, false, 0, 0)
     gl.enableVertexAttribArray(verticesAttribute)
 
-    // get uniform vColor attribute from fragment shader
+    // get uniform vColor agttribute from fragment shader
     val color = gl.getUniformLocation(shaderProgram, "vColor")
 
     // set background color
@@ -86,3 +86,4 @@ fun drawSceneCubeVarying(gl: WebGLRenderingContext) {
 
     gl.drawArrays(WebGLRenderingContext.TRIANGLES, 0, 36)
 }
+        */

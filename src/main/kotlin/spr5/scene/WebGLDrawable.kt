@@ -7,8 +7,9 @@ enum class Direction {
 };
 
 interface WebGLDrawable {
-    fun getVertices(): Array<Float>;
-    fun getColors(): Array<Float>;
+    fun getVertices(): Array<Float>
+    fun getColors(): Array<Float>
+    fun getIndices(): Array<Short>
 
-    var color: Rgba;
+    var color: Rgba
 }

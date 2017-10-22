@@ -1,5 +1,5 @@
 package example
-
+/*
 import org.khronos.webgl.Float32Array
 import org.khronos.webgl.WebGLRenderingContext
 import spr5.scene.Coordinate
@@ -78,3 +78,4 @@ fun drawSceneCube(gl: WebGLRenderingContext) {
 
     gl.drawArrays(WebGLRenderingContext.TRIANGLES, 0, 36)
 }
+        */

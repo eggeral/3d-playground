@@ -1,5 +1,5 @@
 package example
-
+/*
 import org.khronos.webgl.Float32Array
 import org.khronos.webgl.WebGLRenderingContext
 import spr5.scene.*
@@ -84,3 +84,4 @@ fun drawSceneRectangle(gl: WebGLRenderingContext) {
 
     gl.drawArrays(WebGLRenderingContext.TRIANGLES, 0, 6)
 }
+        */

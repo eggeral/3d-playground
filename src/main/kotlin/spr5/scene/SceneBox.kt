@@ -1,7 +1,7 @@
 package spr5.scene;
 
 import spr5.util.assert
-
+/*
 class SceneBox(var faces: Array<SceneRectangle>, override var color: Rgba) : WebGLDrawable {
     private val _vertices: Array<Float>
     init {
@@ -55,3 +55,24 @@ fun createCube(leftTop: Coordinate, size: Float, color: Rgba) : SceneBox{
 
     return SceneBox(faces,color)
 }
+
+fun createCube(leftTop: Coordinate, size: Float, colors: Array<Rgba>) : SceneBox{
+    val coordinates: Array<Coordinate> = arrayOf(
+            leftTop,  // back left top
+            Coordinate(leftTop.x, leftTop.y, leftTop.z + size), // front left top
+            Coordinate(leftTop.x + size, leftTop.y, leftTop.z), // back right top
+            Coordinate(leftTop.x, leftTop.y - size, leftTop.z)  // back left bottom
+    )
+
+    val faces = arrayOf(
+            createSquare(Direction.Horizontal, coordinates[0], size, colors[0]),    // back side
+            createSquare(Direction.Vertical, coordinates[0], size, colors[1]),      // top side
+            createSquare(Direction.Sideways, coordinates[0], size, colors[2]),      // left side
+            createSquare(Direction.Vertical, coordinates[1], size, colors[3]),      // front side
+            createSquare(Direction.Sideways, coordinates[2], size, colors[4]),      // right side
+            createSquare(Direction.Horizontal, coordinates[3], size, colors[5])     // bottom side
+    );
+
+    return SceneBox(faces,colors[0])
+}
+        */
