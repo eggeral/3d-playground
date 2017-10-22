@@ -1,18 +1,18 @@
 package example
-/*
+
 import org.khronos.webgl.Uint16Array
 import org.khronos.webgl.Float32Array
 import org.khronos.webgl.WebGLRenderingContext
 import spr5.scene.Coordinate
 import spr5.scene.Rgba
-import spr5.scene.createCube
+import spr5.scene.createMulticolorCube
 import threed.*
 import webgl.fitDrawingBufferIntoCanvas
 import kotlin.browser.window
 
 fun drawSceneMultiColorCube(gl: WebGLRenderingContext) {
 
-    val leftTop = Coordinate(0.0f, 1.0f, 0.0f)
+    val center = Coordinate(0.0f, 0.0f, 0.0f)
     val cubeSize = 1.0f
     val cubeFacesColors = arrayOf(Rgba(1.0f, 0.0f, 0.0f, 1.0f)
             ,Rgba(0.0f, 1.0f, 0.0f, 1.0f)
@@ -20,8 +20,8 @@ fun drawSceneMultiColorCube(gl: WebGLRenderingContext) {
             ,Rgba(0.5f, 0.5f, 0.0f, 1.0f)
             ,Rgba(0.0f, 0.5f, 0.5f, 1.0f)
             ,Rgba(0.5f, 0.0f, 0.5f, 1.0f))
-    val cube = createCube(leftTop, cubeSize, cubeFacesColors)
-    val cubeColors = cube.getVaryingColors()
+    val cube = createMulticolorCube(center, cubeSize, cubeFacesColors)
+    val cubeColors = cube.getColors()
 
     // Create and store data into vertex buffer
     val vertexBuffer = gl.createBuffer()
@@ -171,4 +171,4 @@ fun drawSceneMultiColorCube(gl: WebGLRenderingContext) {
     }
     window.requestAnimationFrame { time -> animate(time) }
     //gl.drawArrays(WebGLRenderingContext.TRIANGLES, 0, 36)
-}*/
+}
