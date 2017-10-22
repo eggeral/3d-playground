@@ -49,37 +49,37 @@ fun drawMultipleCubes(gl: WebGLRenderingContext) {
             """
 
     val vertices = arrayOf(
-            -1.0f, -1.0f, -1.0f,
-            1.0f, -1.0f, -1.0f,
-            1.0f, 1.0f, -1.0f,
+            -1.0f, -1.0f, -1.0f,    //left-bottom-back
+            1.0f, -1.0f, -1.0f,     //right-bottom-back
+            1.0f, 1.0f, -1.0f,      //right-top-back
 
-            -1.0f, 1.0f, -1.0f,
-            -1.0f, -1.0f, 1.0f,
-            1.0f, -1.0f, 1.0f,
+            -1.0f, 1.0f, -1.0f,     //left-top-back
+            -1.0f, -1.0f, 1.0f,     //left-bottom-front
+            1.0f, -1.0f, 1.0f,      //right-bottom-front
 
-            1.0f, 1.0f, 1.0f,
-            -1.0f, 1.0f, 1.0f,
-            -1.0f, -1.0f, -1.0f,
+            1.0f, 1.0f, 1.0f,       //right-top-front
+            -1.0f, 1.0f, 1.0f,      //left-top-front
+            -1.0f, -1.0f, -1.0f,    //left-bottom-back
 
-            -1.0f, 1.0f, -1.0f,
-            -1.0f, 1.0f, 1.0f,
-            -1.0f, -1.0f, 1.0f,
+            -1.0f, 1.0f, -1.0f,     //left-top-back
+            -1.0f, 1.0f, 1.0f,      //left-top-front
+            -1.0f, -1.0f, 1.0f,     //left-bottom-front
 
-            1.0f, -1.0f, -1.0f,
-            1.0f, 1.0f, -1.0f,
-            1.0f, 1.0f, 1.0f,
+            1.0f, -1.0f, -1.0f,     //right-bottom-back
+            1.0f, 1.0f, -1.0f,      //right-top-back
+            1.0f, 1.0f, 1.0f,       //right-top-front
 
-            1.0f, -1.0f, 1.0f,
-            -1.0f, -1.0f, -1.0f,
-            -1.0f, -1.0f, 1.0f,
+            1.0f, -1.0f, 1.0f,      //right-bottom-front
+            -1.0f, -1.0f, -1.0f,    //left-bottom-back
+            -1.0f, -1.0f, 1.0f,     //left-bottom-front
 
-            1.0f, -1.0f, 1.0f,
-            1.0f, -1.0f, -1.0f,
-            -1.0f, 1.0f, -1.0f,
+            1.0f, -1.0f, 1.0f,      //right-bottom-front
+            1.0f, -1.0f, -1.0f,     //right-bottom-back
+            -1.0f, 1.0f, -1.0f,     //left-top-back
 
-            -1.0f, 1.0f, 1.0f,
-            1.0f, 1.0f, 1.0f,
-            1.0f, 1.0f, -1.0f
+            -1.0f, 1.0f, 1.0f,      //left-top-front
+            1.0f, 1.0f, 1.0f,       //right-top-front
+            1.0f, 1.0f, -1.0f       //right-top-back
     )
 
     val colors = arrayOf(

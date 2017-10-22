@@ -2,6 +2,39 @@ package spr5.scene;
 
 import spr5.util.assert
 
+class SceneRectangle(var center: Coordinate, var width: Float, var heigth: Float, override var color: Rgba) : WebGLDrawable {
+    init {
+        assert(width > 0, "Width must be greater than 0!")
+        assert(heigth > 0, "Height must be greater than 0!")
+    }
+
+    override fun getVertices(): Array<Float> {
+        return arrayOf(center.x-width/2, center.y+heigth/2, center.z    //left-top
+                ,center.x+width/2, center.y+heigth/2, center.z          //right-top
+                ,center.x-width/2, center.y-heigth/2, center.z          //left-bottom
+                ,center.x+width/2, center.y-heigth/2, center.z          //right-bottom
+        )
+    }
+
+    override fun getColors(): Array<Float> {
+        return arrayOf(
+                color.red, color.green, color.blue, color.alpha
+                ,color.red, color.green, color.blue, color.alpha
+                ,color.red, color.green, color.blue, color.alpha
+                ,color.red, color.green, color.blue, color.alpha)
+    }
+
+    override fun getIndices(): Array<Short> {
+        return arrayOf(  0,1,2
+                        ,2,1,3)
+    }
+}
+
+fun createSquare(center: Coordinate, size: Float, color: Rgba) :SceneRectangle {
+    return SceneRectangle(center, size, size, color)
+}
+
+/*
 class SceneRectangle(var faces: Array<SceneTriangle>, override var color: Rgba) : WebGLDrawable {
     init {
         assert(faces.size == 2, "faces.size == 2");
@@ -17,6 +50,10 @@ class SceneRectangle(var faces: Array<SceneTriangle>, override var color: Rgba) 
         return faces.fold(emptyArray()) {
             colors, face -> colors + face.getColors()
         }
+    }
+
+    override fun getIndices(): Array<Short> {
+        throw NotImplementedError()
     }
 }
 
@@ -44,6 +81,13 @@ fun createSquare(direction: Direction, leftTop: Coordinate, size: Float, color: 
                 Coordinate(leftTop.x, leftTop.y - size, leftTop.z),
                 Coordinate(leftTop.x + size, leftTop.y - size, leftTop.z)
         );
+    } else if (direction == Direction.Sideways) {
+        coordinates = arrayOf(
+                leftTop,    // back top
+                Coordinate(leftTop.x, leftTop.y - size, leftTop.z),     // back bottom
+                Coordinate(leftTop.x, leftTop.y, leftTop.z + size),     // front top
+                Coordinate(leftTop.x, leftTop.y - size, leftTop.z + size)   // front bottom
+        );
     } else {
         throw IllegalArgumentException("Unsupported direction: " + direction);
     }
@@ -55,3 +99,4 @@ fun createSquare(direction: Direction, leftTop: Coordinate, size: Float, color: 
 
     return SceneRectangle(faces, color);
 }
+*/

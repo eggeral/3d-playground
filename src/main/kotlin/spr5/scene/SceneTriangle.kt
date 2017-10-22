@@ -7,6 +7,7 @@ class SceneTriangle(var vertices: Array<Coordinate>, override var color: Rgba) :
 
     private val _vertices: Array<Float>
     private val _color: Array<Float>
+    private val _indices: Array<Short>
 
     init {
         assert(vertices.size == 3, "SceneTriangle expects 3 coordinates")
@@ -20,6 +21,8 @@ class SceneTriangle(var vertices: Array<Coordinate>, override var color: Rgba) :
         _color = arrayOf(
                 color.red, color.green, color.blue, color.alpha
         )
+
+        _indices = arrayOf(0,1,2)
     }
 
     override fun getColors(): Array<Float> {
@@ -28,5 +31,9 @@ class SceneTriangle(var vertices: Array<Coordinate>, override var color: Rgba) :
 
     override fun getVertices(): Array<Float> {
         return _vertices
+    }
+
+    override fun getIndices(): Array<Short> {
+        return _indices
     }
 }
