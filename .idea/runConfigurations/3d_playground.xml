@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="3d-playground" type="JavascriptDebugType" factoryName="JavaScript Debug" uri="http://localhost:63342/threed/out/production/resources/index.html">
+  <configuration default="false" name="3d-playground" type="JavascriptDebugType" factoryName="JavaScript Debug" uri="http://localhost:63342/3d-playground/build/classes/kotlin/main/index.html">
     <method>
-      <option name="MakeProject" enabled="true" />
+      <option name="Make" enabled="true" />
     </method>
   </configuration>
 </component>
