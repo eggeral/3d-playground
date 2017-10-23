@@ -1,8 +1,5 @@
-package scene
+package spr5.scene
 
-import spr5.scene.Coordinate
-import spr5.scene.Rgba
-import spr5.scene.WebGLDrawable
 import spr5.util.assert
 
 
