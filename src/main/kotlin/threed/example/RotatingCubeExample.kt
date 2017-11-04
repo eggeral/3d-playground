@@ -99,16 +99,16 @@ fun rotateCube(gl: WebGLRenderingContext) {
 
     val vertexShaderCode =
             """
-            uniform mat4 projectionMatrix;
-            uniform mat4 viewMatrix;
-            uniform mat4 modelMatrix;
+            uniform Mat4 projectionMatrix;
+            uniform Mat4 viewMatrix;
+            uniform Mat4 modelMatrix;
 
-            attribute vec3 vertices;
-            attribute vec3 color;
-            varying vec3 vColor;
+            attribute Vec3 vertices;
+            attribute Vec3 color;
+            varying Vec3 vColor;
 
             void main(void) {
-                gl_Position = projectionMatrix*viewMatrix*modelMatrix*vec4(vertices, 1.);
+                gl_Position = projectionMatrix*viewMatrix*modelMatrix*Vec4(vertices, 1.);
                 vColor = color;
             }
             """
@@ -116,9 +116,9 @@ fun rotateCube(gl: WebGLRenderingContext) {
     val fragmentShaderCode =
             """
             precision mediump float;
-            varying vec3 vColor;
+            varying Vec3 vColor;
             void main(void) {
-                gl_FragColor = vec4(vColor, 1.);
+                gl_FragColor = Vec4(vColor, 1.);
             }
             """
 

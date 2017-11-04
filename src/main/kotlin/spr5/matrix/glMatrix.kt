@@ -1,6 +1,7 @@
 package spr5.matrix
 
 import org.khronos.webgl.Float32Array
+import org.khronos.webgl.set
 import kotlin.js.Math
 
 open class glMatrix {
