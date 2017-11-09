@@ -1,6 +1,7 @@
 package test
 
 import test.matrix.*
+import test.shapes.*
 
 fun runTestClass(testClass: Any, verbose: Boolean = false) {
     js("""
@@ -60,7 +61,8 @@ fun run() {
             Mat2Test(),
             Mat2dTest(),
             Mat3Test(),
-            Mat4Test()
+            Mat4Test(),
+            TestTriangle()
     );
 
     for (testClass: Any in tests)
