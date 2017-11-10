@@ -42,6 +42,60 @@ class Mat4Test {
     }
 
     @Test
+    fun testAddMatrix() {
+        val m1 = Mat4(1.0, 2.0, 3.0, 4.0,
+                4.0, 5.0, 6.0, 7.0,
+                7.0, 8.0, 9.0, 10.0,
+                11.0, 12.0, 13.0, 14.0)
+
+        val m2 = Mat4(1.0, 2.0, 3.0, 4.0,
+                4.0, 5.0, 6.0, 7.0,
+                7.0, 8.0, 9.0, 10.0,
+                11.0, 12.0, 13.0, 14.0);
+
+        val expected = Mat4(2.0, 4.0, 6.0, 8.0,
+                8.0, 10.0, 12.0, 14.0,
+                14.0, 16.0, 18.0, 20.0,
+                22.0, 24.0, 26.0, 28.0);
+
+        assertTrue(Mat4.equals(expected, m1 + m2));
+        assertTrue(Mat4.equals(expected, m2 + m1));
+
+        assertTrue(Mat4.equals(expected, Mat4.add(m1, m2)));
+        assertTrue(Mat4.equals(expected, Mat4.add(m2, m1)));
+
+        assertTrue(Mat4.equals(expected, m1.add(m2)));
+        assertTrue(Mat4.equals(expected, m1));
+    }
+
+    @Test
+    fun testAddZero() {
+        val m1 = Mat4(1.0, 2.0, 3.0, 4.0,
+                4.0, 5.0, 6.0, 7.0,
+                7.0, 8.0, 9.0, 10.0,
+                11.0, 12.0, 13.0, 14.0)
+
+        val m2 = Mat4(0.0, 0.0, 0.0, 0.0,
+                0.0, 0.0, 0.0, 0.0,
+                0.0, 0.0, 0.0, 0.0,
+                0.0, 0.0, 0.0, 0.0)
+
+        val expected = Mat4(1.0, 2.0, 3.0, 4.0,
+                4.0, 5.0, 6.0, 7.0,
+                7.0, 8.0, 9.0, 10.0,
+                11.0, 12.0, 13.0, 14.0);
+
+        assertTrue(Mat4.equals(expected, m1 + m2));
+        assertTrue(Mat4.equals(expected, m2 + m1));
+
+        assertTrue(Mat4.equals(expected, Mat4.add(m1, m2)));
+        assertTrue(Mat4.equals(expected, Mat4.add(m2, m1)));
+
+        assertTrue(Mat4.equals(expected, m1.add(m2)));
+        assertTrue(Mat4.equals(expected, m1));
+    }
+
+    @Test
     fun testEquals() {
         val m1 = Mat4.fromValues(1.0, 2.0, 3.0, 0.0,
                 4.0, 1.0, 1.0, 0.5,

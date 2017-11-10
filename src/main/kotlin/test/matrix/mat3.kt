@@ -55,6 +55,54 @@ class Mat3Test {
     }
 
     @Test
+    fun testAddMatrix() {
+        val m1 = Mat3(1.0, 2.0, 3.0,
+                      4.0, 5.0, 6.0,
+                      7.0, 8.0, 9.0)
+
+        val m2 = Mat3(1.0, 2.0, 3.0,
+                      4.0, 5.0, 6.0,
+                      7.0, 8.0, 9.0)
+        1
+        val expected = Mat3(2.0, 4.0, 6.0,
+                            8.0, 10.0, 12.0,
+                            14.0, 16.0, 18.0);
+
+        assertTrue(Mat3.equals(expected, m1 + m2));
+        assertTrue(Mat3.equals(expected, m2 + m1));
+
+        assertTrue(Mat3.equals(expected, Mat3.add(m1, m2)));
+        assertTrue(Mat3.equals(expected, Mat3.add(m2, m1)));
+
+        assertTrue(Mat3.equals(expected, m1.add(m2)));
+        assertTrue(Mat3.equals(expected, m1));
+    }
+
+    @Test
+    fun testAddZero() {
+        val m1 = Mat3(1.0, 2.0, 3.0,
+                      4.0, 5.0, 6.0,
+                      7.0, 8.0, 9.0)
+
+        val m2 = Mat3(0.0, 0.0, 0.0,
+                      0.0, 0.0, 0.0,
+                      0.0, 0.0, 0.0)
+
+        val expected = Mat3(1.0, 2.0, 3.0,
+                            4.0, 5.0, 6.0,
+                            7.0, 8.0, 9.0);
+
+        assertTrue(Mat3.equals(expected, m1 + m2));
+        assertTrue(Mat3.equals(expected, m2 + m1));
+
+        assertTrue(Mat3.equals(expected, Mat3.add(m1, m2)));
+        assertTrue(Mat3.equals(expected, Mat3.add(m2, m1)));
+
+        assertTrue(Mat3.equals(expected, m1.add(m2)));
+        assertTrue(Mat3.equals(expected, m1));
+    }
+
+    @Test
     fun multiplyWithIdentity() {
         val identity = Mat3.identityDoubleArray()
         val m = Mat3.fromValues(

@@ -40,12 +40,44 @@ class Mat2Test {
     }
 
     @Test
+    fun testAddMatrix() {
+        val m1 = Mat2(1.0, 2.0, 3.0, 4.0)
+        val m2 = Mat2(1.0, 2.0, 3.0, 4.0)
+        val expected = Mat2(2.0, 4.0, 6.0, 8.0);
+
+        assertTrue(Mat2.equals(expected, m1 + m2));
+        assertTrue(Mat2.equals(expected, m2 + m1));
+
+        assertTrue(Mat2.equals(expected, Mat2.add(m1, m2)));
+        assertTrue(Mat2.equals(expected, Mat2.add(m2, m1)));
+
+        assertTrue(Mat2.equals(expected, m1.add(m2)));
+        assertTrue(Mat2.equals(expected, m1));
+    }
+
+    @Test
+    fun testAddZero() {
+        val m1 = Mat2(1.0, 2.0, 3.0, 4.0)
+        val m2 = Mat2(0.0, 0.0, 0.0, 0.0)
+        val expected = Mat2(1.0, 2.0, 3.0, 4.0);
+
+        assertTrue(Mat2.equals(expected, m1 + m2));
+        assertTrue(Mat2.equals(expected, m2 + m1));
+
+        assertTrue(Mat2.equals(expected, Mat2.add(m1, m2)));
+        assertTrue(Mat2.equals(expected, Mat2.add(m2, m1)));
+
+        assertTrue(Mat2.equals(expected, m1.add(m2)));
+        assertTrue(Mat2.equals(expected, m1));
+    }
+
+    @Test
     fun multiplyWithIdentity() {
         val identity = Mat2.identityDoubleArray()
         val m = Mat2.fromValues(1.0, 2.0, 3.0, 4.0)
 
         // test m * I
-        assertTrue(Mat2.equals(m, Mat2.multiply( m, identity)))
+        assertTrue(Mat2.equals(m, Mat2.multiply(m, identity)))
         // test I * m
         assertTrue(Mat2.equals(m, Mat2.multiply(identity, m)))
     }
@@ -68,6 +100,5 @@ class Mat2Test {
         val prod22 = m22 * m11
         assertTrue(Mat2.equals(prod11, Mat2(5.0, 4.0, 13.0, 8.0)))
         assertTrue(Mat2.equals(prod22, Mat2(3.0, 6.0, 7.0, 10.0)))
-
     }
 }

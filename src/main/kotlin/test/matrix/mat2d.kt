@@ -42,6 +42,38 @@ class Mat2dTest {
     }
 
     @Test
+    fun testAddMatrix() {
+        val m1 = Mat2d(1.0, 2.0, 3.0, 4.0, 5.0, 6.0)
+        val m2 = Mat2d(1.0, 2.0, 3.0, 4.0, 5.0, 6.0)
+        val expected = Mat2d(2.0, 4.0, 6.0, 8.0, 10.0, 12.0);
+
+        assertTrue(Mat2d.equals(expected, m1 + m2));
+        assertTrue(Mat2d.equals(expected, m2 + m1));
+
+        assertTrue(Mat2d.equals(expected, Mat2d.add(m1, m2)));
+        assertTrue(Mat2d.equals(expected, Mat2d.add(m2, m1)));
+
+        assertTrue(Mat2d.equals(expected, m1.add(m2)));
+        assertTrue(Mat2d.equals(expected, m1));
+    }
+
+    @Test
+    fun testAddZero() {
+        val m1 = Mat2d(1.0, 2.0, 3.0, 4.0, 5.0, 6.0)
+        val m2 = Mat2d(0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
+        val expected = Mat2d(1.0, 2.0, 3.0, 4.0, 5.0, 6.0);
+
+        assertTrue(Mat2d.equals(expected, m1 + m2));
+        assertTrue(Mat2d.equals(expected, m2 + m1));
+
+        assertTrue(Mat2d.equals(expected, Mat2d.add(m1, m2)));
+        assertTrue(Mat2d.equals(expected, Mat2d.add(m2, m1)));
+
+        assertTrue(Mat2d.equals(expected, m1.add(m2)));
+        assertTrue(Mat2d.equals(expected, m1));
+    }
+
+    @Test
     fun multiplyWithIdentity() {
         val identity = Mat2d.identityDoubleArray()
         val m = Mat2d.fromValues(1.0, 2.0, 3.0, 4.0, 1.0, 1.0)
