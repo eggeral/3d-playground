@@ -143,25 +143,7 @@ class Mat2d() : glMatrix() {
     }
 
     operator fun times(multiplier: Mat2d): Mat2d {
-        val a0 = this.matrix[0]
-        val a1 = this.matrix[1]
-        val a2 = this.matrix[2]
-        val a3 = this.matrix[3]
-        val a4 = this.matrix[4]
-        val a5 = this.matrix[5]
-        val b0 = multiplier[0]
-        val b1 = multiplier[1]
-        val b2 = multiplier[2]
-        val b3 = multiplier[3]
-        val b4 = multiplier[4]
-        val b5 = multiplier[5]
-        this.matrix[0] = a0 * b0 + a2 * b1
-        this.matrix[1] = a1 * b0 + a3 * b1
-        this.matrix[2] = a0 * b2 + a2 * b3
-        this.matrix[3] = a1 * b2 + a3 * b3
-        this.matrix[4] = a0 * b4 + a2 * b5 + a4
-        this.matrix[5] = a1 * b4 + a3 * b5 + a5
-        return this
+        return multiplier.clone().multiply(this);
     }
 
     /**
@@ -183,13 +165,7 @@ class Mat2d() : glMatrix() {
     }
 
     operator fun plus(summand: Mat2d): Mat2d {
-        this.matrix[0] += summand[0]
-        this.matrix[1] += summand[1]
-        this.matrix[2] += summand[2]
-        this.matrix[3] += summand[3]
-        this.matrix[4] += summand[4]
-        this.matrix[5] += summand[5]
-        return this
+        return clone().add(summand);
     }
 
     /**
@@ -211,13 +187,7 @@ class Mat2d() : glMatrix() {
     }
 
     operator fun minus(subtrahend: Mat2d): Mat2d {
-        this.matrix[0] -= subtrahend[0]
-        this.matrix[1] -= subtrahend[1]
-        this.matrix[2] -= subtrahend[2]
-        this.matrix[3] -= subtrahend[3]
-        this.matrix[4] -= subtrahend[4]
-        this.matrix[5] -= subtrahend[5]
-        return this
+        return clone().subtract(subtrahend);
     }
 
     /**

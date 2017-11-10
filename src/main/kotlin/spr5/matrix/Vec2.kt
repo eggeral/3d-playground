@@ -54,9 +54,7 @@ class Vec2() : glMatrix() {
     }
 
     operator fun plus(summand: Vec2): Vec2 {
-        this.vector[0] += summand[0]
-        this.vector[1] += summand[1]
-        return this
+        return clone().add(summand);
     }
 
     /**
@@ -72,9 +70,7 @@ class Vec2() : glMatrix() {
     }
 
     operator fun minus(subtrahend: Vec2): Vec2 {
-        this.vector[0] -= subtrahend[0]
-        this.vector[1] -= subtrahend[1]
-        return this
+        return clone().subtract(subtrahend);
     }
 
     /**
@@ -90,9 +86,7 @@ class Vec2() : glMatrix() {
     }
 
     operator fun times(multiplier: Vec2): Vec2 {
-        this.vector[0] *= multiplier[0]
-        this.vector[0] *= multiplier[0]
-        return this
+        return multiplier.clone().multiply(multiplier);
     }
 
     /**
@@ -108,9 +102,7 @@ class Vec2() : glMatrix() {
     }
 
     operator fun div(divisor: Vec2): Vec2 {
-        this.vector[0] /= divisor[0]
-        this.vector[1] /= divisor[1]
-        return this
+        return clone().divide(divisor);
     }
 
     /**

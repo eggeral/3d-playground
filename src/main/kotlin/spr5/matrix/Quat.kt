@@ -67,11 +67,7 @@ class Quat() : glMatrix() {
     }
 
     operator fun plus(summand: Quat): Quat {
-        this.quaternion[0] += summand[0]
-        this.quaternion[1] += summand[1]
-        this.quaternion[2] += summand[2]
-        this.quaternion[3] += summand[3]
-        return this
+        return clone().add(summand);
     }
 
     /**
@@ -99,19 +95,7 @@ class Quat() : glMatrix() {
     }
 
     operator fun times(multiplier: Quat): Quat {
-        val ax = this.quaternion[0]
-        val ay = this.quaternion[1]
-        val az = this.quaternion[2]
-        val aw = this.quaternion[3]
-        val bx = multiplier[0]
-        val by = multiplier[1]
-        val bz = multiplier[2]
-        val bw = multiplier[3]
-        this.quaternion[0] = ax * bw + aw * bx + ay * bz - az * by
-        this.quaternion[1] = ay * bw + aw * by + az * bx - ax * bz
-        this.quaternion[2] = az * bw + aw * bz + ax * by - ay * bx
-        this.quaternion[3] = aw * bw - ax * bx - ay * by - az * bz
-        return this
+        return multiplier.clone().multiply(this);
     }
 
     /**

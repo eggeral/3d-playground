@@ -52,16 +52,7 @@ class Mat3() : glMatrix() {
     }
 
     operator fun plus(summand: Mat3): Mat3 {
-        this.matrix[0] += summand[0]
-        this.matrix[1] += summand[1]
-        this.matrix[2] += summand[2]
-        this.matrix[3] += summand[3]
-        this.matrix[4] += summand[4]
-        this.matrix[5] += summand[5]
-        this.matrix[6] += summand[6]
-        this.matrix[7] += summand[7]
-        this.matrix[8] += summand[8]
-        return this
+        return clone().add(summand);
     }
 
     /**
@@ -86,16 +77,7 @@ class Mat3() : glMatrix() {
     }
 
     operator fun minus(subtrahend: Mat3): Mat3 {
-        this.matrix[0] -= subtrahend[0]
-        this.matrix[1] -= subtrahend[1]
-        this.matrix[2] -= subtrahend[2]
-        this.matrix[3] -= subtrahend[3]
-        this.matrix[4] -= subtrahend[4]
-        this.matrix[5] -= subtrahend[5]
-        this.matrix[6] -= subtrahend[6]
-        this.matrix[7] -= subtrahend[7]
-        this.matrix[8] -= subtrahend[8]
-        return this
+        return clone().subtract(subtrahend);
     }
 
     /**
@@ -138,34 +120,7 @@ class Mat3() : glMatrix() {
     }
 
     operator fun times(multiplier: Mat3): Mat3 {
-        val a00 = this.matrix[0]
-        val a01 = this.matrix[1]
-        val a02 = this.matrix[2]
-        val a10 = this.matrix[3]
-        val a11 = this.matrix[4]
-        val a12 = this.matrix[5]
-        val a20 = this.matrix[6]
-        val a21 = this.matrix[7]
-        val a22 = this.matrix[8]
-        val b00 = multiplier[0]
-        val b01 = multiplier[1]
-        val b02 = multiplier[2]
-        val b10 = multiplier[3]
-        val b11 = multiplier[4]
-        val b12 = multiplier[5]
-        val b20 = multiplier[6]
-        val b21 = multiplier[7]
-        val b22 = multiplier[8]
-        this.matrix[0] = b00 * a00 + b01 * a10 + b02 * a20
-        this.matrix[1] = b00 * a01 + b01 * a11 + b02 * a21
-        this.matrix[2] = b00 * a02 + b01 * a12 + b02 * a22
-        this.matrix[3] = b10 * a00 + b11 * a10 + b12 * a20
-        this.matrix[4] = b10 * a01 + b11 * a11 + b12 * a21
-        this.matrix[5] = b10 * a02 + b11 * a12 + b12 * a22
-        this.matrix[6] = b20 * a00 + b21 * a10 + b22 * a20
-        this.matrix[7] = b20 * a01 + b21 * a11 + b22 * a21
-        this.matrix[8] = b20 * a02 + b21 * a12 + b22 * a22
-        return this
+        return clone().multiply(this);
     }
 
     /**

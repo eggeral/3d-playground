@@ -66,23 +66,7 @@ class Mat4() : glMatrix() {
     }
 
     operator fun plus(summand: Mat4): Mat4 {
-        this.matrix[0] += summand[0]
-        this.matrix[1] += summand[1]
-        this.matrix[2] += summand[2]
-        this.matrix[3] += summand[3]
-        this.matrix[4] += summand[4]
-        this.matrix[5] += summand[5]
-        this.matrix[6] += summand[6]
-        this.matrix[7] += summand[7]
-        this.matrix[8] += summand[8]
-        this.matrix[9] += summand[9]
-        this.matrix[10] += summand[10]
-        this.matrix[11] += summand[11]
-        this.matrix[12] += summand[12]
-        this.matrix[13] += summand[13]
-        this.matrix[14] += summand[14]
-        this.matrix[15] += summand[15]
-        return this
+        return clone().add(summand);
     }
 
     /**
@@ -114,23 +98,7 @@ class Mat4() : glMatrix() {
     }
 
     operator fun minus(subtrahend: Mat4): Mat4 {
-        this.matrix[0] -= subtrahend[0]
-        this.matrix[1] -= subtrahend[1]
-        this.matrix[2] -= subtrahend[2]
-        this.matrix[3] -= subtrahend[3]
-        this.matrix[4] -= subtrahend[4]
-        this.matrix[5] -= subtrahend[5]
-        this.matrix[6] -= subtrahend[6]
-        this.matrix[7] -= subtrahend[7]
-        this.matrix[8] -= subtrahend[8]
-        this.matrix[9] -= subtrahend[9]
-        this.matrix[10] -= subtrahend[10]
-        this.matrix[11] -= subtrahend[11]
-        this.matrix[12] -= subtrahend[12]
-        this.matrix[13] -= subtrahend[13]
-        this.matrix[14] -= subtrahend[14]
-        this.matrix[15] -= subtrahend[15]
-        return this
+        return clone().subtract(subtrahend);
     }
 
 
@@ -196,56 +164,7 @@ class Mat4() : glMatrix() {
     }
 
     operator fun times(multiplier: Mat4): Mat4 {
-        val a00 = this.matrix[0]
-        val a01 = this.matrix[1]
-        val a02 = this.matrix[2]
-        val a03 = this.matrix[3]
-        val a10 = this.matrix[4]
-        val a11 = this.matrix[5]
-        val a12 = this.matrix[6]
-        val a13 = this.matrix[7]
-        val a20 = this.matrix[8]
-        val a21 = this.matrix[9]
-        val a22 = this.matrix[10]
-        val a23 = this.matrix[11]
-        val a30 = this.matrix[12]
-        val a31 = this.matrix[13]
-        val a32 = this.matrix[14]
-        val a33 = this.matrix[15]
-        // Cache only the current line of the second matrix
-        var b0 = multiplier[0]
-        var b1 = multiplier[1]
-        var b2 = multiplier[2]
-        var b3 = multiplier[3]
-        this.matrix[0] = b0 * a00 + b1 * a10 + b2 * a20 + b3 * a30
-        this.matrix[1] = b0 * a01 + b1 * a11 + b2 * a21 + b3 * a31
-        this.matrix[2] = b0 * a02 + b1 * a12 + b2 * a22 + b3 * a32
-        this.matrix[3] = b0 * a03 + b1 * a13 + b2 * a23 + b3 * a33
-        b0 = multiplier[4]
-        b1 = multiplier[5]
-        b2 = multiplier[6]
-        b3 = multiplier[7]
-        this.matrix[4] = b0 * a00 + b1 * a10 + b2 * a20 + b3 * a30
-        this.matrix[5] = b0 * a01 + b1 * a11 + b2 * a21 + b3 * a31
-        this.matrix[6] = b0 * a02 + b1 * a12 + b2 * a22 + b3 * a32
-        this.matrix[7] = b0 * a03 + b1 * a13 + b2 * a23 + b3 * a33
-        b0 = multiplier[8]
-        b1 = multiplier[9]
-        b2 = multiplier[10]
-        b3 = multiplier[11]
-        this.matrix[8] = b0 * a00 + b1 * a10 + b2 * a20 + b3 * a30
-        this.matrix[9] = b0 * a01 + b1 * a11 + b2 * a21 + b3 * a31
-        this.matrix[10] = b0 * a02 + b1 * a12 + b2 * a22 + b3 * a32
-        this.matrix[11] = b0 * a03 + b1 * a13 + b2 * a23 + b3 * a33
-        b0 = multiplier[12]
-        b1 = multiplier[13]
-        b2 = multiplier[14]
-        b3 = multiplier[15]
-        this.matrix[12] = b0 * a00 + b1 * a10 + b2 * a20 + b3 * a30
-        this.matrix[13] = b0 * a01 + b1 * a11 + b2 * a21 + b3 * a31
-        this.matrix[14] = b0 * a02 + b1 * a12 + b2 * a22 + b3 * a32
-        this.matrix[15] = b0 * a03 + b1 * a13 + b2 * a23 + b3 * a33
-        return this
+        return multiplier.clone().multiply(this);
     }
 
 
