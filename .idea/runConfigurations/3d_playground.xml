@@ -1,7 +1,11 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="3d-playground" type="JavascriptDebugType" factoryName="JavaScript Debug" uri="http://localhost:63342/3d-playground/build/classes/kotlin/main/index.html">
-    <method>
-      <option name="Make" enabled="true" />
-    </method>
+  <configuration default="false" name="3d_playground" type="K2JSConfigurationType" factoryName="Kotlin (JavaScript)">
+    <K2JSConfigurationSettings>
+      <option name="browserFamily" value="Chrome" />
+      <option name="generatedFilePath" value="$PROJECT_DIR$/build/classes/kotlin/main" />
+      <option name="pageToOpenFilePath" value="$PROJECT_DIR$/build/classes/kotlin/main/index.html" />
+      <option name="shouldOpenInBrowserAfterTranslation" value="true" />
+    </K2JSConfigurationSettings>
+    <method />
   </configuration>
 </component>
