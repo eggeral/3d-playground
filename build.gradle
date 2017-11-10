@@ -20,7 +20,7 @@ dependencies {
 
 compileKotlin2Js {
     kotlinOptions {
-        outputFile = "$buildDir/classes/kotlin/main/${project.name}_main.js"
+        outputFile = "$buildDir/classes/kotlin/main/${project.name}.js"
         sourceMap = true
     }
 }
