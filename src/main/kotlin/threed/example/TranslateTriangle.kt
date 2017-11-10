@@ -25,11 +25,11 @@ fun translateTriangle(gl: WebGLRenderingContext) {
 
     val vertexShaderCode =
             """
-            attribute Vec3 vertices;
-            uniform Mat4 translationMatrix;
+            attribute vec3 vertices;
+            uniform mat4 translationMatrix;
 
             void main(void) {
-                gl_Position = translationMatrix*Vec4(vertices, 1.0);
+                gl_Position = translationMatrix*vec4(vertices, 1.0);
             }
             """
 
@@ -37,7 +37,7 @@ fun translateTriangle(gl: WebGLRenderingContext) {
             """
             precision mediump float;
             void main(void) {
-                gl_FragColor = Vec4(0.9, 0.2, 0.2, 1.0);
+                gl_FragColor = vec4(0.9, 0.2, 0.2, 1.0);
             }
             """
 

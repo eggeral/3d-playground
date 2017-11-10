@@ -26,12 +26,12 @@ fun drawTriangle(gl: WebGLRenderingContext) {
     gl.bufferData(ARRAY_BUFFER, Float32Array(vertices), STATIC_DRAW) // but the triangle coordinates into the current array buffer
 
     // A vertex shader calculates the gl position of the input vertices ( in this case just copy the position)
-    // The result is a Vec4. Why? -> https://developer.mozilla.org/docs/Web/API/WebGL_API/WebGL_model_view_projection
+    // The result is a vec4. Why? -> https://developer.mozilla.org/docs/Web/API/WebGL_API/WebGL_model_view_projection
     val vertexShaderCode =
             """
-            attribute Vec3 vertices;
+            attribute vec3 vertices;
             void main() {
-                gl_Position = Vec4(vertices, 1.0);
+                gl_Position = vec4(vertices, 1.0);
             }
             """
 
@@ -39,7 +39,7 @@ fun drawTriangle(gl: WebGLRenderingContext) {
             """
             precision mediump float;
             void main() {
-                gl_FragColor = Vec4(0.9, 0.2, 0.2, 1.0);
+                gl_FragColor = vec4(0.9, 0.2, 0.2, 1.0);
             }
             """
 

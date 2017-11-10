@@ -30,17 +30,17 @@ fun drawSceneTriangle(gl: WebGLRenderingContext) {
 
     val vertexShaderCode =
             """
-            attribute Vec3 vertices;
+            attribute vec3 vertices;
 
             void main() {
-                gl_Position = Vec4(vertices, 1.0);
+                gl_Position = vec4(vertices, 1.0);
             }
             """
 
     val fragmentShaderCode =
             """
             precision mediump float;
-            uniform Vec4 vColor;
+            uniform vec4 vColor;
             void main(void) {
                 gl_FragColor = vColor;
             }
