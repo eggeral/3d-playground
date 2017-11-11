@@ -96,7 +96,7 @@ class SceneBlock(var center: Coordinate, var width: Float, var heigth: Float, va
 }
 
 fun createCube(center: Coordinate, size: Float, color: Rgba) :SceneBlock {
-    return SceneBlock(center, size, size, size, arrayOf(color,color,color,color))
+    return SceneBlock(center, size, size, size, arrayOf(color,color,color,color,color,color))
 }
 
 fun createMulticolorCube(center: Coordinate, size: Float, colors: Array<Rgba>) :SceneBlock {
