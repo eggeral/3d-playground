@@ -1,25 +1,19 @@
-package test.shapes
+package shapes
 
 import spr5.scene.Coordinate
-import spr5.scene.SceneRectangle
 import spr5.scene.Rgba
+import spr5.scene.SceneRectangle
 import spr5.scene.createSquare
-import test.annotations.*
-import spr5.util.*
-
+import spr5.util.assertEquals
+import spr5.util.assertNotNull
 
 class TestRectangle(){
     private var testRectangle : SceneRectangle = setUp()
 
-    @Before
     fun setUp() : SceneRectangle {
         var color : Rgba = setColor(1.0f, 0.5f, 0.7f, 0.5f);
         val centerPoint = setCoordinate(50.0f, 50.0f, 50.0f)
         return SceneRectangle(centerPoint, 50.0f, 50.0f, color)
-    }
-    @After
-    fun tearDown() {
-        //testRectangle = null;
     }
 
     fun setColor( red: Float, green : Float, blue : Float, alpha : Float ) : Rgba {

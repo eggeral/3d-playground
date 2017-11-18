@@ -1,10 +1,10 @@
-package test.shapes
+package shapes
 
 import spr5.scene.Coordinate
 import spr5.scene.SceneTriangle
 import spr5.scene.Rgba
 import spr5.util.*
-import test.annotations.*
+import kotlin.test.Test
 
 
 class TestTriangle{
@@ -12,7 +12,6 @@ class TestTriangle{
     private var testTriangle : SceneTriangle = setUp()
 
 
-    @Before
     fun setUp() : SceneTriangle {
         val point1 = Coordinate(50.0f, 50.0f, 50.0f)
         val point2 = Coordinate (100.0f, 100.0f, 100.0f)
@@ -22,9 +21,6 @@ class TestTriangle{
         return SceneTriangle(vertices, triangleColor)
     }
 
-    @After
-    fun tearDown() {
-    }
     fun setColor() : Rgba {
         return Rgba(1.0f, 0.5f, 0.7f, 0.5f);
     }

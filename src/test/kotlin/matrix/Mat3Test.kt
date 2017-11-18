@@ -1,21 +1,12 @@
-package test.matrix
+package matrix
 
 import spr5.matrix.Mat3
 import spr5.util.assertEquals
 import spr5.util.assertFalse
 import spr5.util.assertTrue
-import test.annotations.After
-import test.annotations.Before
-import test.annotations.Test
+import kotlin.test.Test
 
 class Mat3Test {
-    @Before
-    fun setUp() {
-    }
-
-    @After
-    fun tearDown() {
-    }
 
     @Test
     fun create() {

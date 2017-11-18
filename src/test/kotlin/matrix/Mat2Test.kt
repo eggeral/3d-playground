@@ -1,21 +1,13 @@
-package test.matrix
+package matrix
 
 import spr5.matrix.Mat2
-import spr5.matrix.Vec2
 import spr5.util.assertEquals
 import spr5.util.assertFalse
 import spr5.util.assertTrue
+import kotlin.test.Test
 
-import test.annotations.*
 
 class Mat2Test {
-    @Before
-    fun setUp() {
-    }
-
-    @After
-    fun tearDown() {
-    }
 
     @Test
     fun create() {
