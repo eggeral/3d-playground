@@ -5,11 +5,17 @@ import webgl.createWebGLRenderingContext
 import org.w3c.dom.HTMLCanvasElement
 import org.w3c.dom.HTMLDivElement
 import spr5.matrix.mat4
+import threed.example.drawExample
 import webgl.fitDrawingBufferIntoCanvas
 import kotlin.browser.document
 
-/*
+
 fun main(args: Array<String>) {
+    //drawExampleOneCanvas(args)
+    drawExampleTwoCanvas(args)
+}
+
+fun drawExampleOneCanvas(args: Array<String>) {
 
     val container = document.getElementById("container") as HTMLDivElement
     val canvas = document.createElement("canvas") as HTMLCanvasElement
@@ -23,9 +29,9 @@ fun main(args: Array<String>) {
 
 
 }
-*/
 
-fun main(args: Array<String>) {
+
+fun drawExampleTwoCanvas(args: Array<String>) {
     val container = document.getElementById("container") as HTMLDivElement
     val canvas1 = document.createElement("canvas") as HTMLCanvasElement
     canvas1.style.height = "100%"
