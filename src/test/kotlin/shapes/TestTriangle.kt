@@ -24,17 +24,17 @@ class TestTriangle{
     fun setColor() : Rgba {
         return Rgba(1.0f, 0.5f, 0.7f, 0.5f);
     }
-
+    @Test
     public fun TestObjectCreation(){
         assertNotNull(testTriangle)
     }
 
-
+    @Test
     public fun TestTriangleColor(){
         assertEquals(triangleColor, testTriangle.color)
     }
-
-    @Test public fun TestConstructionPoints(){
+    @Test
+    public fun TestConstructionPoints(){
         val p1 = Coordinate(50.0f, 50.0f, 50.0f)
         val p2 = Coordinate (100.0f, 100.0f, 100.0f)
         val p3 = Coordinate (-50.0f, -50.0f, -50.0f)
@@ -45,7 +45,7 @@ class TestTriangle{
         //not
         //assertNotEquals(vert, testTriangle.vertices)
     }
-
+    @Test
     public fun TestGetVertices(){
         val p1 = Coordinate(50.0f, 50.0f, 50.0f)
         val p2 = Coordinate (100.0f, 100.0f, 100.0f)
@@ -54,7 +54,7 @@ class TestTriangle{
                 p1, p2, p3)
 
     }
-
+    @Test
     public fun TestGetColor(){
         val triCol = Rgba(1.0f, 0.5f, 0.7f, 0.5f)
 
