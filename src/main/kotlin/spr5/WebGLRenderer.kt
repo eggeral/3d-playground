@@ -7,7 +7,7 @@ import org.khronos.webgl.WebGLUniformLocation
 import org.w3c.dom.HTMLCanvasElement
 import org.w3c.dom.HTMLDivElement
 import spr5.matrix.Mat4
-import threed.asRad
+import threed.*
 import webgl.createWebGLRenderingContext
 import webgl.fitDrawingBufferIntoCanvas
 import kotlin.browser.document
@@ -122,6 +122,8 @@ class WebGLRenderer {
         val deltaTime = ((time - lastRender) / 10.0).toFloat()
         lastRender = time;
 
+        rotateModelMatrix(deltaTime * 0.005);
+
         gl.enable(WebGLRenderingContext.DEPTH_TEST)
         gl.depthFunc(WebGLRenderingContext.LEQUAL)
         gl.clearColor(0.5f, 0.5f, 0.5f, 0.9f)
@@ -133,8 +135,17 @@ class WebGLRenderer {
         gl.uniformMatrix4fv(viewMatrixUniform, false, viewMatrix.toFloat32Array())
 
 
-
         window.requestAnimationFrame { t -> renderFrame(t) }
 
+    }
+
+    fun rotateModelMatrix(rotateRad: Double) {
+        return rotateModelMatrix(rotateRad, rotateRad, rotateRad);
+    }
+
+    fun rotateModelMatrix(rotateXRad: Double, rotateYRad: Double, rotateZRad: Double) {
+        modelMatrix = modelMatrix * Mat4().rotateX(rotateXRad) *
+                Mat4().rotateY(rotateYRad) *
+                Mat4().rotateZ(rotateZRad);
     }
 }
