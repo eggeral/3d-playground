@@ -12,8 +12,8 @@ import kotlin.browser.document
 
 
 fun main(args: Array<String>) {
-    //drawExampleOneCanvas(args)
-    drawExampleTwoCanvas(args)
+    drawExampleOneCanvas(args)
+    //drawExampleTwoCanvas(args)
 }
 
 fun drawExampleOneCanvas(args: Array<String>) {
