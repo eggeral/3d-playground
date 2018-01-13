@@ -36,6 +36,13 @@ class Mat4() : glMatrix() {
         matrix[index] = value
     }
 
+    fun toFloat32Array(): Float32Array {
+        val result = Float32Array(matrix.size);
+
+        matrix.forEachIndexed { index, d -> result[index] = d.toFloat() };
+
+        return result;
+    }
 
     /**
      * Adds two Mat4's
