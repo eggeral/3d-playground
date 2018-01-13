@@ -19,7 +19,7 @@ fun drawExample(gl: WebGLRenderingContext) {
 
     //drawSceneTriangle(gl)
     //drawMultipleCubes(gl)
-    //moveCameraByMouse(gl)
-    mouseHandling(gl)
+    moveCameraByMouse(gl)
+    //mouseHandling(gl)
 }
 

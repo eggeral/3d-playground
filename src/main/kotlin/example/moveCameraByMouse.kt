@@ -18,6 +18,9 @@ import org.w3c.dom.events.MouseEvent
 import org.w3c.dom.events.WheelEvent
 import spr5.matrix.Mat4
 import spr5.matrix.Vec3
+import spr5.scene.Coordinate
+import spr5.scene.Rgba
+import spr5.scene.createMulticolorCube
 import threed.*
 import kotlin.browser.document
 import kotlin.browser.window
@@ -35,6 +38,18 @@ fun moveCameraByMouse(gl: WebGLRenderingContext) {
     val MOUSE_BUTTON_LEFT: Short = 0
     val MOUSE_BUTTON_MIDDLE: Short = 1
     val MOUSE_BUTTON_RIGHT: Short = 2
+    val cubeSize = 2.0f
+    val cubeFacesColors = arrayOf(Rgba(1.0f, 0.0f, 0.0f, 1.0f)
+            , Rgba(0.0f, 1.0f, 0.0f, 1.0f)
+            , Rgba(0.0f, 0.0f, 1.0f, 1.0f)
+            , Rgba(0.5f, 0.5f, 0.0f, 1.0f)
+            , Rgba(0.0f, 0.5f, 0.5f, 1.0f)
+            , Rgba(0.5f, 0.0f, 0.5f, 1.0f))
+
+    val cube = createMulticolorCube(Coordinate(0.0f, 0.0f, 0.0f), cubeSize, cubeFacesColors)
+    val vertices = cube.getVertices()
+    val colors = cube.getColors()
+    val indices = cube.getIndices()
 
     // BEGIN ------- same as RotatingCubeExample -------
     val vertexShaderCode =
@@ -59,69 +74,6 @@ fun moveCameraByMouse(gl: WebGLRenderingContext) {
                 gl_FragColor = vec4(vColor, 1.);
             }
             """
-
-    val vertices = arrayOf(
-            -1.0f, -1.0f, -1.0f,
-            1.0f, -1.0f, -1.0f,
-            1.0f, 1.0f, -1.0f,
-
-            -1.0f, 1.0f, -1.0f,
-            -1.0f, -1.0f, 1.0f,
-            1.0f, -1.0f, 1.0f,
-
-            1.0f, 1.0f, 1.0f,
-            -1.0f, 1.0f, 1.0f,
-            -1.0f, -1.0f, -1.0f,
-
-            -1.0f, 1.0f, -1.0f,
-            -1.0f, 1.0f, 1.0f,
-            -1.0f, -1.0f, 1.0f,
-
-            1.0f, -1.0f, -1.0f,
-            1.0f, 1.0f, -1.0f,
-            1.0f, 1.0f, 1.0f,
-
-            1.0f, -1.0f, 1.0f,
-            -1.0f, -1.0f, -1.0f,
-            -1.0f, -1.0f, 1.0f,
-
-            1.0f, -1.0f, 1.0f,
-            1.0f, -1.0f, -1.0f,
-            -1.0f, 1.0f, -1.0f,
-
-            -1.0f, 1.0f, 1.0f,
-            1.0f, 1.0f, 1.0f,
-            1.0f, 1.0f, -1.0f
-    )
-
-    val colors = arrayOf(
-            5.0f, 3.0f, 7.0f, 5.0f, 3.0f, 7.0f, 5.0f, 3.0f, 7.0f, 5.0f, 3.0f, 7.0f,
-            1.0f, 1.0f, 3.0f, 1.0f, 1.0f, 3.0f, 1.0f, 1.0f, 3.0f, 1.0f, 1.0f, 3.0f,
-            0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-            1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
-            1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f,
-            0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f
-    )
-
-    val indices = arrayOf<Short>(
-            0, 1, 2,
-            0, 2, 3,
-
-            4, 5, 6,
-            4, 6, 7,
-
-            8, 9, 10,
-            8, 10, 11,
-
-            12, 13, 14,
-            12, 14, 15,
-
-            16, 17, 18,
-            16, 18, 19,
-
-            20, 21, 22,
-            20, 22, 23
-    )
 
     val vertexBuffer = gl.createBuffer()
     gl.bindBuffer(ARRAY_BUFFER, vertexBuffer)
@@ -202,7 +154,6 @@ fun moveCameraByMouse(gl: WebGLRenderingContext) {
     }
 
     var timeOld = 0.0
-    var animate = true
     fun animate(time: Double) {
 
         gl.fitDrawingBufferIntoCanvas()
@@ -225,8 +176,7 @@ fun moveCameraByMouse(gl: WebGLRenderingContext) {
 
 
         drawObjects(modelMatrices)
-        if (animate)
-            window.requestAnimationFrame { t -> animate(t) }
+        window.requestAnimationFrame { time -> animate(time) }
     }
     window.requestAnimationFrame { time -> animate(time) }
 
@@ -257,7 +207,6 @@ fun moveCameraByMouse(gl: WebGLRenderingContext) {
                 console.log("X: " + cx + ", Y: " + cy)
                 dragging = true
                 // 2do: select right object
-                animate = false // just stop animation for now
             } else if (e.button == MOUSE_BUTTON_MIDDLE) {
                 // do nothing
             }
@@ -266,21 +215,28 @@ fun moveCameraByMouse(gl: WebGLRenderingContext) {
 
     fun mouseMove(e: Any) {
         if (e is MouseEvent) {
-            if(dragging == true) {
-                // 2do: move selected object
-            } else if (moveCam == true) {
-
+            if(moveCam == true) {
                 var newX = e.clientX
                 var newY = e.clientY
                 var deltaX = newX - clickPosX
-                console.log(deltaX)
                 var deltaY = newY - clickPosY
-                console.log(deltaX)
-                viewMatrix = viewMatrix.rotateX(deltaX.toDouble().asRad /*, Vec3(0.0, 1.0, 0.0)*/)
-                viewMatrix = viewMatrix.rotateY(deltaY.toDouble().asRad /*, Vec3(1.0, 0.0, 0.0)*/)
+                viewMatrix = viewMatrix.rotateX(deltaX.toDouble().asRad)
+                viewMatrix = viewMatrix.rotateY(deltaY.toDouble().asRad)
 
                 clickPosX = newX
                 clickPosY = newY;
+            } else if (dragging == true) {
+                if(e.clientX > clickPosX)
+                    viewMatrixV3.set(0, viewMatrixV3.get(0) + 0.1f)
+                if(e.clientY > clickPosY)
+                    viewMatrixV3.set(1, viewMatrixV3.get(1) - 0.1f)
+                if(e.clientX < clickPosX)
+                    viewMatrixV3.set(0, viewMatrixV3.get(0) - 0.1f)
+                if(e.clientY < clickPosY)
+                    viewMatrixV3.set(1, viewMatrixV3.get(1) + 0.1f)
+                clickPosX = e.clientX
+                clickPosY = e.clientY
+                viewMatrix = Mat4().translate(viewMatrixV3)
             }
         }
     }
@@ -289,7 +245,6 @@ fun moveCameraByMouse(gl: WebGLRenderingContext) {
         if (e is MouseEvent) {
             if(e.button == MOUSE_BUTTON_LEFT) {
                 dragging = false
-                animate = true
                 window.requestAnimationFrame { time -> animate(time) }
             }
             if(e.button == MOUSE_BUTTON_RIGHT) {
