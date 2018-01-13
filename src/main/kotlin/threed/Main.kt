@@ -6,7 +6,6 @@ import org.w3c.dom.HTMLDivElement
 import threed.example.drawExample
 import kotlin.browser.document
 
-@JsName("main")
 fun main(args: Array<String>) {
 
     val container = document.getElementById("container") as HTMLDivElement
