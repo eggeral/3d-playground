@@ -7,7 +7,6 @@ import threed.example.drawExample
 import kotlin.browser.document
 
 fun main(args: Array<String>) {
-
     val container = document.getElementById("container") as HTMLDivElement
     val canvas = document.createElement("canvas") as HTMLCanvasElement
     canvas.style.height = "100%"
