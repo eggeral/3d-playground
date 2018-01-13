@@ -3,7 +3,7 @@ package example.projection
 import org.khronos.webgl.Float32Array
 import org.khronos.webgl.Uint16Array
 import org.khronos.webgl.WebGLRenderingContext
-import spr5.matrix.mat4
+import spr5.matrix.Mat4
 import webgl.fitDrawingBufferIntoCanvas
 import kotlin.browser.window
 
@@ -60,13 +60,13 @@ fun drawOrthographicVsPerspectiveCubes(gl: WebGLRenderingContext, projectionMatr
 
     // END ------- RotatingCubeExample -------
 
-    val viewMatrix = mat4.translate(mat4.create(), mat4.create(), arrayOf(0.0, 0.0, -15.0))
+    val viewMatrix = Mat4().translate(arrayOf(0.0, 0.0, -15.0))
 
     // every model matrix defines different locations of the same cube
     val modelMatrices = arrayOf<Float32Array>(
-            mat4.translate(mat4.create(), mat4.create(), arrayOf(0.0, 2.0, 0.0)),
-            mat4.create(),
-            mat4.translate(mat4.create(), mat4.create(), arrayOf(0.0, -2.0, 0.0))
+            Mat4().translate(arrayOf(0.0, 2.0, 0.0)).toFloat32Array(),
+            Mat4().toFloat32Array(),
+            Mat4().translate(arrayOf(0.0, -2.0, 0.0)).toFloat32Array()
     )
 
     // draws the same cube with different model matrices
@@ -83,9 +83,9 @@ fun drawOrthographicVsPerspectiveCubes(gl: WebGLRenderingContext, projectionMatr
         for (i in modelMatrices.indices) {
             m = modelMatrices[i]
             if (i % 2 == 0)
-                mat4.rotateY(m, m, delta * 0.005)
+                m = Mat4.rotateY(m, delta * 0.005)
             else
-                mat4.rotateY(m, m, delta * -0.005)
+                m = Mat4.rotateY(m, delta * -0.005)
             modelMatrices[i] = m
         }
     }
@@ -109,7 +109,7 @@ fun drawOrthographicVsPerspectiveCubes(gl: WebGLRenderingContext, projectionMatr
         gl.bindBuffer(WebGLRenderingContext.ELEMENT_ARRAY_BUFFER, indexBuffer)
         gl.clear(WebGLRenderingContext.COLOR_BUFFER_BIT.or(WebGLRenderingContext.DEPTH_BUFFER_BIT))
         gl.uniformMatrix4fv(projectionMatrixUniform, false, projectionMatrix)
-        gl.uniformMatrix4fv(viewMatrixUniform, false, viewMatrix)
+        gl.uniformMatrix4fv(viewMatrixUniform, false, viewMatrix.toFloat32Array())
 
 
         drawObjects(modelMatrices)

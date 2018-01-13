@@ -1,10 +1,11 @@
 package threed
 
+//import example.projection.drawOrthographicVsPerspectiveCubes
 import example.projection.drawOrthographicVsPerspectiveCubes
 import webgl.createWebGLRenderingContext
 import org.w3c.dom.HTMLCanvasElement
 import org.w3c.dom.HTMLDivElement
-import spr5.matrix.mat4
+import spr5.matrix.Mat4
 import threed.example.drawExample
 import webgl.fitDrawingBufferIntoCanvas
 import kotlin.browser.document
@@ -26,8 +27,6 @@ fun drawExampleOneCanvas(args: Array<String>) {
     container.appendChild(canvas)
 
     drawExample(webGlContext)
-
-
 }
 
 
@@ -49,20 +48,19 @@ fun drawExampleTwoCanvas(args: Array<String>) {
     webGlContext1.fitDrawingBufferIntoCanvas()
 
     drawOrthographicVsPerspectiveCubes(webGlContext1,
-            mat4.perspective(mat4.create(),
-                    40.0.asRad,
+            Mat4.perspective(40.0.asRad,
                     (webGlContext1.canvas.width.toDouble() / webGlContext1.canvas.height.toDouble()),
-                    1.0, 100.0)
+                    1.0, 100.0, Mat4()).toFloat32Array()
     )
     webGlContext2.fitDrawingBufferIntoCanvas()
 
     drawOrthographicVsPerspectiveCubes(webGlContext2,
-            mat4.ortho(mat4.create(),
+            Mat4.ortho(
                     -5.0, 5.0,
                     -5.0, 5.0,
-                    0.1, 100.0)
+                    0.1, 100.0, Mat4()).toFloat32Array()
     )
-
 }
+
 
 
