@@ -89,6 +89,7 @@ task installMocha(type: NpmTask) {
     args = ['install', 'mocha']
 }
 
+/*
 task runMocha(type: NodeTask, dependsOn: [compileTestKotlin2Js, installMocha]) {
 
     script = file('node_modules/.bin/mocha')
@@ -98,8 +99,8 @@ task runMocha(type: NodeTask, dependsOn: [compileTestKotlin2Js, installMocha]) {
         it.environment "NODE_PATH", "${compileKotlin2Js.destinationDir}:${compileTestKotlin2Js.destinationDir}/lib"
     }
 }
-
-test.dependsOn runMocha
+*/
+//test.dependsOn runMocha
 
 apply plugin: 'idea'
 idea {
