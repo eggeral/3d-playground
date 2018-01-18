@@ -16,6 +16,7 @@ fun main(args: Array<String>) {
     //drawExampleTwoCanvas(args)
 }
 
+@JsName("drawExampleOneCanvas")
 fun drawExampleOneCanvas(args: Array<String>) {
 
     val container = document.getElementById("container") as HTMLDivElement

@@ -1,8 +1,8 @@
-package test.matrix
+package matrix
 
 import spr5.matrix.Vec2
 import spr5.util.assert
-import test.annotations.Test
+import kotlin.test.Test
 
 class Vec2Test {
 
