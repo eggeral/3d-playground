@@ -58,8 +58,8 @@ fun moveCameraByMouse(gl: WebGLRenderingContext) {
             uniform mat4 viewMatrix;
             uniform mat4 modelMatrix;
             attribute vec3 vertices;
-            attribute vec3 color;
-            varying vec3 vColor;
+            attribute vec4 color;
+            varying vec4 vColor;
             void main(void) {
                 gl_Position = projectionMatrix*viewMatrix*modelMatrix*vec4(vertices, 1.);
                 vColor = color;
@@ -69,9 +69,9 @@ fun moveCameraByMouse(gl: WebGLRenderingContext) {
     val fragmentShaderCode =
             """
             precision mediump float;
-            varying vec3 vColor;
+            varying vec4 vColor;
             void main(void) {
-                gl_FragColor = vec4(vColor, 1.);
+                gl_FragColor = vColor;
             }
             """
 
@@ -112,7 +112,7 @@ fun moveCameraByMouse(gl: WebGLRenderingContext) {
 
     gl.bindBuffer(ARRAY_BUFFER, colorBuffer)
     val color = gl.getAttribLocation(shaderProgram, "color")
-    gl.vertexAttribPointer(color, 3, FLOAT, false, 0, 0)
+    gl.vertexAttribPointer(color, 4, FLOAT, false, 0, 0)
     gl.enableVertexAttribArray(color)
 
     gl.useProgram(shaderProgram)
@@ -226,16 +226,35 @@ fun moveCameraByMouse(gl: WebGLRenderingContext) {
                 clickPosX = newX
                 clickPosY = newY;
             } else if (dragging == true) {
+
+                /*var x = viewMatrix.get(0)
+                var y = viewMatrix.get(1)
+                var z = viewMatrix.get(2)*/
+
                 if(e.clientX > clickPosX)
                     viewMatrixV3.set(0, viewMatrixV3.get(0) + 0.1f)
+                    //x += 0.1f
                 if(e.clientY > clickPosY)
                     viewMatrixV3.set(1, viewMatrixV3.get(1) - 0.1f)
+                    //y -= 0.1f
                 if(e.clientX < clickPosX)
                     viewMatrixV3.set(0, viewMatrixV3.get(0) - 0.1f)
+                    //x -= 0.1f
                 if(e.clientY < clickPosY)
                     viewMatrixV3.set(1, viewMatrixV3.get(1) + 0.1f)
+                    //y += 0.1f
                 clickPosX = e.clientX
                 clickPosY = e.clientY
+
+                /*
+                viewMatrix.set(12, viewMatrix.get(0) * x + viewMatrix.get(4) * y + viewMatrix.get(8) * z + viewMatrix.get(12))
+                viewMatrix.set(13, viewMatrix.get(1) * x + viewMatrix.get(5) * y + viewMatrix.get(9) * z + viewMatrix.get(13))
+                viewMatrix.set(14, viewMatrix.get(2) * x + viewMatrix.get(6) * y + viewMatrix.get(10) * z + viewMatrix.get(14))
+                viewMatrix.set(15, viewMatrix.get(3) * x + viewMatrix.get(7) * y + viewMatrix.get(11) * z + viewMatrix.get(15))
+                viewMatrix.set(0, x)
+                viewMatrix.set(1, y)
+                viewMatrix.set(2, z)
+                */
                 viewMatrix = Mat4().translate(viewMatrixV3)
             }
         }
