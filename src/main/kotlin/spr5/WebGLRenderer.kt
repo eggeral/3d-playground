@@ -3,7 +3,10 @@ package spr5
 import org.khronos.webgl.*
 import org.w3c.dom.HTMLCanvasElement
 import org.w3c.dom.HTMLDivElement
+import org.w3c.dom.events.MouseEvent
+import org.w3c.dom.events.WheelEvent
 import spr5.matrix.Mat4
+import spr5.matrix.Vec3
 import spr5.scene.SceneObject
 import spr5.scene.SceneRenderer
 import threed.asRad
@@ -30,11 +33,29 @@ class WebGLRenderer : SceneRenderer {
     private var modelMatrix: Mat4;
     private var projectionMatrix: Mat4;
     private var viewMatrix: Mat4
+    private var viewMatrixV3 = Vec3(0.0, 0.0, -15.0)
+
+    private var clickPosX = 950
+    private var clickPosY = 600
+    private var moveCam = false
+    private var dragging = false
+
+    private val MOUSE_BUTTON_LEFT: Short = 0
+    private val MOUSE_BUTTON_MIDDLE: Short = 1
+    private val MOUSE_BUTTON_RIGHT: Short = 2
 
     init {
         val container = document.getElementById("container") as HTMLDivElement;
         val canvas = document.createElement("canvas") as HTMLCanvasElement;
         canvas.style.height = "100%";
+
+        document.addEventListener("mousedown", { e -> mouseDown(e) })
+        document.addEventListener("mousemove", { e -> mouseMove(e) })
+        document.addEventListener("mouseup", { e -> mouseUp(e) })
+        document.addEventListener("mousewheel", { e -> zoomCam(e)})
+        document.addEventListener("touchstart", { console.log("touch started" )})
+        document.addEventListener("touchmove", { console.log("touch moved" )})
+        document.addEventListener("touchend", { console.log("touch ended" )})
 
         gl = createWebGLRenderingContext(canvas);
 
@@ -192,5 +213,90 @@ class WebGLRenderer : SceneRenderer {
         modelMatrix = modelMatrix * Mat4().rotateX(rotateXRad) *
                 Mat4().rotateY(rotateYRad) *
                 Mat4().rotateZ(rotateZRad);
+    }
+
+
+    private fun getPositionInCanvas(x: Int, y: Int): Array<Int> {
+        val rect = gl.canvas.getBoundingClientRect()
+        console.log("Left: " + rect.left + ", Top: " + rect.top)
+        var cx = x - rect.left.toInt()
+        var cy = y - rect.top.toInt()
+        if (cx < 0)
+            cx = 0
+        if (cx > rect.right.toInt() - rect.left.toInt())
+            cx = rect.right.toInt() - rect.left.toInt()
+        if (cy < 0)
+            cy = 0
+        if (cy > rect.bottom.toInt() - rect.top.toInt())
+            cy = rect.bottom.toInt() - rect.top.toInt()
+        return arrayOf(cx, cy)
+    }
+
+    private fun mouseDown(e: Any) {
+        if (e is MouseEvent) {
+            clickPosX = e.clientX
+            clickPosY = e.clientY
+            if(e.button == MOUSE_BUTTON_RIGHT) { // right mouse button to move cam
+                moveCam = true
+            } else if (e.button == MOUSE_BUTTON_LEFT) { // left mouse button to select an object
+                val (cx, cy) = getPositionInCanvas(clickPosX, clickPosY)
+                console.log("X: " + cx + ", Y: " + cy)
+                dragging = true
+                // 2do: select right object
+            } else if (e.button == MOUSE_BUTTON_MIDDLE) {
+                // do nothing
+            }
+        }
+    }
+
+    private fun mouseMove(e: Any) {
+        if (e is MouseEvent) {
+            if(moveCam == true) {
+                var newX = e.clientX
+                var newY = e.clientY
+                var deltaX = newX - clickPosX
+                var deltaY = newY - clickPosY
+                viewMatrix = viewMatrix.rotateX(deltaX.toDouble().asRad)
+                viewMatrix = viewMatrix.rotateY(deltaY.toDouble().asRad)
+
+                clickPosX = newX
+                clickPosY = newY;
+            } else if (dragging == true) {
+                if(e.clientX > clickPosX)
+                    viewMatrixV3.set(0, viewMatrixV3.get(0) + 0.1f)
+                if(e.clientY > clickPosY)
+                    viewMatrixV3.set(1, viewMatrixV3.get(1) - 0.1f)
+                if(e.clientX < clickPosX)
+                    viewMatrixV3.set(0, viewMatrixV3.get(0) - 0.1f)
+                if(e.clientY < clickPosY)
+                    viewMatrixV3.set(1, viewMatrixV3.get(1) + 0.1f)
+                clickPosX = e.clientX
+                clickPosY = e.clientY
+                viewMatrix = Mat4().translate(viewMatrixV3)
+            }
+        }
+    }
+
+    private fun mouseUp(e: Any) {
+        if (e is MouseEvent) {
+            if(e.button == MOUSE_BUTTON_LEFT) {
+                dragging = false
+                window.requestAnimationFrame { time -> renderFrame(time) }
+            }
+            if(e.button == MOUSE_BUTTON_RIGHT) {
+                moveCam = false
+            }
+            if(e.button == MOUSE_BUTTON_MIDDLE) {
+                // do nothing
+            }
+        }
+    }
+
+    private fun zoomCam(e: Any) { // zoom in or out camera
+        if (e is WheelEvent) {
+            console.log("Wheel event!" + e.deltaY)
+            viewMatrixV3.set(2, viewMatrixV3.get(2) + (e.deltaY / 100).toFloat())
+            viewMatrix = Mat4().translate(viewMatrixV3)
+        }
     }
 }
