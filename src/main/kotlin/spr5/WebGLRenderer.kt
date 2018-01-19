@@ -1,63 +1,50 @@
 package spr5
 
-import org.khronos.webgl.Uint16Array
-import org.khronos.webgl.WebGLBuffer
-import org.khronos.webgl.WebGLRenderingContext
-import org.khronos.webgl.WebGLUniformLocation
+import org.khronos.webgl.*
 import org.w3c.dom.HTMLCanvasElement
 import org.w3c.dom.HTMLDivElement
 import spr5.matrix.Mat4
-import threed.*
+import spr5.scene.SceneObject
+import spr5.scene.SceneRenderer
+import threed.asRad
 import webgl.createWebGLRenderingContext
 import webgl.fitDrawingBufferIntoCanvas
 import kotlin.browser.document
 import kotlin.browser.window
 
-class WebGLRenderer {
+
+class WebGLRenderer : SceneRenderer {
     private var gl: WebGLRenderingContext;
     private var lastRender: Double = 0.0;
+
+    private var vertexBuffer: WebGLBuffer;
+    private var colorBuffer: WebGLBuffer;
     private var indexBuffer: WebGLBuffer;
 
     private var projectionMatrixUniform: WebGLUniformLocation
     private var viewMatrixUniform: WebGLUniformLocation
     private var modelMatrixUniform: WebGLUniformLocation
 
-    private var projectionMatrix: Mat4
+    private var objects: List<SceneObject> = listOf();
+
+    private var modelMatrix: Mat4;
+    private var projectionMatrix: Mat4;
     private var viewMatrix: Mat4
-    private var modelMatrix: Mat4
 
-    constructor() {
-        var container = document.getElementById("container") as HTMLDivElement;
-        var canvas = document.createElement("canvas") as HTMLCanvasElement;
-        canvas.style.height = "100%"
+    init {
+        val container = document.getElementById("container") as HTMLDivElement;
+        val canvas = document.createElement("canvas") as HTMLCanvasElement;
+        canvas.style.height = "100%";
 
-        gl = createWebGLRenderingContext(canvas)
+        gl = createWebGLRenderingContext(canvas);
 
-        container.appendChild(canvas)
+        container.appendChild(canvas);
 
-        val indices = arrayOf<Short>(
-                0, 1, 2,
-                0, 2, 3,
-
-                4, 5, 6,
-                4, 6, 7,
-
-                8, 9, 10,
-                8, 10, 11,
-
-                12, 13, 14,
-                12, 14, 15,
-
-                16, 17, 18,
-                16, 18, 19,
-
-                20, 21, 22,
-                20, 22, 23
-        );
-
+        // Create buffers
+        vertexBuffer = gl.createBuffer() as WebGLBuffer;
+        colorBuffer = gl.createBuffer() as WebGLBuffer;
         indexBuffer = gl.createBuffer() as WebGLBuffer;
-        gl.bindBuffer(WebGLRenderingContext.ELEMENT_ARRAY_BUFFER, indexBuffer);
-        gl.bufferData(WebGLRenderingContext.ELEMENT_ARRAY_BUFFER, Uint16Array(indices), WebGLRenderingContext.STATIC_DRAW);
+
 
         val vertexShaderCode =
                 """
@@ -103,6 +90,26 @@ class WebGLRenderer {
         viewMatrixUniform = gl.getUniformLocation(shaderProgram, "viewMatrix") as WebGLUniformLocation;
         modelMatrixUniform = gl.getUniformLocation(shaderProgram, "modelMatrix") as WebGLUniformLocation;
 
+        gl.bindBuffer(WebGLRenderingContext.ARRAY_BUFFER, colorBuffer)
+        val colors = gl.getAttribLocation(shaderProgram, "color")
+        gl.vertexAttribPointer(colors, 4, WebGLRenderingContext.FLOAT, false, 0, 0)
+        gl.enableVertexAttribArray(colors)
+
+        // Bind vertex buffer to shader program
+        gl.bindBuffer(WebGLRenderingContext.ARRAY_BUFFER, vertexBuffer)
+        val verticesAttribute = gl.getAttribLocation(shaderProgram, "vertices")
+        gl.vertexAttribPointer(verticesAttribute, 3, WebGLRenderingContext.FLOAT, false, 0, 0)
+        gl.enableVertexAttribArray(verticesAttribute)
+
+        // get uniform vColor attribute from fragment shader
+        val color = gl.getUniformLocation(shaderProgram, "vColor")
+
+        // set background color
+        gl.clearColor(0.9f, 0.9f, 0.9f, 1.0f)
+        gl.clear(WebGLRenderingContext.COLOR_BUFFER_BIT)
+
+        gl.useProgram(shaderProgram)
+
         projectionMatrix = Mat4().perspective(
                 40.0.asRad,
                 gl.canvas.width.toDouble() / gl.canvas.height.toDouble(),
@@ -114,36 +121,74 @@ class WebGLRenderer {
         window.requestAnimationFrame { t -> renderFrame(t) }
     }
 
-    fun renderFrame(time: Double) {
-        console.log("request animation frame");
+    private fun drawObjects() {
+        gl.uniformMatrix4fv(modelMatrixUniform, false, modelMatrix.toFloat32Array());
 
+        objects.forEach { o ->
+            gl.bindBuffer(WebGLRenderingContext.ARRAY_BUFFER, vertexBuffer);
+            gl.bufferData(
+                    WebGLRenderingContext.ARRAY_BUFFER,
+                    Float32Array(o.getVertices()),
+                    WebGLRenderingContext.STATIC_DRAW);
+
+            gl.bindBuffer(WebGLRenderingContext.ARRAY_BUFFER, colorBuffer);
+            gl.bufferData(
+                    WebGLRenderingContext.ARRAY_BUFFER,
+                    Float32Array(o.getColors()),
+                    WebGLRenderingContext.STATIC_DRAW);
+
+            gl.bindBuffer(WebGLRenderingContext.ELEMENT_ARRAY_BUFFER, indexBuffer);
+            gl.bufferData(
+                    WebGLRenderingContext.ELEMENT_ARRAY_BUFFER,
+                    Uint16Array(o.getIndices()),
+                    WebGLRenderingContext.STATIC_DRAW);
+
+            gl.drawElements(
+                    WebGLRenderingContext.TRIANGLES,
+                    o.getIndices().size,
+                    WebGLRenderingContext.UNSIGNED_SHORT,
+                    0);
+        }
+    }
+
+    private fun renderFrame(time: Double) {
         gl.fitDrawingBufferIntoCanvas();
 
         val deltaTime = ((time - lastRender) / 10.0).toFloat()
         lastRender = time;
 
-        rotateModelMatrix(deltaTime * 0.005);
+        rotateModel(deltaTime * 0.005);
 
         gl.enable(WebGLRenderingContext.DEPTH_TEST)
         gl.depthFunc(WebGLRenderingContext.LEQUAL)
-        gl.clearColor(0.5f, 0.5f, 0.5f, 0.9f)
         gl.clearDepth(1.0f)
 
-        gl.bindBuffer(WebGLRenderingContext.ELEMENT_ARRAY_BUFFER, indexBuffer)
+        gl.clearColor(0.5f, 0.5f, 0.5f, 0.9f)
+
         gl.clear(WebGLRenderingContext.COLOR_BUFFER_BIT.or(WebGLRenderingContext.DEPTH_BUFFER_BIT))
+
         gl.uniformMatrix4fv(projectionMatrixUniform, false, projectionMatrix.toFloat32Array())
         gl.uniformMatrix4fv(viewMatrixUniform, false, viewMatrix.toFloat32Array())
 
+        drawObjects();
 
         window.requestAnimationFrame { t -> renderFrame(t) }
 
     }
 
-    fun rotateModelMatrix(rotateRad: Double) {
-        return rotateModelMatrix(rotateRad, rotateRad, rotateRad);
+    override fun add(sceneObject: SceneObject) {
+        objects += sceneObject;
     }
 
-    fun rotateModelMatrix(rotateXRad: Double, rotateYRad: Double, rotateZRad: Double) {
+    override fun remove(sceneObject: SceneObject) {
+        objects -= sceneObject;
+    }
+
+    override fun rotateModel(rotateRad: Double) {
+        return rotateModel(rotateRad, rotateRad, rotateRad);
+    }
+
+    override fun rotateModel(rotateXRad: Double, rotateYRad: Double, rotateZRad: Double) {
         modelMatrix = modelMatrix * Mat4().rotateX(rotateXRad) *
                 Mat4().rotateY(rotateYRad) *
                 Mat4().rotateZ(rotateZRad);
