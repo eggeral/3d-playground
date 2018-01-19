@@ -3,9 +3,11 @@ buildscript {
 
     repositories {
         mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.moowork.gradle:gradle-node-plugin:1.2.0'
     }
 }
 
@@ -14,13 +16,17 @@ repositories {
 }
 
 apply plugin: 'kotlin2js'
+
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
+    testCompile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
 }
 
 compileKotlin2Js {
     kotlinOptions {
         outputFile = "$buildDir/classes/kotlin/main/${project.name}.js"
+        moduleKind = "umd"
+        main = "noCall"
         sourceMap = true
     }
 }
@@ -28,6 +34,7 @@ compileKotlin2Js {
 compileTestKotlin2Js {
     kotlinOptions {
         outputFile = "$buildDir/classes/kotlin/test/${project.name}_test.js"
+        moduleKind = "umd"
         sourceMap = true
     }
 }
@@ -42,7 +49,7 @@ sourceSets {
     }
 }
 
-build.doLast() {
+classes.doLast() {
     // Copy kotlin.js and kotlin-meta.js from jar into out dir
     configurations.compile.each { File file ->
         copy {
@@ -72,6 +79,28 @@ build.doLast() {
 
 }
 
+apply plugin: 'com.moowork.node'
+
+node {
+    download = true
+}
+
+task installMocha(type: NpmTask) {
+    args = ['install', 'mocha']
+}
+
+/*
+task runMocha(type: NodeTask, dependsOn: [compileTestKotlin2Js, installMocha]) {
+
+    script = file('node_modules/.bin/mocha')
+    args = [compileTestKotlin2Js.outputFile]
+
+    execOverrides {
+        it.environment "NODE_PATH", "${compileKotlin2Js.destinationDir}:${compileTestKotlin2Js.destinationDir}/lib"
+    }
+}
+*/
+//test.dependsOn runMocha
 
 apply plugin: 'idea'
 idea {

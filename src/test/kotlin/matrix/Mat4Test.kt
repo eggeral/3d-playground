@@ -1,20 +1,12 @@
-package test.matrix
+package matrix
 
 import spr5.matrix.Mat4
 import spr5.util.assertEquals
 import spr5.util.assertFalse
 import spr5.util.assertTrue
-import test.annotations.*
+import kotlin.test.Test
 
 class Mat4Test {
-    @Before
-    fun setUp() {
-    }
-
-    @After
-    fun tearDown() {
-    }
-
     @Test
     fun create() {
         val identity = Mat4.identityDoubleArray()

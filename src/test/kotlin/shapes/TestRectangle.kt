@@ -1,25 +1,21 @@
-package test.shapes
+package shapes
 
 import spr5.scene.Coordinate
-import spr5.scene.SceneRectangle
 import spr5.scene.Rgba
+import spr5.scene.SceneRectangle
 import spr5.scene.createSquare
-import test.annotations.*
-import spr5.util.*
+import spr5.util.assertEquals
+import spr5.util.assertNotNull
+import kotlin.test.Test
 
 
 class TestRectangle(){
     private var testRectangle : SceneRectangle = setUp()
 
-    @Before
     fun setUp() : SceneRectangle {
         var color : Rgba = setColor(1.0f, 0.5f, 0.7f, 0.5f);
         val centerPoint = setCoordinate(50.0f, 50.0f, 50.0f)
         return SceneRectangle(centerPoint, 50.0f, 50.0f, color)
-    }
-    @After
-    fun tearDown() {
-        //testRectangle = null;
     }
 
     fun setColor( red: Float, green : Float, blue : Float, alpha : Float ) : Rgba {
@@ -28,11 +24,11 @@ class TestRectangle(){
     fun setCoordinate(point1 : Float, point2 : Float, point3: Float) : Coordinate {
         return Coordinate(point1, point2, point3)
     }
-
+    @Test
     public fun TestObjectCreation(){
         assertNotNull(testRectangle)
     }
-
+    @Test
     public fun TestColors(){
         val testColor = setColor(1.0f, 0.5f, 0.7f, 0.5f)
         val wrongObjectColor = Rgba(0.9f, 0.4f, 0.6f, 0.4f)
@@ -41,7 +37,7 @@ class TestRectangle(){
         assertEquals(testColor.blue, testRectangle.getColors()[2])
         assertEquals(testColor.alpha, testRectangle.getColors()[3])
     }
-
+    @Test
     public fun TestVertices(){
         assertEquals(12, testRectangle.getVertices().size)
         assertEquals(25, testRectangle.getVertices()[0])
@@ -57,7 +53,7 @@ class TestRectangle(){
         assertEquals(25, testRectangle.getVertices()[10])
         assertEquals(50, testRectangle.getVertices()[11])
     }
-
+    @Test
     public fun TestCreateSquare(){
         var centerPoint = setCoordinate(50.0f, 50.0f, 50.0f)
         var color : Rgba = setColor(1.0f, 0.5f, 0.7f, 0.5f)
