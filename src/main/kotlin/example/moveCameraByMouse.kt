@@ -210,6 +210,7 @@ fun moveCameraByMouse(gl: WebGLRenderingContext) {
             } else if (e.button == MOUSE_BUTTON_MIDDLE) {
                 // do nothing
             }
+
         }
     }
 
@@ -253,7 +254,9 @@ fun moveCameraByMouse(gl: WebGLRenderingContext) {
             if(e.button == MOUSE_BUTTON_MIDDLE) {
                 // do nothing
             }
+
         }
+
     }
 
     fun zoomCam(e: Any) { // zoom in or out camera
@@ -271,4 +274,6 @@ fun moveCameraByMouse(gl: WebGLRenderingContext) {
     document.addEventListener("touchstart", { console.log("touch started" )})
     document.addEventListener("touchmove", { console.log("touch moved" )})
     document.addEventListener("touchend", { console.log("touch ended" )})
+    document.addEventListener("contextmenu", { e -> e.preventDefault(); })
+
 }
