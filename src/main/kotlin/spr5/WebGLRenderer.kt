@@ -6,9 +6,11 @@ import org.w3c.dom.HTMLDivElement
 import org.w3c.dom.events.MouseEvent
 import org.w3c.dom.events.WheelEvent
 import spr5.matrix.Mat4
+import spr5.matrix.Vec2
 import spr5.matrix.Vec3
 import spr5.scene.SceneObject
 import spr5.scene.SceneRenderer
+import spr5.util.Raycaster
 import threed.asRad
 import webgl.createWebGLRenderingContext
 import webgl.fitDrawingBufferIntoCanvas
@@ -43,6 +45,8 @@ class WebGLRenderer : SceneRenderer {
     private val MOUSE_BUTTON_LEFT: Short = 0
     private val MOUSE_BUTTON_MIDDLE: Short = 1
     private val MOUSE_BUTTON_RIGHT: Short = 2
+
+    private val raycaster: Raycaster = Raycaster(Vec3(), Vec3())
 
     init {
         val container = document.getElementById("container") as HTMLDivElement;
@@ -178,7 +182,7 @@ class WebGLRenderer : SceneRenderer {
         val deltaTime = ((time - lastRender) / 10.0).toFloat()
         lastRender = time;
 
-        rotateModel(deltaTime * 0.005);
+//        rotateModel(deltaTime * 0.005);
 
         gl.enable(WebGLRenderingContext.DEPTH_TEST)
         gl.depthFunc(WebGLRenderingContext.LEQUAL)
@@ -273,6 +277,17 @@ class WebGLRenderer : SceneRenderer {
                 clickPosX = e.clientX
                 clickPosY = e.clientY
                 viewMatrix = Mat4().translate(viewMatrixV3)
+            } else {
+                // calculate mouse position in normalized device coordinates
+                // (-1 to +1) for both components
+
+                val x = ( e.clientX.toDouble() / window.innerWidth ) * 2.0 - 1.0;
+                val y = - ( e.clientY.toDouble() / window.innerHeight ) * 2.0 + 1.0;
+
+                raycaster.setFromCamera(Vec2(x, y), this.modelMatrix, this.projectionMatrix);
+
+                console.log(raycaster.toString());
+//                val intersects = raycaster.intersectsObjects(objects);
             }
         }
     }

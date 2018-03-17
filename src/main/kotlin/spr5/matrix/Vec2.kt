@@ -6,6 +6,14 @@ class Vec2() : glMatrix() {
 
     private val vector: Array<Double> = arrayOf(0.0, 0.0)
 
+    public var x: Double
+        get() = this[0];
+        set(value) { this[0] = value; }
+
+    public var y: Double
+        get() = this[1];
+        set(value) { this[1] = value; }
+
     constructor(componentX: Double, componentY: Double) : this() {
         vector[0] = componentX
         vector[1] = componentY
