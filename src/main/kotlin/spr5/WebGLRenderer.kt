@@ -178,7 +178,7 @@ class WebGLRenderer : SceneRenderer {
         val deltaTime = ((time - lastRender) / 10.0).toFloat()
         lastRender = time;
 
-        rotateModel(deltaTime * 0.005);
+        //rotateModel(deltaTime * 0.005);
 
         gl.enable(WebGLRenderingContext.DEPTH_TEST)
         gl.depthFunc(WebGLRenderingContext.LEQUAL)
@@ -208,6 +208,7 @@ class WebGLRenderer : SceneRenderer {
     override fun rotateModel(rotateRad: Double) {
         return rotateModel(rotateRad, rotateRad, rotateRad);
     }
+
 
     override fun rotateModel(rotateXRad: Double, rotateYRad: Double, rotateZRad: Double) {
         modelMatrix = modelMatrix * Mat4().rotateX(rotateXRad) *
