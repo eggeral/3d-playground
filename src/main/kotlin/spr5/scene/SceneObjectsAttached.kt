@@ -1,24 +1,34 @@
-package spr5.scene
+package spr5
+
+import spr5.scene.*
 
 class SceneObjectsAttached : SceneObject
 {
-    //eventuell position in der liste von SceneObjects merken.
-    fun getVertices(): Array<Float>
-    fun getColors(): Array<Float>
-    fun getIndices(): Array<Short>
+    override fun getVertices(): Array<Float> {return arrayOf(1.0f)}
 
-    private var attachedObjects: List<SceneObject> = listOf();
-    private var coordinateNew = Coordinate(0.0f,0.0f,0.0f);
+    override fun getColors(): Array<Float> {return arrayOf(1.0f)}
+    override fun getIndices(): Array<Short> {return arrayOf(1)}
+
+    private var attachedObjects: List<SceneObjectMoveable> = listOf();
+    private var baseCoordinate = Coordinate(0.0f,0.0f,0.0f);
 
     fun getAllAttachedObjects() : List<SceneObject> {
-        return attachedObjects;
+        return attachedObjects
     }
 
-    fun moveAttachedObjects(attachedObjects: List<SceneObject>, oldCoordinate: Coordinate, newCoordinate: Coordinate) {
+    fun moveAttachedObjects(attachedObjects: List<SceneObjectMoveable>, newCoordinate: Coordinate) {
+        var delta = calculateDeltaCoordinate(baseCoordinate, newCoordinate)
         for (attachedObject in attachedObjects) {
-            var ao = attachedObject.getVertices();
-
-
+           attachedObject.setCenter(newCoordinate);
         }
+    }
+
+    fun calculateDeltaCoordinate(oldPosition : Coordinate, newPosition : Coordinate) : Coordinate {
+        return Coordinate(oldPosition.x - newPosition.x, oldPosition.y - newPosition.y, oldPosition.z - newPosition.z)
+    }
+
+    fun moveSingleObject(obj : SceneObjectMoveable, delta : Coordinate) : SceneObject {
+        obj.setCenter(obj.getCenter() + delta);
+        return obj
     }
 }
