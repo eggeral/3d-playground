@@ -105,6 +105,10 @@ class SceneBlock(var center: Coordinate, var width: Float, var heigth: Float, va
     override fun getNormals(): Array<Vec3> {
         return getMesh().map { tri -> tri.normal }.toTypedArray();
     }
+
+    override fun intersect(ray: Ray): Triangle? {
+        return getMesh().firstOrNull { tri -> ray.intersectTriangle(tri) != null };
+    }
 }
 
 fun createCube(center: Coordinate, size: Float, color: Rgba) :SceneBlock {

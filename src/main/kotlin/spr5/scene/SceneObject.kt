@@ -12,4 +12,6 @@ interface SceneObject
 
     fun getMesh(): Array<Triangle>;
     fun getNormals(): Array<Vec3>;
+
+    fun intersect(ray: Ray): Triangle?;
 }

@@ -287,7 +287,8 @@ class WebGLRenderer : SceneRenderer {
 
                 if (intersects.isNotEmpty()) {
                     console.log(raycaster.toString());
-                    console.log(intersects);
+
+                    intersects.forEach { o -> console.log("Intersect at triangle ${o.intersect(raycaster.ray)}") };
                 }
             }
         }

@@ -51,4 +51,8 @@ class SceneTriangle(var vertices: Array<Coordinate>, override var color: Rgba) :
         return getMesh().map { tri -> tri.normal }.toTypedArray();
     }
 
+    override fun intersect(ray: Ray): Triangle? {
+        return getMesh().firstOrNull { tri -> ray.intersectTriangle(tri) != null }
+    }
+
 }

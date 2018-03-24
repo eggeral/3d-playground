@@ -34,24 +34,7 @@ class Raycaster(val origin: Vec3, direction: Vec3, var near: Float = 0.0f, var f
      * Checks all intersection between the ray and the objects
      */
     fun intersectsObjects(objects: List<SceneObject>): List<SceneObject> {
-//        var result = listOf<SceneObject>();
-//
-//        for (o in objects) {
-//            console.log("Object $o");
-//
-//            for (tri in o.getMesh()) {
-//                var intersection = ray.intersectTriangle(tri);
-//                console.log("Intersect with ${tri}: $intersection");
-//
-//                if (intersection != null) {
-//                    result += o;
-//                    break;
-//                }
-//            }
-//        }
-//        return result;
         return objects.filter { o -> o.getMesh().any { tri -> ray.intersectTriangle(tri) != null }}.toList();
-
     }
 
     override fun toString(): String {
