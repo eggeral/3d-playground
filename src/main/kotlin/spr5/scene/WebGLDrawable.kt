@@ -6,10 +6,6 @@ enum class Direction {
     Sideways
 };
 
-interface WebGLDrawable {
-    fun getVertices(): Array<Float>
-    fun getColors(): Array<Float>
-    fun getIndices(): Array<Short>
-
+interface WebGLDrawable : SceneObject {
     var color: Rgba
 }
