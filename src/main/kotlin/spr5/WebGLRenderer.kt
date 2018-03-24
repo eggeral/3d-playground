@@ -49,9 +49,7 @@ class WebGLRenderer : SceneRenderer {
     private val raycaster: Raycaster = Raycaster(Vec3(), Vec3())
 
     init {
-        val container = document.getElementById("container") as HTMLDivElement;
-        val canvas = document.createElement("canvas") as HTMLCanvasElement;
-        canvas.style.height = "100%";
+        val canvas = document.getElementById("canvas") as HTMLCanvasElement;
 
         document.addEventListener("mousedown", { e -> mouseDown(e) })
         document.addEventListener("mousemove", { e -> mouseMove(e) })
@@ -63,7 +61,6 @@ class WebGLRenderer : SceneRenderer {
 
         gl = createWebGLRenderingContext(canvas);
 
-        container.appendChild(canvas);
 
         // Create buffers
         vertexBuffer = gl.createBuffer() as WebGLBuffer;
