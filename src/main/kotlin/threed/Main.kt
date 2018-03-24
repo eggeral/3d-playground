@@ -21,7 +21,8 @@ fun drawExampleOneCanvas(args: Array<String>) {
 
     val container = document.getElementById("container") as HTMLDivElement
     val canvas = document.createElement("canvas") as HTMLCanvasElement
-    canvas.style.height = "100%"
+    canvas.style.height = "92%"
+    canvas.style.width= "97%"
 
     val webGlContext = createWebGLRenderingContext(canvas)
 

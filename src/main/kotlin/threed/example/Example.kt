@@ -1,9 +1,6 @@
 package threed.example
 
-import example.drawMultipleCubes
-import example.drawSceneTriangle
-import example.mouseHandling
-import example.moveCameraByMouse
+import example.*
 import org.khronos.webgl.WebGLRenderingContext
 import webgl.fitDrawingBufferIntoCanvas
 
@@ -19,7 +16,8 @@ fun drawExample(gl: WebGLRenderingContext) {
 
     //drawSceneTriangle(gl)
     //drawMultipleCubes(gl)
-    moveCameraByMouse(gl)
+    //moveCameraByMouse(gl)
+    attachObjects(gl)
     //mouseHandling(gl)
 }
 
