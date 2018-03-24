@@ -32,8 +32,8 @@ class WebGLRenderer : SceneRenderer {
 
     private var modelMatrix: Mat4;
     private var projectionMatrix: Mat4;
-    private var viewMatrix: Mat4
     private var viewMatrixV3 = Vec3(0.0, 0.0, -15.0)
+    private var viewMatrix = Mat4().translate(viewMatrixV3)
 
     private var clickPosX = 950
     private var clickPosY = 600
@@ -56,6 +56,7 @@ class WebGLRenderer : SceneRenderer {
         document.addEventListener("touchstart", { console.log("touch started" )})
         document.addEventListener("touchmove", { console.log("touch moved" )})
         document.addEventListener("touchend", { console.log("touch ended" )})
+        document.addEventListener("contextmenu", { e -> e.preventDefault() })
 
         gl = createWebGLRenderingContext(canvas);
 
@@ -262,17 +263,19 @@ class WebGLRenderer : SceneRenderer {
                 clickPosX = newX
                 clickPosY = newY;
             } else if (dragging == true) {
-                if(e.clientX > clickPosX)
-                    viewMatrixV3.set(0, viewMatrixV3.get(0) + 0.1f)
+                //TODO: 0.1f should be replaced by perspective factor. Otherwise there are different
+                // speeds when moving in X and Y-direction)
+                if(e.clientX > clickPosX) {
+                    viewMatrix.set(12, viewMatrix.get(12) + 0.1)
+                }
                 if(e.clientY > clickPosY)
-                    viewMatrixV3.set(1, viewMatrixV3.get(1) - 0.1f)
+                    viewMatrix.set(13,viewMatrix.get(13) - 0.1)
                 if(e.clientX < clickPosX)
-                    viewMatrixV3.set(0, viewMatrixV3.get(0) - 0.1f)
+                    viewMatrix.set(12,viewMatrix.get(12) - 0.1)
                 if(e.clientY < clickPosY)
-                    viewMatrixV3.set(1, viewMatrixV3.get(1) + 0.1f)
+                    viewMatrix.set(13,viewMatrix.get(13) + 0.1)
                 clickPosX = e.clientX
                 clickPosY = e.clientY
-                viewMatrix = Mat4().translate(viewMatrixV3)
             }
         }
     }
@@ -294,9 +297,7 @@ class WebGLRenderer : SceneRenderer {
 
     private fun zoomCam(e: Any) { // zoom in or out camera
         if (e is WheelEvent) {
-            console.log("Wheel event!" + e.deltaY)
-            viewMatrixV3.set(2, viewMatrixV3.get(2) + (e.deltaY / 100).toFloat())
-            viewMatrix = Mat4().translate(viewMatrixV3)
+            viewMatrix.set(14, viewMatrix.get(14) + e.deltaY / 300)
         }
     }
 }
