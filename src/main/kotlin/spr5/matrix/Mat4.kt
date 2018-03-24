@@ -37,9 +37,9 @@ class Mat4() : glMatrix() {
     }
 
     fun toFloat32Array(): Float32Array {
-        val result = Float32Array(matrix.size);
+        val result = Float32Array(matrix.size)
 
-        matrix.forEachIndexed { index, d -> result[index] = d.toFloat() };
+        matrix.forEachIndexed { index, d -> result[index] = d.toFloat() }
 
         return result;
     }
@@ -3797,6 +3797,7 @@ class Mat4() : glMatrix() {
             inOut[9] = a01 * s + a21 * c
             inOut[10] = a02 * s + a22 * c
             inOut[11] = a03 * s + a23 * c
+
             return inOut
         }
 
