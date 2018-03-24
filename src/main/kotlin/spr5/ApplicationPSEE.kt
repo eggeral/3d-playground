@@ -27,5 +27,6 @@ class ApplicationPSEE {
 
         renderer.add(createSceneObjectsAttached(center4));
 
+
     }
 }

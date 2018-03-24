@@ -1,5 +1,6 @@
-package spr5.scene
+package spr5
 
+import spr5.scene.*
 
 class SceneObjectsAttached(var center: Coordinate) : SceneObject {
 
@@ -20,29 +21,47 @@ class SceneObjectsAttached(var center: Coordinate) : SceneObject {
 
     private var attachedObjects: List<SceneObject> = listOf();
     private var coordinateNew = Coordinate(0.0f, 0.0f, 0.0f);
+    private var baseCoordinate = Coordinate(0.0f, 0.0f, 0.0f);
+
 
     fun getAllAttachedObjects(): List<SceneObject> {
         return attachedObjects;
     }
 
+
+    fun addToAttachedObjects(listOfObjectsAttached: List<SceneObject>, objectToAttach: SceneObject): List<SceneObject> {
+        var resultList: List<SceneObject> = listOf()
+        resultList = listOfObjectsAttached
+        resultList += objectToAttach
+        return resultList
+    }
+
+    fun removeObjectFromAttachedObjects(listOfObjectsAttached: List<SceneObject>, objectToRemove: SceneObject): List<SceneObject> {
+        var resultList: List<SceneObject> = listOf()
+        resultList = listOfObjectsAttached
+        resultList -= objectToRemove
+        return resultList
+    }
+
+    fun moveAttachedObjects(attachedObjects: List<SceneObjectMoveable>, newCoordinate: Coordinate) {
+        var delta = calculateDeltaCoordinate(baseCoordinate, newCoordinate)
+        for (attachedObject in attachedObjects) {
+            attachedObject.setCenter(newCoordinate);
+        }
+    }
+}
+fun calculateDeltaCoordinate(oldPosition : Coordinate, newPosition : Coordinate) : Coordinate {
+    return Coordinate(oldPosition.x - newPosition.x, oldPosition.y - newPosition.y, oldPosition.z - newPosition.z)
 }
 
-fun addToAttachedObjects(listOfObjectsAttached: List<SceneObject>, objectToAttach: SceneObject): List<SceneObject> {
-    var resultList : List <SceneObject> = listOf()
-    resultList = listOfObjectsAttached
-    resultList += objectToAttach
-    return resultList
-}
-
-fun removeObjectFromAttachedObjects(listOfObjectsAttached: List<SceneObject>, objectToRemove: SceneObject): List<SceneObject> {
-    var resultList : List <SceneObject> = listOf()
-    resultList = listOfObjectsAttached
-    resultList -= objectToRemove
-    return resultList
+fun moveSingleObject(obj : SceneObjectMoveable, delta : Coordinate) : SceneObject {
+    obj.setCenter(obj.getCenter() + delta);
+    return obj
 }
 
 fun moveAttachedObjects(attachedObjects: List<SceneObject>, oldCoordinate: Coordinate, newCoordinate: Coordinate) {
     for (attachedObject in attachedObjects) {
+
 
     }
 }
