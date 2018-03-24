@@ -47,4 +47,8 @@ class SceneTriangle(var vertices: Array<Coordinate>, override var color: Rgba) :
         ));
     }
 
+    override fun getNormals(): Array<Vec3> {
+        return getMesh().map { tri -> tri.normal }.toTypedArray();
+    }
+
 }

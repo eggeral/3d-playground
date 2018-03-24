@@ -1,5 +1,6 @@
 package spr5.scene;
 
+import spr5.matrix.Vec3
 import spr5.util.Triangle
 import spr5.util.assert
 
@@ -32,6 +33,10 @@ class SceneRectangle(var center: Coordinate, var width: Float, var heigth: Float
 
     override fun getMesh(): Array<Triangle> {
         return spr5.util.getMesh(this);
+    }
+
+    override fun getNormals(): Array<Vec3> {
+        return getMesh().map { t -> t.normal }.toTypedArray();
     }
 }
 
