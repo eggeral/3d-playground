@@ -1,10 +1,12 @@
 package spr5.scene
 
+import spr5.matrix.Vec3
+import spr5.util.Ray
+import spr5.util.Triangle
 import spr5.util.assert
 
 
 class SceneTriangle(var vertices: Array<Coordinate>, override var color: Rgba) : WebGLDrawable {
-
     private val _vertices: Array<Float>
     private val _color: Array<Float>
     private val _indices: Array<Short>
@@ -36,4 +38,13 @@ class SceneTriangle(var vertices: Array<Coordinate>, override var color: Rgba) :
     override fun getIndices(): Array<Short> {
         return _indices
     }
+
+    override fun getMesh(): Array<Triangle> {
+        return arrayOf(Triangle(
+                Vec3(vertices[0].x.toDouble(), vertices[0].y.toDouble(), vertices[0].z.toDouble()),
+                Vec3(vertices[1].x.toDouble(), vertices[1].y.toDouble(), vertices[1].z.toDouble()),
+                Vec3(vertices[2].x.toDouble(), vertices[2].y.toDouble(), vertices[2].z.toDouble())
+        ));
+    }
+
 }

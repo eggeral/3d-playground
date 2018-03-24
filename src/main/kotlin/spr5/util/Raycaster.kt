@@ -17,26 +17,41 @@ class Raycaster(val origin: Vec3, direction: Vec3, var near: Float = 0.0f, var f
      *
      * @param {Vec2} 2D coordinates of the mouse, in normalized device coordinates (NDC)---X and Y components should
      *               be between -1 and 1.
-     * @param {Mat4} Camera's model matrix
+     * @param {Mat4} Camera's view matrix
      * @param {Mat4} Camera's projection matrix
      */
-    fun setFromCamera(coords: Vec2, modelMatrix: Mat4, projectionMatrix: Mat4) {
-        this.ray.origin.setFromMatrixPosition(modelMatrix);
+    fun setFromCamera(coords: Vec2, viewMatrix: Mat4, projectionMatrix: Mat4) {
+        this.ray.origin.setFromMatrixPosition(viewMatrix);
 
         this.ray.direction
                 .set(coords.x, coords.y, 0.5)
-                .unproject(modelMatrix, projectionMatrix)
+                .unproject(viewMatrix, projectionMatrix)
                 .subtract(this.ray.origin)
                 .normalize();
     }
 
     /**
-     * Checks all intersection between the ray and the objects with or without the descendants. Intersections are
-     * returned sorted by distance, closest first. Intersections are of the same form as those returned
-     * by .intersectObject.
+     * Checks all intersection between the ray and the objects
      */
-    fun intersectObjects(objects: List<SceneObject>) {
-//        objects.forEach { v -> v.raycast(this) }
+    fun intersectsObjects(objects: List<SceneObject>): List<SceneObject> {
+//        var result = listOf<SceneObject>();
+//
+//        for (o in objects) {
+//            console.log("Object $o");
+//
+//            for (tri in o.getMesh()) {
+//                var intersection = ray.intersectTriangle(tri);
+//                console.log("Intersect with ${tri}: $intersection");
+//
+//                if (intersection != null) {
+//                    result += o;
+//                    break;
+//                }
+//            }
+//        }
+//        return result;
+        return objects.filter { o -> o.getMesh().any { tri -> ray.intersectTriangle(tri) != null }}.toList();
+
     }
 
     override fun toString(): String {

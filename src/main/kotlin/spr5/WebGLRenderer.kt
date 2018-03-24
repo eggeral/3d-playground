@@ -133,12 +133,12 @@ class WebGLRenderer : SceneRenderer {
         gl.useProgram(shaderProgram)
 
         projectionMatrix = Mat4().perspective(
-                40.0.asRad,
+                45.0.asRad,
                 gl.canvas.width.toDouble() / gl.canvas.height.toDouble(),
                 1.0,
                 100.0);
         viewMatrix = Mat4().translate(arrayOf(0.0, 0.0, -15.0));
-        modelMatrix = Mat4().translate(arrayOf(-2.0, 1.0, 0.0));
+        modelMatrix = Mat4();
 
         window.requestAnimationFrame { t -> renderFrame(t) }
     }
@@ -166,7 +166,7 @@ class WebGLRenderer : SceneRenderer {
                     WebGLRenderingContext.STATIC_DRAW);
 
             gl.drawElements(
-                    WebGLRenderingContext.TRIANGLES,
+                    WebGLRenderingContext.LINE_STRIP,
                     o.getIndices().size,
                     WebGLRenderingContext.UNSIGNED_SHORT,
                     0);
@@ -281,10 +281,14 @@ class WebGLRenderer : SceneRenderer {
                 val x = ( e.clientX.toDouble() / window.innerWidth ) * 2.0 - 1.0;
                 val y = - ( e.clientY.toDouble() / window.innerHeight ) * 2.0 + 1.0;
 
-                raycaster.setFromCamera(Vec2(x, y), this.modelMatrix, this.projectionMatrix);
+                raycaster.setFromCamera(Vec2(x, y), this.viewMatrix, this.projectionMatrix);
 
-                console.log(raycaster.toString());
-//                val intersects = raycaster.intersectsObjects(objects);
+                val intersects = raycaster.intersectsObjects(objects);
+
+                if (intersects.isNotEmpty()) {
+                    console.log(raycaster.toString());
+                    console.log(intersects);
+                }
             }
         }
     }

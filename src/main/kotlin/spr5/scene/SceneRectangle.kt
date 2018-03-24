@@ -1,5 +1,6 @@
 package spr5.scene;
 
+import spr5.util.Triangle
 import spr5.util.assert
 
 class SceneRectangle(var center: Coordinate, var width: Float, var heigth: Float, override var color: Rgba) : WebGLDrawable {
@@ -27,6 +28,10 @@ class SceneRectangle(var center: Coordinate, var width: Float, var heigth: Float
     override fun getIndices(): Array<Short> {
         return arrayOf(  0,1,2
                         ,2,1,3)
+    }
+
+    override fun getMesh(): Array<Triangle> {
+        return spr5.util.getMesh(this);
     }
 }
 
