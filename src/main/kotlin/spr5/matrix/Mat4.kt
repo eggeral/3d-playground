@@ -1457,7 +1457,7 @@ class Mat4() : glMatrix() {
      *
      * @param {Mat4} out Mat4 frustum matrix will be written into
      * @param {Vec3} eye Position of the viewer
-     * @param {Vec3} center Point the viewer is looking at
+     * @param {Vec3} position Point the viewer is looking at
      * @param {Vec3} up Vec3 pointing up
      * @returns {Mat4} out
      */
@@ -1606,7 +1606,7 @@ class Mat4() : glMatrix() {
      *
      * @param {Mat4} inOut Mat4 frustum matrix will be written into
      * @param {Vec3} eye Position of the viewer
-     * @param {Vec3} center Point the viewer is looking at
+     * @param {Vec3} position Point the viewer is looking at
      * @param {Vec3} up Vec3 pointing up
      * @returns {Mat4} inOut
      */
@@ -5686,7 +5686,7 @@ class Mat4() : glMatrix() {
          *
          * @param {Mat4} out Mat4 frustum matrix will be written into
          * @param {Vec3} eye Position of the viewer
-         * @param {Vec3} center Point the viewer is looking at
+         * @param {Vec3} position Point the viewer is looking at
          * @param {Vec3} up Vec3 pointing up
          * @returns {Mat4} out
          */
@@ -6115,7 +6115,7 @@ class Mat4() : glMatrix() {
          *
          * @param {Mat4} inOut Mat4 frustum matrix will be written into
          * @param {Vec3} eye Position of the viewer
-         * @param {Vec3} center Point the viewer is looking at
+         * @param {Vec3} position Point the viewer is looking at
          * @param {Vec3} up Vec3 pointing up
          * @returns {Mat4} inOut
          */

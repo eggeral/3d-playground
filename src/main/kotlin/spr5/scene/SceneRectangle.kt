@@ -2,17 +2,17 @@ package spr5.scene;
 
 import spr5.util.assert
 
-class SceneRectangle(var center: Coordinate, var width: Float, var heigth: Float, override var color: Rgba) : WebGLDrawable {
+class SceneRectangle(override var position: Coordinate, var width: Float, var height: Float, override var color: Rgba) : WebGLDrawable {
     init {
         assert(width > 0, "Width must be greater than 0!")
-        assert(heigth > 0, "Height must be greater than 0!")
+        assert(height > 0, "Height must be greater than 0!")
     }
 
     override fun getVertices(): Array<Float> {
-        return arrayOf(center.x-width/2, center.y+heigth/2, center.z    //left-top
-                ,center.x+width/2, center.y+heigth/2, center.z          //right-top
-                ,center.x-width/2, center.y-heigth/2, center.z          //left-bottom
-                ,center.x+width/2, center.y-heigth/2, center.z          //right-bottom
+        return arrayOf(position.x-width/2, position.y+ height /2, position.z    //left-top
+                , position.x+width/2, position.y+ height /2, position.z          //right-top
+                , position.x-width/2, position.y- height /2, position.z          //left-bottom
+                , position.x+width/2, position.y- height /2, position.z          //right-bottom
         )
     }
 

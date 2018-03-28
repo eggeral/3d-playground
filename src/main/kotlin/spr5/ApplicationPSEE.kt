@@ -27,7 +27,8 @@ class ApplicationPSEE {
         attachedCubes.addChild(cube1)
         attachedCubes.addChild(cube2)
 
-//        renderer.add(createMulticolorCube(center1, cubeSize, cubeFacesColors));
+        attachedCubes.position = Coordinate(-6.0f, 0.0f, 0.0f)
+        renderer.add(createMulticolorCube(center1, cubeSize, cubeFacesColors));
 //        renderer.add(createCube(center2, 1.0f, Rgba.Red));
 //        renderer.add(createCube(center3, 1.0f, Rgba.Blue));
 //

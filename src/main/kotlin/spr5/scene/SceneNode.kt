@@ -1,3 +1,5 @@
 package spr5.scene
 
-interface SceneNode
+interface SceneNode {
+    var position: Coordinate
+}

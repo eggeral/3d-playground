@@ -2,48 +2,48 @@ package spr5.scene;
 
 import spr5.util.assert
 
-class SceneBlock(var center: Coordinate, var width: Float, var heigth: Float, var depth: Float, override var colors: Array<Rgba>) : WebGLDrawableMulticolored {
+class SceneBlock(override var position: Coordinate, var width: Float, var height: Float, var depth: Float, override var colors: Array<Rgba>) : WebGLDrawableMulticolored {
 
     init {
         assert(width > 0, "Width must be greater than 0!")
-        assert(heigth > 0, "Height must be greater than 0!")
+        assert(height > 0, "Height must be greater than 0!")
         assert(depth > 0, "Depth must be greater than 0!")
         assert(colors.size == 6, "You have to specify six colors!")
     }
 
     override fun getVertices(): Array<Float> {
         return arrayOf(
-                center.x-width/2, center.y-heigth/2, center.z-depth/2           //left-bottom-back
-                ,center.x+width/2, center.y-heigth/2, center.z-depth/2          //right-bottom-back
-                ,center.x+width/2, center.y+heigth/2, center.z-depth/2          //right-top-back
+                position.x-width/2, position.y- height /2, position.z-depth/2           //left-bottom-back
+                , position.x+width/2, position.y- height /2, position.z-depth/2          //right-bottom-back
+                , position.x+width/2, position.y+ height /2, position.z-depth/2          //right-top-back
 
-                ,center.x-width/2, center.y+heigth/2, center.z-depth/2          //left-top-back
-                ,center.x-width/2, center.y-heigth/2, center.z+depth/2          //left-bottom-front
-                ,center.x+width/2, center.y-heigth/2, center.z+depth/2          //right-bottom-front
+                , position.x-width/2, position.y+ height /2, position.z-depth/2          //left-top-back
+                , position.x-width/2, position.y- height /2, position.z+depth/2          //left-bottom-front
+                , position.x+width/2, position.y- height /2, position.z+depth/2          //right-bottom-front
 
-                ,center.x+width/2, center.y+heigth/2, center.z+depth/2          //right-top-front
-                ,center.x-width/2, center.y+heigth/2, center.z+depth/2          //left-top-front
-                ,center.x-width/2, center.y-heigth/2, center.z-depth/2          //left-bottom-back
+                , position.x+width/2, position.y+ height /2, position.z+depth/2          //right-top-front
+                , position.x-width/2, position.y+ height /2, position.z+depth/2          //left-top-front
+                , position.x-width/2, position.y- height /2, position.z-depth/2          //left-bottom-back
 
-                ,center.x-width/2, center.y+heigth/2, center.z-depth/2          //left-top-back
-                ,center.x-width/2, center.y+heigth/2, center.z+depth/2          //left-top-front
-                ,center.x-width/2, center.y-heigth/2, center.z+depth/2          //left-bottom-front
+                , position.x-width/2, position.y+ height /2, position.z-depth/2          //left-top-back
+                , position.x-width/2, position.y+ height /2, position.z+depth/2          //left-top-front
+                , position.x-width/2, position.y- height /2, position.z+depth/2          //left-bottom-front
 
-                ,center.x+width/2, center.y-heigth/2, center.z-depth/2          //right-bottom-back
-                ,center.x+width/2, center.y+heigth/2, center.z-depth/2          //right-top-back
-                ,center.x+width/2, center.y+heigth/2, center.z+depth/2          //right-top-front
+                , position.x+width/2, position.y- height /2, position.z-depth/2          //right-bottom-back
+                , position.x+width/2, position.y+ height /2, position.z-depth/2          //right-top-back
+                , position.x+width/2, position.y+ height /2, position.z+depth/2          //right-top-front
 
-                ,center.x+width/2, center.y-heigth/2, center.z+depth/2          //right-bottom-front
-                ,center.x-width/2, center.y-heigth/2, center.z-depth/2          //left-bottom-back
-                ,center.x-width/2, center.y-heigth/2, center.z+depth/2          //left-bottom-front
+                , position.x+width/2, position.y- height /2, position.z+depth/2          //right-bottom-front
+                , position.x-width/2, position.y- height /2, position.z-depth/2          //left-bottom-back
+                , position.x-width/2, position.y- height /2, position.z+depth/2          //left-bottom-front
 
-                ,center.x+width/2, center.y-heigth/2, center.z+depth/2          //right-bottom-front
-                ,center.x+width/2, center.y-heigth/2, center.z-depth/2          //right-bottom-back
-                ,center.x-width/2, center.y+heigth/2, center.z-depth/2          //left-top-back
+                , position.x+width/2, position.y- height /2, position.z+depth/2          //right-bottom-front
+                , position.x+width/2, position.y- height /2, position.z-depth/2          //right-bottom-back
+                , position.x-width/2, position.y+ height /2, position.z-depth/2          //left-top-back
 
-                ,center.x-width/2, center.y+heigth/2, center.z+depth/2          //left-top-front
-                ,center.x+width/2, center.y+heigth/2, center.z+depth/2          //right-top-front
-                ,center.x+width/2, center.y+heigth/2, center.z-depth/2          //right-top-back
+                , position.x-width/2, position.y+ height /2, position.z+depth/2          //left-top-front
+                , position.x+width/2, position.y+ height /2, position.z+depth/2          //right-top-front
+                , position.x+width/2, position.y+ height /2, position.z-depth/2          //right-top-back
         )
     }
 
