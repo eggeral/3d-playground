@@ -2,10 +2,8 @@ package spr5.scene;
 
 import spr5.util.assert
 
-class SceneBlock(var center: Coordinate, var width: Float, var heigth: Float, var depth: Float, override var colors: Array<Rgba>) : WebGLDrawableMulticolored, SceneObjectMoveable {
-    override fun getCenter(): Coordinate {
-        return center
-    }
+class SceneBlock(var center: Coordinate, var width: Float, var heigth: Float, var depth: Float, override var colors: Array<Rgba>) : WebGLDrawableMulticolored {
+
     init {
         assert(width > 0, "Width must be greater than 0!")
         assert(heigth > 0, "Height must be greater than 0!")
@@ -95,9 +93,6 @@ class SceneBlock(var center: Coordinate, var width: Float, var heigth: Float, va
 
                         20, 21, 22,
                         20, 22, 23)
-    }
-    override fun setCenter(newCenter : Coordinate){
-        center = newCenter;
     }
 }
 

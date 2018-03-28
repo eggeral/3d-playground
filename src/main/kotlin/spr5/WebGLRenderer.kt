@@ -7,6 +7,8 @@ import org.w3c.dom.events.MouseEvent
 import org.w3c.dom.events.WheelEvent
 import spr5.matrix.Mat4
 import spr5.matrix.Vec3
+import spr5.scene.SceneNode
+import spr5.scene.SceneNodesAttached
 import spr5.scene.SceneObject
 import spr5.scene.SceneRenderer
 import threed.asRad
@@ -28,7 +30,7 @@ class WebGLRenderer : SceneRenderer {
     private var viewMatrixUniform: WebGLUniformLocation
     private var modelMatrixUniform: WebGLUniformLocation
 
-    private var objects: List<SceneObject> = listOf();
+    private var nodes: List<SceneNode> = listOf()
 
     private var modelMatrix: Mat4;
     private var projectionMatrix: Mat4;
@@ -143,33 +145,43 @@ class WebGLRenderer : SceneRenderer {
         window.requestAnimationFrame { t -> renderFrame(t) }
     }
 
-    private fun drawObjects() {
+    private fun drawObjects(nodes: List<SceneNode>) {
         gl.uniformMatrix4fv(modelMatrixUniform, false, modelMatrix.toFloat32Array());
 
-        objects.forEach { o ->
-            gl.bindBuffer(WebGLRenderingContext.ARRAY_BUFFER, vertexBuffer);
-            gl.bufferData(
-                    WebGLRenderingContext.ARRAY_BUFFER,
-                    Float32Array(o.getVertices()),
-                    WebGLRenderingContext.STATIC_DRAW);
+        nodes.forEach { node ->
+            when (node) {
+                is SceneObject -> {
+                    gl.bindBuffer(WebGLRenderingContext.ARRAY_BUFFER, vertexBuffer);
+                    gl.bufferData(
+                            WebGLRenderingContext.ARRAY_BUFFER,
+                            Float32Array(node.getVertices()),
+                            WebGLRenderingContext.STATIC_DRAW);
 
-            gl.bindBuffer(WebGLRenderingContext.ARRAY_BUFFER, colorBuffer);
-            gl.bufferData(
-                    WebGLRenderingContext.ARRAY_BUFFER,
-                    Float32Array(o.getColors()),
-                    WebGLRenderingContext.STATIC_DRAW);
+                    gl.bindBuffer(WebGLRenderingContext.ARRAY_BUFFER, colorBuffer);
+                    gl.bufferData(
+                            WebGLRenderingContext.ARRAY_BUFFER,
+                            Float32Array(node.getColors()),
+                            WebGLRenderingContext.STATIC_DRAW);
 
-            gl.bindBuffer(WebGLRenderingContext.ELEMENT_ARRAY_BUFFER, indexBuffer);
-            gl.bufferData(
-                    WebGLRenderingContext.ELEMENT_ARRAY_BUFFER,
-                    Uint16Array(o.getIndices()),
-                    WebGLRenderingContext.STATIC_DRAW);
+                    gl.bindBuffer(WebGLRenderingContext.ELEMENT_ARRAY_BUFFER, indexBuffer);
+                    gl.bufferData(
+                            WebGLRenderingContext.ELEMENT_ARRAY_BUFFER,
+                            Uint16Array(node.getIndices()),
+                            WebGLRenderingContext.STATIC_DRAW);
 
-            gl.drawElements(
-                    WebGLRenderingContext.TRIANGLES,
-                    o.getIndices().size,
-                    WebGLRenderingContext.UNSIGNED_SHORT,
-                    0);
+                    gl.drawElements(
+                            WebGLRenderingContext.TRIANGLES,
+                            node.getIndices().size,
+                            WebGLRenderingContext.UNSIGNED_SHORT,
+                            0);
+
+                }
+                is SceneNodesAttached  -> {
+                    drawObjects(node.children)
+                }
+                else -> throw IllegalStateException("Unknown node type")
+            }
+
         }
     }
 
@@ -192,18 +204,18 @@ class WebGLRenderer : SceneRenderer {
         gl.uniformMatrix4fv(projectionMatrixUniform, false, projectionMatrix.toFloat32Array())
         gl.uniformMatrix4fv(viewMatrixUniform, false, viewMatrix.toFloat32Array())
 
-        drawObjects();
+        drawObjects(nodes)
 
         window.requestAnimationFrame { t -> renderFrame(t) }
 
     }
 
-    override fun add(sceneObject: SceneObject) {
-        objects += sceneObject;
+    override fun add(sceneNode: SceneNode) {
+        nodes += sceneNode
     }
 
-    override fun remove(sceneObject: SceneObject) {
-        objects -= sceneObject;
+    override fun remove(sceneObject: SceneNode) {
+        nodes -= sceneObject;
     }
 
     override fun rotateModel(rotateRad: Double) {

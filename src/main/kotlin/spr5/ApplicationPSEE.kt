@@ -3,7 +3,7 @@ package spr5
 import spr5.scene.*
 
 class ApplicationPSEE {
-    val renderer: WebGLRenderer = WebGLRenderer();
+    private val renderer: WebGLRenderer = WebGLRenderer()
 
     fun run() {
 
@@ -19,14 +19,22 @@ class ApplicationPSEE {
                 , Rgba(0.0f, 0.5f, 0.5f, 1.0f)
                 , Rgba(0.5f, 0.0f, 0.5f, 1.0f));
 
-        renderer.add(createMulticolorCube(center1, cubeSize, cubeFacesColors));
-        renderer.add(createCube(center2, 1.0f, Rgba.Red));
-        renderer.add(createCube(center3, 1.0f, Rgba.Blue));
 
+        val cube1 = createCube(center2, 1.0f, Rgba.Red)
+        val cube2 = createCube(center4, 1.0f, Rgba.Blue)
 
+        val attachedCubes = SceneNodesAttached()
+        attachedCubes.addChild(cube1)
+        attachedCubes.addChild(cube2)
 
-        renderer.add(createSceneObjectsAttached(center4));
-
+//        renderer.add(createMulticolorCube(center1, cubeSize, cubeFacesColors));
+//        renderer.add(createCube(center2, 1.0f, Rgba.Red));
+//        renderer.add(createCube(center3, 1.0f, Rgba.Blue));
+//
+//
+//
+//        renderer.add(createSceneObjectsAttached(center4));
+        renderer.add(attachedCubes)
 
     }
 }

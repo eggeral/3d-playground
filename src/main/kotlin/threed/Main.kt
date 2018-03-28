@@ -6,6 +6,6 @@ import spr5.ApplicationPSEE
 @JsName("main")
 fun main(args: Array<String>) {
     //Application().run();
-    ApplicationPSEE().run();
+    ApplicationPSEE().run()
 }
 
