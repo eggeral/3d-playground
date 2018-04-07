@@ -32,7 +32,7 @@ class WebGLRenderer : SceneRenderer {
 
     private var nodes: List<SceneNode> = listOf()
 
-    private var modelMatrix: Mat4;
+    //private var modelMatrix: Mat4;
     private var projectionMatrix: Mat4;
     private var viewMatrixV3 = Vec3(0.0, 0.0, -15.0)
     private var viewMatrix = Mat4().translate(viewMatrixV3)
@@ -54,10 +54,10 @@ class WebGLRenderer : SceneRenderer {
         document.addEventListener("mousedown", { e -> mouseDown(e) })
         document.addEventListener("mousemove", { e -> mouseMove(e) })
         document.addEventListener("mouseup", { e -> mouseUp(e) })
-        document.addEventListener("mousewheel", { e -> zoomCam(e)})
-        document.addEventListener("touchstart", { console.log("touch started" )})
-        document.addEventListener("touchmove", { console.log("touch moved" )})
-        document.addEventListener("touchend", { console.log("touch ended" )})
+        document.addEventListener("mousewheel", { e -> zoomCam(e) })
+        document.addEventListener("touchstart", { console.log("touch started") })
+        document.addEventListener("touchmove", { console.log("touch moved") })
+        document.addEventListener("touchend", { console.log("touch ended") })
         document.addEventListener("contextmenu", { e -> e.preventDefault() })
 
         gl = createWebGLRenderingContext(canvas);
@@ -140,17 +140,17 @@ class WebGLRenderer : SceneRenderer {
                 1.0,
                 100.0);
         viewMatrix = Mat4().translate(arrayOf(0.0, 0.0, -15.0));
-        modelMatrix = Mat4().translate(arrayOf(-2.0, 1.0, 0.0));
+        //modelMatrix = Mat4().translate(arrayOf(-2.0, 1.0, 0.0));
 
         window.requestAnimationFrame { t -> renderFrame(t) }
     }
 
     private fun drawObjects(nodes: List<SceneNode>) {
-        gl.uniformMatrix4fv(modelMatrixUniform, false, modelMatrix.toFloat32Array());
 
         nodes.forEach { node ->
             when (node) {
                 is SceneObject -> {
+                    gl.uniformMatrix4fv(modelMatrixUniform, false, node.model.toFloat32Array())
                     gl.bindBuffer(WebGLRenderingContext.ARRAY_BUFFER, vertexBuffer);
                     gl.bufferData(
                             WebGLRenderingContext.ARRAY_BUFFER,
@@ -176,7 +176,7 @@ class WebGLRenderer : SceneRenderer {
                             0);
 
                 }
-                is SceneNodesAttached  -> {
+                is SceneNodesAttached -> {
                     drawObjects(node.children)
                 }
                 else -> throw IllegalStateException("Unknown node type")
@@ -186,31 +186,47 @@ class WebGLRenderer : SceneRenderer {
     }
 
     private fun renderFrame(time: Double) {
-        gl.fitDrawingBufferIntoCanvas();
+        gl.fitDrawingBufferIntoCanvas()
+        val timeTemp = time
+        val deltaTime = ((timeTemp - lastRender) / 10.0).toFloat()
+        lastRender = timeTemp
 
-        val deltaTime = ((time - lastRender) / 10.0).toFloat()
-        lastRender = time;
+        nodes.forEach { node ->
+            when (node) {
+                is SceneObject -> {
+                    node.model = Mat4.rotateX(node.model, deltaTime * node.rotationSpeedX)
+                    node.model = Mat4.rotateY(node.model, deltaTime * node.rotationSpeedY)
+                    node.model = Mat4.rotateZ(node.model, deltaTime * node.rotationSpeedZ)
+                }
+                is SceneNodesAttached -> {
+                    node.children
+                }
 
-        //rotateModel(deltaTime * 0.005);
+                else -> throw IllegalStateException("Unknown node type")
 
-        gl.enable(WebGLRenderingContext.DEPTH_TEST)
-        gl.depthFunc(WebGLRenderingContext.LEQUAL)
-        gl.clearDepth(1.0f)
+            }
 
-        gl.clearColor(0.5f, 0.5f, 0.5f, 0.9f)
+            gl.enable(WebGLRenderingContext.DEPTH_TEST)
+            gl.depthFunc(WebGLRenderingContext.LEQUAL)
+            gl.clearDepth(1.0f)
 
-        gl.clear(WebGLRenderingContext.COLOR_BUFFER_BIT.or(WebGLRenderingContext.DEPTH_BUFFER_BIT))
+            gl.clearColor(0.5f, 0.5f, 0.5f, 0.9f)
 
-        gl.uniformMatrix4fv(projectionMatrixUniform, false, projectionMatrix.toFloat32Array())
-        gl.uniformMatrix4fv(viewMatrixUniform, false, viewMatrix.toFloat32Array())
+            gl.clear(WebGLRenderingContext.COLOR_BUFFER_BIT.or(WebGLRenderingContext.DEPTH_BUFFER_BIT))
 
-        drawObjects(nodes)
+            gl.uniformMatrix4fv(projectionMatrixUniform, false, projectionMatrix.toFloat32Array())
+            gl.uniformMatrix4fv(viewMatrixUniform, false, viewMatrix.toFloat32Array())
 
-        window.requestAnimationFrame { t -> renderFrame(t) }
+            drawObjects(nodes)
+
+            window.requestAnimationFrame { t -> renderFrame(t) }
+        }
 
     }
 
     override fun add(sceneNode: SceneNode) {
+        if (sceneNode is SceneObject)
+            sceneNode.model = Mat4().translate(arrayOf(-2.0, 1.0, 0.0))
         nodes += sceneNode
     }
 
@@ -224,9 +240,9 @@ class WebGLRenderer : SceneRenderer {
 
 
     override fun rotateModel(rotateXRad: Double, rotateYRad: Double, rotateZRad: Double) {
-        modelMatrix = modelMatrix * Mat4().rotateX(rotateXRad) *
-                Mat4().rotateY(rotateYRad) *
-                Mat4().rotateZ(rotateZRad);
+        //modelMatrix = modelMatrix * Mat4().rotateX(rotateXRad) *
+        //        Mat4().rotateY(rotateYRad) *
+        //        Mat4().rotateZ(rotateZRad);
     }
 
 
@@ -250,7 +266,7 @@ class WebGLRenderer : SceneRenderer {
         if (e is MouseEvent) {
             clickPosX = e.clientX
             clickPosY = e.clientY
-            if(e.button == MOUSE_BUTTON_RIGHT) { // right mouse button to move cam
+            if (e.button == MOUSE_BUTTON_RIGHT) { // right mouse button to move cam
                 moveCam = true
             } else if (e.button == MOUSE_BUTTON_LEFT) { // left mouse button to select an object
                 val (cx, cy) = getPositionInCanvas(clickPosX, clickPosY)
@@ -265,7 +281,7 @@ class WebGLRenderer : SceneRenderer {
 
     private fun mouseMove(e: Any) {
         if (e is MouseEvent) {
-            if(moveCam == true) {
+            if (moveCam == true) {
                 var newX = e.clientX
                 var newY = e.clientY
                 var deltaX = newX - clickPosX
@@ -278,15 +294,15 @@ class WebGLRenderer : SceneRenderer {
             } else if (dragging == true) {
                 //TODO: 0.1f should be replaced by perspective factor. Otherwise there are different
                 // speeds when moving in X and Y-direction)
-                if(e.clientX > clickPosX) {
+                if (e.clientX > clickPosX) {
                     viewMatrix.set(12, viewMatrix.get(12) + 0.1)
                 }
-                if(e.clientY > clickPosY)
-                    viewMatrix.set(13,viewMatrix.get(13) - 0.1)
-                if(e.clientX < clickPosX)
-                    viewMatrix.set(12,viewMatrix.get(12) - 0.1)
-                if(e.clientY < clickPosY)
-                    viewMatrix.set(13,viewMatrix.get(13) + 0.1)
+                if (e.clientY > clickPosY)
+                    viewMatrix.set(13, viewMatrix.get(13) - 0.1)
+                if (e.clientX < clickPosX)
+                    viewMatrix.set(12, viewMatrix.get(12) - 0.1)
+                if (e.clientY < clickPosY)
+                    viewMatrix.set(13, viewMatrix.get(13) + 0.1)
                 clickPosX = e.clientX
                 clickPosY = e.clientY
             }
@@ -295,14 +311,14 @@ class WebGLRenderer : SceneRenderer {
 
     private fun mouseUp(e: Any) {
         if (e is MouseEvent) {
-            if(e.button == MOUSE_BUTTON_LEFT) {
+            if (e.button == MOUSE_BUTTON_LEFT) {
                 dragging = false
                 window.requestAnimationFrame { time -> renderFrame(time) }
             }
-            if(e.button == MOUSE_BUTTON_RIGHT) {
+            if (e.button == MOUSE_BUTTON_RIGHT) {
                 moveCam = false
             }
-            if(e.button == MOUSE_BUTTON_MIDDLE) {
+            if (e.button == MOUSE_BUTTON_MIDDLE) {
                 // do nothing
             }
         }

@@ -6,5 +6,4 @@ interface SceneObject : SceneNode
     fun getColors(): Array<Float>
     fun getIndices(): Array<Short>
 
-
 }

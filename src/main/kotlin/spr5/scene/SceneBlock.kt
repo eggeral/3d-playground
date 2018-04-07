@@ -1,8 +1,15 @@
 package spr5.scene;
 
+import spr5.matrix.Mat4
 import spr5.util.assert
 
 class SceneBlock(override var position: Coordinate, var width: Float, var height: Float, var depth: Float, override var colors: Array<Rgba>) : WebGLDrawableMulticolored {
+
+
+    override var model: Mat4 = Mat4(0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0)
+    override var rotationSpeedX: Double = 0.0
+    override var rotationSpeedY: Double = 0.0
+    override var rotationSpeedZ: Double = 0.0
 
     init {
         assert(width > 0, "Width must be greater than 0!")

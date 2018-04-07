@@ -18,7 +18,7 @@ fun drawExample(gl: WebGLRenderingContext) {
     //drawMultipleCubes(gl)
     //moveCameraViewX(gl)
     //moveCameraViewY(gl)
-    attachObjects(gl)
+    //attachObjects(gl)
     //moveCameraByMouse(gl)
     //mouseHandling(gl)
 }

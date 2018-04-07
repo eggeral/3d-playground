@@ -2,7 +2,7 @@ package spr5
 
 import spr5.scene.*
 
-class ApplicationPSEE {
+class ApplicationAttachedObjects {
     private val renderer: WebGLRenderer = WebGLRenderer()
 
     fun run() {
@@ -28,7 +28,14 @@ class ApplicationPSEE {
         attachedCubes.addChild(cube2)
 
         attachedCubes.position = Coordinate(3.0f, 0.0f, 0.0f)
-        renderer.add(createMulticolorCube(center1, cubeSize, cubeFacesColors))
+        attachedCubes.rotationSpeedX = 0.005
+        attachedCubes.rotationSpeedY = 0.005
+        // attachedCubes.position = Coordinate(-5.0f, 2.0f, 0.0f)
+
+        var cube3 = createMulticolorCube(center1, cubeSize, cubeFacesColors)
+        cube3.rotationSpeedZ = 0.03
+        cube3.rotationSpeedY = 0.03
+        renderer.add(cube3)
         renderer.add(attachedCubes)
     }
 }
