@@ -1,12 +1,9 @@
-package example
+package drawing
 
+import glmatrix.Mat4
+import glmatrix.Vec3
 import glmatrix.glMatrix
 import glmatrix.glMatrix.Companion.perspectiveProjectionMatrix
-import glmatrix.glMatrix.Companion.rotateXMatrix
-import glmatrix.glMatrix.Companion.rotateYMatrix
-import glmatrix.glMatrix.Companion.rotateZMatrix
-import glmatrix.glMatrix.Companion.translateMatrix
-import glmatrix.times
 import org.khronos.webgl.Float32Array
 import org.khronos.webgl.Uint16Array
 import org.khronos.webgl.WebGLRenderingContext
@@ -122,9 +119,6 @@ fun drawSceneMultiColorCube(gl: WebGLRenderingContext) {
     gl.vertexAttribPointer(verticesAttribute, 3, WebGLRenderingContext.FLOAT, false, 0, 0)
     gl.enableVertexAttribArray(verticesAttribute)
 
-    // get uniform vColor attribute from fragment shader
-    val color = gl.getUniformLocation(shaderProgram, "vColor")
-
     // set background color
     gl.clearColor(0.9f, 0.9f, 0.9f, 1.0f)
     gl.clear(WebGLRenderingContext.COLOR_BUFFER_BIT)
@@ -133,20 +127,19 @@ fun drawSceneMultiColorCube(gl: WebGLRenderingContext) {
 
     val projectionMatrix = perspectiveProjectionMatrix(glMatrix.toRad(40.0).toFloat(), (gl.canvas.width.toFloat() / gl.canvas.height.toFloat()), 1.0f, 100.0f)
 
-    val viewMatrix = translateMatrix(0.0f, 0.0f, -15.0f) // z:-15f = more distance to the objects
+    val viewMatrix: Mat4 = Mat4().translate(Vec3(0.0, 0.0, -15.0)) // z:-15f = more distance to the objects
 
-    var modelMatrix = translateMatrix(-2.0f, 1.0f, 0.0f)
+    var modelMatrix: Mat4 = Mat4().translate(Vec3(-2.0, 1.0, 0.0))
 
-    fun drawObject(modelMatrix: Array<Float>) {
-        gl.uniformMatrix4fv(modelMatrixUniform, false, modelMatrix)
+    fun drawObject(modelMatrix: Mat4) {
+        gl.uniformMatrix4fv(modelMatrixUniform, false, modelMatrix.toFloat32Array())
         gl.drawElements(WebGLRenderingContext.TRIANGLES, indices.size, WebGLRenderingContext.UNSIGNED_SHORT, 0)
     }
 
     // transforms every model matrix to a rotation
     fun transformModelMatrix(delta: Float) {
-        modelMatrix = modelMatrix * rotateXMatrix(delta * 0.005f) *
-                rotateYMatrix(delta * 0.005f) *
-                rotateZMatrix(delta * 0.005f)
+        modelMatrix = modelMatrix * modelMatrix.rotateX(delta * 0.005) * modelMatrix.rotateY(delta * 0.005) * modelMatrix.rotateZ(delta * 0.005)
+
     }
 
     var timeOld = 0.0
@@ -168,7 +161,7 @@ fun drawSceneMultiColorCube(gl: WebGLRenderingContext) {
         gl.bindBuffer(WebGLRenderingContext.ELEMENT_ARRAY_BUFFER, indexBuffer)
         gl.clear(WebGLRenderingContext.COLOR_BUFFER_BIT.or(WebGLRenderingContext.DEPTH_BUFFER_BIT))
         gl.uniformMatrix4fv(projectionMatrixUniform, false, projectionMatrix)
-        gl.uniformMatrix4fv(viewMatrixUniform, false, viewMatrix)
+        gl.uniformMatrix4fv(viewMatrixUniform, false, viewMatrix.toFloat32Array())
 
 
         drawObject(modelMatrix)

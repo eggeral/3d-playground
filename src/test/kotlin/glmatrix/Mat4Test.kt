@@ -1,6 +1,5 @@
-package matrix
+package glmatrix
 
-import spr5.matrix.Mat4
 import util.assertEquals
 import util.assertFalse
 import util.assertTrue

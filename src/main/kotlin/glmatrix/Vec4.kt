@@ -1,4 +1,4 @@
-package spr5.matrix
+package glmatrix
 
 import kotlin.js.Math
 

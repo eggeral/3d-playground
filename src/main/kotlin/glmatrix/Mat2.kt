@@ -1,4 +1,4 @@
-package spr5.matrix
+package glmatrix
 
 import org.khronos.webgl.Float32Array
 import org.khronos.webgl.get

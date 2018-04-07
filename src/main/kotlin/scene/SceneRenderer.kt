@@ -1,6 +1,4 @@
-package spr5.scene
-
-import spr5.matrix.Mat4
+package scene
 
 interface SceneRenderer {
     fun add(sceneNode: SceneNode)

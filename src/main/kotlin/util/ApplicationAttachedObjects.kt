@@ -1,6 +1,8 @@
 package spr5
 
-import spr5.scene.*
+import scene.*
+import util.WebGLRenderer
+
 
 class ApplicationAttachedObjects {
     private val renderer: WebGLRenderer = WebGLRenderer()

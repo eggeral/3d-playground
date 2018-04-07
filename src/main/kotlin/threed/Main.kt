@@ -1,11 +1,11 @@
-package main
+package threed
 
+import spr5.ApplicationAttachedObjects
 import util.Application
-import util.ApplicationPSEE
 
 @JsName("main")
 fun main(args: Array<String>) {
-    //Application().run();
-    ApplicationPSEE().run()
+    //Application().run()
+    ApplicationAttachedObjects().run()
 }
 

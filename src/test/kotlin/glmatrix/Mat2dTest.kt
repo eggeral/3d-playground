@@ -1,6 +1,5 @@
-package matrix
+package glmatrix
 
-import spr5.matrix.Mat2d
 import util.assertEquals
 import util.assertFalse
 import kotlin.test.Test

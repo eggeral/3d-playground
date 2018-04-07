@@ -1,7 +1,6 @@
-package spr5.scene
+package scene
 
-interface SceneObject : SceneNode
-{
+interface SceneObject : SceneNode {
     fun getVertices(): Array<Float>
     fun getColors(): Array<Float>
     fun getIndices(): Array<Short>

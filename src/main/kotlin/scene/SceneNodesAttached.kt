@@ -1,7 +1,13 @@
-package spr5.scene
+package scene
+
+import glmatrix.Mat4
 
 class SceneNodesAttached : SceneNode {
 
+    override var model: Mat4 = Mat4(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
+    override var rotationSpeedX: Double = 0.0
+    override var rotationSpeedY: Double = 0.0
+    override var rotationSpeedZ: Double = 0.0
     val children = mutableListOf<SceneNode>()
 
     fun addChild(child: SceneNode) {

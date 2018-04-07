@@ -1,17 +1,17 @@
-package spr5
+package util
 
+import glmatrix.Mat4
+import glmatrix.Vec3
+import glmatrix.glMatrix
 import org.khronos.webgl.*
 import org.w3c.dom.HTMLCanvasElement
 import org.w3c.dom.HTMLDivElement
 import org.w3c.dom.events.MouseEvent
 import org.w3c.dom.events.WheelEvent
-import spr5.matrix.Mat4
-import spr5.matrix.Vec3
-import spr5.scene.SceneNode
-import spr5.scene.SceneNodesAttached
-import spr5.scene.SceneObject
-import spr5.scene.SceneRenderer
-import threed.asRad
+import scene.SceneNode
+import scene.SceneNodesAttached
+import scene.SceneObject
+import scene.SceneRenderer
 import webgl.createWebGLRenderingContext
 import webgl.fitDrawingBufferIntoCanvas
 import kotlin.browser.document
@@ -54,10 +54,10 @@ class WebGLRenderer : SceneRenderer {
         document.addEventListener("mousedown", { e -> mouseDown(e) })
         document.addEventListener("mousemove", { e -> mouseMove(e) })
         document.addEventListener("mouseup", { e -> mouseUp(e) })
-        document.addEventListener("mousewheel", { e -> zoomCam(e)})
-        document.addEventListener("touchstart", { console.log("touch started" )})
-        document.addEventListener("touchmove", { console.log("touch moved" )})
-        document.addEventListener("touchend", { console.log("touch ended" )})
+        document.addEventListener("mousewheel", { e -> zoomCam(e) })
+        document.addEventListener("touchstart", { console.log("touch started") })
+        document.addEventListener("touchmove", { console.log("touch moved") })
+        document.addEventListener("touchend", { console.log("touch ended") })
         document.addEventListener("contextmenu", { e -> e.preventDefault() })
 
         gl = createWebGLRenderingContext(canvas);
@@ -135,7 +135,7 @@ class WebGLRenderer : SceneRenderer {
         gl.useProgram(shaderProgram)
 
         projectionMatrix = Mat4().perspective(
-                40.0.asRad,
+                glMatrix.toRad(40.0),
                 gl.canvas.width.toDouble() / gl.canvas.height.toDouble(),
                 1.0,
                 100.0);
@@ -147,8 +147,6 @@ class WebGLRenderer : SceneRenderer {
 
     private fun drawObjects(nodes: List<SceneNode>) {
         //gl.uniformMatrix4fv(modelMatrixUniform, false, modelMatrix.toFloat32Array());
-
-
 
 
         nodes.forEach { node ->
@@ -180,7 +178,7 @@ class WebGLRenderer : SceneRenderer {
                             0);
 
                 }
-                is SceneNodesAttached  -> {
+                is SceneNodesAttached -> {
                     drawObjects(node.children)
                 }
                 else -> throw IllegalStateException("Unknown node type")
@@ -195,10 +193,10 @@ class WebGLRenderer : SceneRenderer {
         val deltaTime = ((timeTemp - lastRender) / 10.0).toFloat()
         lastRender = timeTemp
 
-        nodes.forEach { o ->
-            o.model = Mat4.rotateX(o.model, deltaTime * o.rotationSpeedX)
-            o.model = Mat4.rotateY(o.model, deltaTime * o.rotationSpeedY)
-            o.model = Mat4.rotateZ(o.model, deltaTime * o.rotationSpeedZ)
+        nodes.forEach { n ->
+            n.model = Mat4.rotateX(n.model, deltaTime * n.rotationSpeedX)
+            n.model = Mat4.rotateY(n.model, deltaTime * n.rotationSpeedY)
+            n.model = Mat4.rotateZ(n.model, deltaTime * n.rotationSpeedZ)
         }
 
         gl.enable(WebGLRenderingContext.DEPTH_TEST)
@@ -260,11 +258,11 @@ class WebGLRenderer : SceneRenderer {
         if (e is MouseEvent) {
             clickPosX = e.clientX
             clickPosY = e.clientY
-            if(e.button == MOUSE_BUTTON_RIGHT) { // right mouse button to move cam
+            if (e.button == MOUSE_BUTTON_RIGHT) { // right mouse button to move cam
                 moveCam = true
             } else if (e.button == MOUSE_BUTTON_LEFT) { // left mouse button to select an object
                 val (cx, cy) = getPositionInCanvas(clickPosX, clickPosY)
-                console.log("X: " + cx + ", Y: " + cy)
+                console.log("X: $cx, Y: $cy")
                 dragging = true
                 // 2do: select right object
             } else if (e.button == MOUSE_BUTTON_MIDDLE) {
@@ -275,28 +273,28 @@ class WebGLRenderer : SceneRenderer {
 
     private fun mouseMove(e: Any) {
         if (e is MouseEvent) {
-            if(moveCam == true) {
+            if (moveCam) {
                 var newX = e.clientX
                 var newY = e.clientY
                 var deltaX = newX - clickPosX
                 var deltaY = newY - clickPosY
-                viewMatrix = viewMatrix.rotateX(deltaX.toDouble().asRad)
-                viewMatrix = viewMatrix.rotateY(deltaY.toDouble().asRad)
+                viewMatrix = viewMatrix.rotateX(glMatrix.toRad(deltaX.toDouble()))
+                viewMatrix = viewMatrix.rotateY(glMatrix.toRad(deltaY.toDouble()))
 
                 clickPosX = newX
                 clickPosY = newY;
-            } else if (dragging == true) {
+            } else if (dragging) {
                 //TODO: 0.1f should be replaced by perspective factor. Otherwise there are different
                 // speeds when moving in X and Y-direction)
-                if(e.clientX > clickPosX) {
-                    viewMatrix.set(12, viewMatrix.get(12) + 0.1)
+                if (e.clientX > clickPosX) {
+                    viewMatrix[12] = viewMatrix[12] + 0.1
                 }
-                if(e.clientY > clickPosY)
-                    viewMatrix.set(13,viewMatrix.get(13) - 0.1)
-                if(e.clientX < clickPosX)
-                    viewMatrix.set(12,viewMatrix.get(12) - 0.1)
-                if(e.clientY < clickPosY)
-                    viewMatrix.set(13,viewMatrix.get(13) + 0.1)
+                if (e.clientY > clickPosY)
+                    viewMatrix[13] = viewMatrix[13] - 0.1
+                if (e.clientX < clickPosX)
+                    viewMatrix[12] = viewMatrix[12] - 0.1
+                if (e.clientY < clickPosY)
+                    viewMatrix[13] = viewMatrix[13] + 0.1
                 clickPosX = e.clientX
                 clickPosY = e.clientY
             }
@@ -305,14 +303,14 @@ class WebGLRenderer : SceneRenderer {
 
     private fun mouseUp(e: Any) {
         if (e is MouseEvent) {
-            if(e.button == MOUSE_BUTTON_LEFT) {
+            if (e.button == MOUSE_BUTTON_LEFT) {
                 dragging = false
                 window.requestAnimationFrame { time -> renderFrame(time) }
             }
-            if(e.button == MOUSE_BUTTON_RIGHT) {
+            if (e.button == MOUSE_BUTTON_RIGHT) {
                 moveCam = false
             }
-            if(e.button == MOUSE_BUTTON_MIDDLE) {
+            if (e.button == MOUSE_BUTTON_MIDDLE) {
                 // do nothing
             }
         }
@@ -320,7 +318,7 @@ class WebGLRenderer : SceneRenderer {
 
     private fun zoomCam(e: Any) { // zoom in or out camera
         if (e is WheelEvent) {
-            viewMatrix.set(14, viewMatrix.get(14) + e.deltaY / 300)
+            viewMatrix[14] = viewMatrix[14] + e.deltaY / 300
         }
     }
 }

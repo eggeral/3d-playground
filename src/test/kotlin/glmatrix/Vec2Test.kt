@@ -1,6 +1,5 @@
-package matrix
+package glmatrix
 
-import spr5.matrix.Vec2
 import util.assert
 import kotlin.test.Test
 
