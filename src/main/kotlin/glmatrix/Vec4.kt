@@ -2,7 +2,7 @@ package glmatrix
 
 import kotlin.js.Math
 
-class Vec4() : glMatrix() {
+class Vec4() : GlMatrix() {
 
     private val vector: Array<Double> = arrayOf(0.0, 0.0, 0.0, 0.0)
 

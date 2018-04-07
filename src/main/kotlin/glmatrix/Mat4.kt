@@ -5,7 +5,7 @@ import org.khronos.webgl.get
 import org.khronos.webgl.set
 import kotlin.js.Math
 
-class Mat4() : glMatrix() {
+class Mat4() : GlMatrix() {
 
     private val matrix: Array<Double> = arrayOf(1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0)
 
