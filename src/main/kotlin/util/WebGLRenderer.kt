@@ -193,26 +193,36 @@ class WebGLRenderer : SceneRenderer {
         val deltaTime = ((timeTemp - lastRender) / 10.0).toFloat()
         lastRender = timeTemp
 
-        nodes.forEach { n ->
-            n.model = Mat4.rotateX(n.model, deltaTime * n.rotationSpeedX)
-            n.model = Mat4.rotateY(n.model, deltaTime * n.rotationSpeedY)
-            n.model = Mat4.rotateZ(n.model, deltaTime * n.rotationSpeedZ)
+        nodes.forEach { node ->
+            when (node) {
+                is SceneObject -> {
+                    node.model = Mat4.rotateX(node.model, deltaTime * node.rotationSpeedX)
+                    node.model = Mat4.rotateY(node.model, deltaTime * node.rotationSpeedY)
+                    node.model = Mat4.rotateZ(node.model, deltaTime * node.rotationSpeedZ)
+                }
+                is SceneNodesAttached -> {
+                    node.children
+                }
+
+                else -> throw IllegalStateException("Unknown node type")
+
+            }
+
+            gl.enable(WebGLRenderingContext.DEPTH_TEST)
+            gl.depthFunc(WebGLRenderingContext.LEQUAL)
+            gl.clearDepth(1.0f)
+
+            gl.clearColor(0.5f, 0.5f, 0.5f, 0.9f)
+
+            gl.clear(WebGLRenderingContext.COLOR_BUFFER_BIT.or(WebGLRenderingContext.DEPTH_BUFFER_BIT))
+
+            gl.uniformMatrix4fv(projectionMatrixUniform, false, projectionMatrix.toFloat32Array())
+            gl.uniformMatrix4fv(viewMatrixUniform, false, viewMatrix.toFloat32Array())
+
+            drawObjects(nodes)
+
+            window.requestAnimationFrame { t -> renderFrame(t) }
         }
-
-        gl.enable(WebGLRenderingContext.DEPTH_TEST)
-        gl.depthFunc(WebGLRenderingContext.LEQUAL)
-        gl.clearDepth(1.0f)
-
-        gl.clearColor(0.5f, 0.5f, 0.5f, 0.9f)
-
-        gl.clear(WebGLRenderingContext.COLOR_BUFFER_BIT.or(WebGLRenderingContext.DEPTH_BUFFER_BIT))
-
-        gl.uniformMatrix4fv(projectionMatrixUniform, false, projectionMatrix.toFloat32Array())
-        gl.uniformMatrix4fv(viewMatrixUniform, false, viewMatrix.toFloat32Array())
-
-        drawObjects(nodes)
-
-        window.requestAnimationFrame { t -> renderFrame(t) }
 
     }
 
@@ -287,14 +297,14 @@ class WebGLRenderer : SceneRenderer {
                 //TODO: 0.1f should be replaced by perspective factor. Otherwise there are different
                 // speeds when moving in X and Y-direction)
                 if (e.clientX > clickPosX) {
-                    viewMatrix[12] = viewMatrix[12] + 0.1
+                    viewMatrix.set(12, viewMatrix.get(12) + 0.1)
                 }
                 if (e.clientY > clickPosY)
-                    viewMatrix[13] = viewMatrix[13] - 0.1
+                    viewMatrix.set(13, viewMatrix.get(13) - 0.1)
                 if (e.clientX < clickPosX)
-                    viewMatrix[12] = viewMatrix[12] - 0.1
+                    viewMatrix.set(12, viewMatrix.get(12) - 0.1)
                 if (e.clientY < clickPosY)
-                    viewMatrix[13] = viewMatrix[13] + 0.1
+                    viewMatrix.set(13, viewMatrix.get(13) + 0.1)
                 clickPosX = e.clientX
                 clickPosY = e.clientY
             }

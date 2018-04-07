@@ -11,6 +11,7 @@ class SceneNodesAttached : SceneNode {
     val children = mutableListOf<SceneNode>()
 
     fun addChild(child: SceneNode) {
+        child.model = Mat4().translate(arrayOf(-2.0, 1.0, 0.0))
         children.add(child)
     }
 
@@ -33,9 +34,7 @@ class SceneNodesAttached : SceneNode {
                         child.position.z - zDiff
                 )
                 child.position = newPosition
-
             }
-
         }
 
 }

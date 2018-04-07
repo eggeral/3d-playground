@@ -1,8 +1,7 @@
-package spr5
+package webgl
 
 import scene.*
 import util.WebGLRenderer
-
 
 class ApplicationAttachedObjects {
     private val renderer: WebGLRenderer = WebGLRenderer()
@@ -31,10 +30,12 @@ class ApplicationAttachedObjects {
 
         attachedCubes.position = Coordinate(3.0f, 0.0f, 0.0f)
         attachedCubes.rotationSpeedX = 0.005
+        attachedCubes.rotationSpeedY = 0.005
         // attachedCubes.position = Coordinate(-5.0f, 2.0f, 0.0f)
 
         var cube3 = createMulticolorCube(center1, cubeSize, cubeFacesColors)
-        cube3.rotationSpeedZ = 0.005
+        cube3.rotationSpeedZ = 0.03
+        cube3.rotationSpeedY = 0.03
         renderer.add(cube3)
         renderer.add(attachedCubes)
     }
