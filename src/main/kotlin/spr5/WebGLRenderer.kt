@@ -321,7 +321,11 @@ class WebGLRenderer : SceneRenderer {
                 var coords = get2dCoords(e);
                 gl.readPixels(coords.x.toInt(), coords.y.toInt(), 1, 1, WebGLRenderingContext.RGBA, WebGLRenderingContext.UNSIGNED_BYTE, readout);
 
-                console.log(readout);
+                var idx = readout[3] - 1;
+
+                if (idx >= 0 && idx < objects.size) {
+                    objects[idx].setHit(!objects[idx].isHit());
+                }
             }
             if(e.button == MOUSE_BUTTON_RIGHT) {
                 moveCam = false

@@ -8,8 +8,11 @@ import spr5.util.assert
 
 class SceneTriangle(var vertices: Array<Coordinate>, override var color: Rgba) : WebGLDrawable {
     private val _vertices: Array<Float>
-    private val _color: Array<Float>
+    private var _color: Array<Float>
     private val _indices: Array<Short>
+
+    var hit: Boolean = false
+    var highlightColor: Rgba = Rgba.Blue
 
     init {
         assert(vertices.size == 3, "SceneTriangle expects 3 coordinates")
@@ -28,7 +31,23 @@ class SceneTriangle(var vertices: Array<Coordinate>, override var color: Rgba) :
     }
 
     override fun getColors(): Array<Float> {
-        return _color
+        if(hit){
+            return arrayOf(
+                    highlightColor.red, highlightColor.green, highlightColor.blue, highlightColor.alpha
+            )
+        }else{
+            return _color
+        }
+    }
+
+    override fun setColors(color: Rgba){
+        _color = arrayOf(
+                color.red, color.green, color.blue, color.alpha
+        )
+    }
+
+    override fun setColors(colors:Array<Float>){
+        _color = colors
     }
 
     override fun getVertices(): Array<Float> {
@@ -37,6 +56,13 @@ class SceneTriangle(var vertices: Array<Coordinate>, override var color: Rgba) :
 
     override fun getIndices(): Array<Short> {
         return _indices
+    }
+
+    override fun isHit(): Boolean{
+        return hit
+	}
+    override fun setHit(hit: Boolean){
+        this.hit = hit;
     }
 
     override fun getMesh(): Array<Triangle> {

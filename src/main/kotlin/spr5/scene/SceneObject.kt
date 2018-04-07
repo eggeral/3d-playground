@@ -8,6 +8,11 @@ interface SceneObject
 {
     fun getVertices(): Array<Float>
     fun getColors(): Array<Float>
+    fun setColors(color: Rgba)
+    fun setColors(colors:Array<Float>)
+
+    fun isHit(): Boolean
+    fun setHit(hit: Boolean)
     fun getIndices(): Array<Short>
 
     fun getMesh(): Array<Triangle>;
