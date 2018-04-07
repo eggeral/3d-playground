@@ -146,7 +146,6 @@ class WebGLRenderer : SceneRenderer {
     }
 
     private fun drawObjects(nodes: List<SceneNode>) {
-        //gl.uniformMatrix4fv(modelMatrixUniform, false, modelMatrix.toFloat32Array());
 
 
         nodes.forEach { node ->
@@ -187,42 +186,47 @@ class WebGLRenderer : SceneRenderer {
         }
     }
 
-    private fun renderFrame(time: Double) {
-        gl.fitDrawingBufferIntoCanvas()
-        val timeTemp = time
-        val deltaTime = ((timeTemp - lastRender) / 10.0).toFloat()
-        lastRender = timeTemp
-
+    private fun renderFrameForEach(nodes: List<SceneNode>, deltaTime: Double) {
         nodes.forEach { node ->
             when (node) {
                 is SceneObject -> {
                     node.model = Mat4.rotateX(node.model, deltaTime * node.rotationSpeedX)
                     node.model = Mat4.rotateY(node.model, deltaTime * node.rotationSpeedY)
                     node.model = Mat4.rotateZ(node.model, deltaTime * node.rotationSpeedZ)
+
                 }
                 is SceneNodesAttached -> {
-                    node.children
+                    renderFrameForEach(node.children, deltaTime)
                 }
-
                 else -> throw IllegalStateException("Unknown node type")
-
             }
 
-            gl.enable(WebGLRenderingContext.DEPTH_TEST)
-            gl.depthFunc(WebGLRenderingContext.LEQUAL)
-            gl.clearDepth(1.0f)
-
-            gl.clearColor(0.5f, 0.5f, 0.5f, 0.9f)
-
-            gl.clear(WebGLRenderingContext.COLOR_BUFFER_BIT.or(WebGLRenderingContext.DEPTH_BUFFER_BIT))
-
-            gl.uniformMatrix4fv(projectionMatrixUniform, false, projectionMatrix.toFloat32Array())
-            gl.uniformMatrix4fv(viewMatrixUniform, false, viewMatrix.toFloat32Array())
-
-            drawObjects(nodes)
-
-            window.requestAnimationFrame { t -> renderFrame(t) }
         }
+    }
+
+    private fun renderFrame(time: Double) {
+        gl.fitDrawingBufferIntoCanvas()
+        val timeTemp = time
+        val deltaTime = ((timeTemp - lastRender) / 10.0).toFloat()
+        lastRender = timeTemp
+
+        renderFrameForEach(nodes, deltaTime.toDouble())
+
+        gl.enable(WebGLRenderingContext.DEPTH_TEST)
+        gl.depthFunc(WebGLRenderingContext.LEQUAL)
+        gl.clearDepth(1.0f)
+
+        gl.clearColor(0.5f, 0.5f, 0.5f, 0.9f)
+
+        gl.clear(WebGLRenderingContext.COLOR_BUFFER_BIT.or(WebGLRenderingContext.DEPTH_BUFFER_BIT))
+
+        gl.uniformMatrix4fv(projectionMatrixUniform, false, projectionMatrix.toFloat32Array())
+        gl.uniformMatrix4fv(viewMatrixUniform, false, viewMatrix.toFloat32Array())
+
+        drawObjects(nodes)
+
+        window.requestAnimationFrame { t -> renderFrame(t) }
+
 
     }
 
