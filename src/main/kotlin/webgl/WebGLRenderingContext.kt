@@ -11,5 +11,4 @@ fun createWebGLRenderingContext(canvas: HTMLCanvasElement): WebGLRenderingContex
     else
         console.info("WebGlRenderingContext successfully created!")
 
-    return webGlContext as WebGLRenderingContext
-}
+    return webGlContext as WebGLRenderingContext }

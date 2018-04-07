@@ -1,9 +1,10 @@
 package threed
 
-import spr5.Application
+import webgl.ApplicationAttachedObjects
 
 @JsName("main")
 fun main(args: Array<String>) {
-    Application().run();
+    //Application().run();
+    ApplicationAttachedObjects().run()
 }
 

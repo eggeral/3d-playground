@@ -4,8 +4,6 @@ import org.khronos.webgl.WebGLRenderingContext
 import kotlin.browser.window
 import kotlin.js.Math
 
-
-
 fun WebGLRenderingContext.fitDrawingBufferIntoCanvas() {
     val realToCSSPixels = window.devicePixelRatio // For Retina Displays etc where CSS pixel != device pixel
 
