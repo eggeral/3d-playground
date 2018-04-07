@@ -2,15 +2,15 @@ package spr5
 
 import org.khronos.webgl.*
 import org.w3c.dom.HTMLCanvasElement
-import org.w3c.dom.HTMLDivElement
+import org.w3c.dom.HTMLElement
 import org.w3c.dom.events.MouseEvent
 import org.w3c.dom.events.WheelEvent
 import spr5.matrix.Mat4
 import spr5.matrix.Vec2
 import spr5.matrix.Vec3
+import spr5.matrix.Vec4
 import spr5.scene.SceneObject
 import spr5.scene.SceneRenderer
-import spr5.util.Raycaster
 import threed.asRad
 import webgl.createWebGLRenderingContext
 import webgl.fitDrawingBufferIntoCanvas
@@ -29,6 +29,8 @@ class WebGLRenderer : SceneRenderer {
     private var projectionMatrixUniform: WebGLUniformLocation
     private var viewMatrixUniform: WebGLUniformLocation
     private var modelMatrixUniform: WebGLUniformLocation
+    private var pickingUniform: WebGLUniformLocation;
+    private var diffuseUniform: WebGLUniformLocation;
 
     private var objects: List<SceneObject> = listOf();
 
@@ -45,8 +47,6 @@ class WebGLRenderer : SceneRenderer {
     private val MOUSE_BUTTON_LEFT: Short = 0
     private val MOUSE_BUTTON_MIDDLE: Short = 1
     private val MOUSE_BUTTON_RIGHT: Short = 2
-
-    private val raycaster: Raycaster = Raycaster(Vec3(), Vec3())
 
     init {
         val canvas = document.getElementById("canvas") as HTMLCanvasElement;
@@ -86,9 +86,18 @@ class WebGLRenderer : SceneRenderer {
         val fragmentShaderCode = // Fragment shaders calculate the pixel color
                 """
                 precision mediump float;
+
+                uniform bool uPicking;
+                uniform vec4 uMaterialDiffuse;
+
                 varying vec4 vColor;
+
                 void main(void) {
-                    gl_FragColor = vColor;
+                    if (uPicking) {
+                        gl_FragColor = uMaterialDiffuse;
+                    } else {
+                        gl_FragColor = vColor;
+                    }
                 }
                 """
 
@@ -111,6 +120,8 @@ class WebGLRenderer : SceneRenderer {
         projectionMatrixUniform = gl.getUniformLocation(shaderProgram, "projectionMatrix") as WebGLUniformLocation;
         viewMatrixUniform = gl.getUniformLocation(shaderProgram, "viewMatrix") as WebGLUniformLocation;
         modelMatrixUniform = gl.getUniformLocation(shaderProgram, "modelMatrix") as WebGLUniformLocation;
+        pickingUniform = gl.getUniformLocation(shaderProgram, "uPicking") as WebGLUniformLocation;
+        diffuseUniform = gl.getUniformLocation(shaderProgram, "uMaterialDiffuse") as WebGLUniformLocation;
 
         gl.bindBuffer(WebGLRenderingContext.ARRAY_BUFFER, colorBuffer)
         val colors = gl.getAttribLocation(shaderProgram, "color")
@@ -140,13 +151,27 @@ class WebGLRenderer : SceneRenderer {
         viewMatrix = Mat4().translate(arrayOf(0.0, 0.0, -15.0));
         modelMatrix = Mat4();
 
-        window.requestAnimationFrame { t -> renderFrame(t) }
+        window.requestAnimationFrame { t -> renderFrame(t, false) }
+        window.addEventListener("resize", {
+            projectionMatrix = Mat4().perspective(
+                    45.0.asRad,
+                    gl.canvas.width.toDouble() / gl.canvas.height.toDouble(),
+                    1.0,
+                    100.0);
+            renderFrame(lastRender, false);
+        })
     }
 
-    private fun drawObjects() {
+    private fun drawObjects(picking: Boolean) {
         gl.uniformMatrix4fv(modelMatrixUniform, false, modelMatrix.toFloat32Array());
 
+        var idx = 1;
         objects.forEach { o ->
+            if (picking) {
+                gl.uniform4fv(diffuseUniform, Vec4(1.0, 1.0, 1.0, idx / 255.0).toFloat32Array())
+                idx += 1;
+            }
+
             gl.bindBuffer(WebGLRenderingContext.ARRAY_BUFFER, vertexBuffer);
             gl.bufferData(
                     WebGLRenderingContext.ARRAY_BUFFER,
@@ -166,14 +191,14 @@ class WebGLRenderer : SceneRenderer {
                     WebGLRenderingContext.STATIC_DRAW);
 
             gl.drawElements(
-                    WebGLRenderingContext.LINE_STRIP,
+                    WebGLRenderingContext.TRIANGLES,
                     o.getIndices().size,
                     WebGLRenderingContext.UNSIGNED_SHORT,
                     0);
         }
     }
 
-    private fun renderFrame(time: Double) {
+    private fun renderFrame(time: Double, picking: Boolean) {
         gl.fitDrawingBufferIntoCanvas();
 
         val deltaTime = ((time - lastRender) / 10.0).toFloat()
@@ -185,17 +210,23 @@ class WebGLRenderer : SceneRenderer {
         gl.depthFunc(WebGLRenderingContext.LEQUAL)
         gl.clearDepth(1.0f)
 
-        gl.clearColor(0.5f, 0.5f, 0.5f, 0.9f)
+        gl.clearColor(0.5f, 0.5f, 0.5f, 1.0f)
 
         gl.clear(WebGLRenderingContext.COLOR_BUFFER_BIT.or(WebGLRenderingContext.DEPTH_BUFFER_BIT))
 
         gl.uniformMatrix4fv(projectionMatrixUniform, false, projectionMatrix.toFloat32Array())
         gl.uniformMatrix4fv(viewMatrixUniform, false, viewMatrix.toFloat32Array())
 
-        drawObjects();
+        if (picking)
+            gl.uniform1i(pickingUniform, 1);
+        else
+            gl.uniform1i(pickingUniform, 0);
 
-        window.requestAnimationFrame { t -> renderFrame(t) }
+        drawObjects(picking);
 
+        if (!picking) {
+            window.requestAnimationFrame { t -> renderFrame(t, false) };
+        }
     }
 
     override fun add(sceneObject: SceneObject) {
@@ -274,22 +305,6 @@ class WebGLRenderer : SceneRenderer {
                 clickPosX = e.clientX
                 clickPosY = e.clientY
                 viewMatrix = Mat4().translate(viewMatrixV3)
-            } else {
-                // calculate mouse position in normalized device coordinates
-                // (-1 to +1) for both components
-
-                val x = ( e.clientX.toDouble() / window.innerWidth ) * 2.0 - 1.0;
-                val y = - ( e.clientY.toDouble() / window.innerHeight ) * 2.0 + 1.0;
-
-                raycaster.setFromCamera(Vec2(x, y), this.viewMatrix, this.projectionMatrix);
-
-                val intersects = raycaster.intersectsObjects(objects);
-
-                if (intersects.isNotEmpty()) {
-                    console.log(raycaster.toString());
-
-                    intersects.forEach { o -> console.log("Intersect at triangle ${o.intersect(raycaster.ray)}") };
-                }
             }
         }
     }
@@ -298,7 +313,15 @@ class WebGLRenderer : SceneRenderer {
         if (e is MouseEvent) {
             if(e.button == MOUSE_BUTTON_LEFT) {
                 dragging = false
-                window.requestAnimationFrame { time -> renderFrame(time) }
+//                window.requestAnimationFrame { time -> renderFrame(time, false) }
+
+
+                renderFrame(lastRender, true);
+                var readout = Uint8Array(4);
+                var coords = get2dCoords(e);
+                gl.readPixels(coords.x.toInt(), coords.y.toInt(), 1, 1, WebGLRenderingContext.RGBA, WebGLRenderingContext.UNSIGNED_BYTE, readout);
+
+                console.log(readout);
             }
             if(e.button == MOUSE_BUTTON_RIGHT) {
                 moveCam = false
@@ -315,5 +338,28 @@ class WebGLRenderer : SceneRenderer {
             viewMatrixV3.set(2, viewMatrixV3.get(2) + (e.deltaY / 100).toFloat())
             viewMatrix = Mat4().translate(viewMatrixV3)
         }
+    }
+
+    private fun get2dCoords(ev: MouseEvent): Vec2 {
+        var x = 0;
+        var y = 0;
+        var top = 0;
+        var left = 0;
+        var obj: HTMLElement? = gl.canvas;
+
+        while (obj is HTMLElement && obj.tagName !== "BODY") {
+            top += obj.offsetTop;
+            left += obj.offsetLeft;
+            obj = obj.offsetParent as HTMLElement?;
+        }
+
+        left += window.pageXOffset.toInt();
+        top -= window.pageYOffset.toInt();
+
+        // return relative mouse position
+        x = ev.clientX - left;
+        y = gl.canvas.height - (ev.clientY - top);
+        //console.info('x='+x+', y='+y);
+        return Vec2(x.toDouble(), y.toDouble());
     }
 }

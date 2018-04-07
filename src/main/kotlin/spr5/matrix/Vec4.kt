@@ -1,5 +1,7 @@
 package spr5.matrix
 
+import org.khronos.webgl.Float32Array
+import org.khronos.webgl.set
 import kotlin.js.Math
 
 class Vec4() : glMatrix() {
@@ -498,5 +500,13 @@ class Vec4() : glMatrix() {
                 Math.abs(a1 - b1) <= EPSILON * Math.max(1.0, Math.abs(a1), Math.abs(b1)) &&
                 Math.abs(a2 - b2) <= EPSILON * Math.max(1.0, Math.abs(a2), Math.abs(b2)) &&
                 Math.abs(a3 - b3) <= EPSILON * Math.max(1.0, Math.abs(a3), Math.abs(b3)))
+    }
+
+    fun toFloat32Array(): Float32Array {
+        val result = Float32Array(this.size());
+
+        vector.forEachIndexed { index, d -> result[index] = d.toFloat() };
+
+        return result;
     }
 }
