@@ -107,9 +107,6 @@ class WebGLRenderer : SceneRenderer {
         gl.vertexAttribPointer(verticesAttribute, 3, WebGLRenderingContext.FLOAT, false, 0, 0)
         gl.enableVertexAttribArray(verticesAttribute)
 
-        // get uniform vColor attribute from fragment shader
-        val color = gl.getUniformLocation(shaderProgram, "vColor")
-
         // set background color
         gl.clearColor(0.9f, 0.9f, 0.9f, 1.0f)
         gl.clear(WebGLRenderingContext.COLOR_BUFFER_BIT)
@@ -117,7 +114,7 @@ class WebGLRenderer : SceneRenderer {
         gl.useProgram(shaderProgram)
 
         projectionMatrix = Mat4().perspective(
-                GlMatrix.toRad(40.0),
+                GlMatrix.toRadian(40.0),
                 gl.canvas.width.toDouble() / gl.canvas.height.toDouble(),
                 1.0,
                 100.0)
@@ -127,7 +124,7 @@ class WebGLRenderer : SceneRenderer {
         window.requestAnimationFrame { t -> renderFrame(t, false) }
         window.addEventListener("resize", {
             projectionMatrix = Mat4().perspective(
-                    GlMatrix.toRad(40.0),
+                    GlMatrix.toRadian(40.0),
                     gl.canvas.width.toDouble() / gl.canvas.height.toDouble(),
                     1.0,
                     100.0)
@@ -245,18 +242,6 @@ class WebGLRenderer : SceneRenderer {
         nodes -= sceneNode
     }
 
-    override fun rotateModel(rotateRad: Double) {
-        return rotateModel(rotateRad, rotateRad, rotateRad)
-    }
-
-
-    override fun rotateModel(rotateXRad: Double, rotateYRad: Double, rotateZRad: Double) {
-        //modelMatrix = modelMatrix * Mat4().rotateX(rotateXRad) *
-        //        Mat4().rotateY(rotateYRad) *
-        //        Mat4().rotateZ(rotateZRad)
-    }
-
-
     private fun getPositionInCanvas(x: Int, y: Int): Array<Int> {
         val rect = gl.canvas.getBoundingClientRect()
         console.log("Left: " + rect.left + ", Top: " + rect.top)
@@ -300,8 +285,8 @@ class WebGLRenderer : SceneRenderer {
                 val newY = e.clientY
                 val deltaX = newX - clickPosX
                 val deltaY = newY - clickPosY
-                viewMatrix = viewMatrix.rotateX(GlMatrix.toRad(deltaX.toDouble()))
-                viewMatrix = viewMatrix.rotateY(GlMatrix.toRad(deltaY.toDouble()))
+                viewMatrix = viewMatrix.rotateX(GlMatrix.toRadian(deltaX.toDouble()))
+                viewMatrix = viewMatrix.rotateY(GlMatrix.toRadian(deltaY.toDouble()))
 
                 clickPosX = newX
                 clickPosY = newY
