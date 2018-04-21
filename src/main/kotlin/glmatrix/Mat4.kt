@@ -44,6 +44,10 @@ class Mat4() : GlMatrix() {
         return result;
     }
 
+    fun toDoubleArray(): DoubleArray {
+        return matrix.toDoubleArray();
+    }
+
     /**
      * Adds two Mat4's
      *

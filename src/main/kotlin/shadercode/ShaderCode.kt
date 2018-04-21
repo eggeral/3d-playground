@@ -21,9 +21,18 @@ enum class ShaderCode(val value: String) {
     FRAGMENT_MULTI_COLOR_CUBE(
             """
             precision mediump float;
+
+            uniform bool uPicking;
+            uniform vec4 uMaterialDiffuse;
+
             varying vec4 vColor;
+
             void main(void) {
-                gl_FragColor = vColor;
+                if (uPicking) {
+                    gl_FragColor = uMaterialDiffuse;
+                } else {
+                    gl_FragColor = vColor;
+                }
             }
             """
     )

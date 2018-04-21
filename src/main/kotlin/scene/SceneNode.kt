@@ -8,4 +8,7 @@ interface SceneNode {
     var rotationSpeedX: Double
     var rotationSpeedY: Double
     var rotationSpeedZ: Double
+
+    fun isHit(): Boolean
+    fun setHit(hit: Boolean)
 }
