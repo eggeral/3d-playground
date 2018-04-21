@@ -13,7 +13,7 @@ import kotlin.browser.window
 fun drawSceneMultiColorCube(gl: WebGLRenderingContext) {
 
     val center = Coordinate(0.0f, 0.0f, 0.0f)
-    val cubeSize = 1.0f
+    val cubeSize = 2.0f
     val cubeFacesColors = arrayOf(Rgba(1.0f, 0.0f, 0.0f, 1.0f)
             ,Rgba(0.0f, 1.0f, 0.0f, 1.0f)
             ,Rgba(0.0f, 0.0f, 1.0f, 1.0f)

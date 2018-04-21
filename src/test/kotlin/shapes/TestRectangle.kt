@@ -59,9 +59,9 @@ class TestRectangle(){
         var color : Rgba = setColor(1.0f, 0.5f, 0.7f, 0.5f)
         var square = createSquare(centerPoint, 50.0f, color)
         val testColor = setColor(1.0f, 0.5f, 0.7f, 0.5f)
-        assertEquals(50, square.heigth);
+        assertEquals(50, square.height);
         assertEquals(50, square.width);
-        assertEquals(square.heigth, square.width);
+        assertEquals(square.height, square.width);
         assertEquals(testColor.red, square.getColors()[0])
         assertEquals(25, square.getVertices()[0])
     }
