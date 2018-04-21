@@ -16,11 +16,13 @@ import webgl.createWebGLRenderingContext
 import webgl.fitDrawingBufferIntoCanvas
 import kotlin.browser.document
 import kotlin.browser.window
+import kotlin.js.Math
 
 
 class WebGLRenderer : SceneRenderer {
     private var gl: WebGLRenderingContext
     private var lastRender: Double = 0.0
+    private var firstRender: Boolean = true
 
     private var vertexBuffer: WebGLBuffer
     private var colorBuffer: WebGLBuffer
@@ -190,24 +192,42 @@ class WebGLRenderer : SceneRenderer {
         nodes.forEach { node ->
             when (node) {
                 is SceneObject -> {
-                    node.model.rotateX( deltaTime * node.rotationSpeedX)
+                    if (firstRender) {
+                        val startPoint = node.getAbsoluteCoordinate()
+                        node.model.translate(Vec3(startPoint.x.toDouble(), startPoint.y.toDouble(), startPoint.z.toDouble()))
+                    }
+                    node.rotationAngleX = (deltaTime * node.rotationSpeedX + node.rotationAngleX) % (2*Math.PI)
+                    node.rotationAngleY = (deltaTime * node.rotationSpeedY + node.rotationAngleY) % (2*Math.PI)
+                    node.rotationAngleZ = (deltaTime * node.rotationSpeedZ + node.rotationAngleZ) % (2*Math.PI)
+                    node.model.rotateX(deltaTime * node.rotationSpeedX)
                     node.model.rotateY(deltaTime * node.rotationSpeedY)
                     node.model.rotateZ(deltaTime * node.rotationSpeedZ)
+
+                    var X = 0.0
+                    var Y = 0.0
+                    var Z = 0.0
+                    var returnDirs : Triple<Double, Double, Double>
+                    returnDirs = calcDirectionVectors3D(node, X, Y, Z)
+                    X = returnDirs.first
+                    Y = returnDirs.second
+                    Z = returnDirs.third
+
+                    if (node.speedX != 0.0)
+                        console.log(node.speedX.toString() + " - " + X.toString() + " - " + Y.toString())
+                    node.model.translate(Vec3(X, Y, Z))
                 }
                 is SceneNodesAttached -> {
                     renderFrameForEach(node.children, deltaTime)
                 }
                 else -> throw IllegalStateException("Unknown node type")
             }
-
         }
     }
 
     private fun renderFrame(time: Double, picking: Boolean) {
         gl.fitDrawingBufferIntoCanvas()
-        val timeTemp = time
-        val deltaTime = ((timeTemp - lastRender) / 10.0).toFloat()
-        lastRender = timeTemp
+        val deltaTime = ((time - lastRender) / 10.0).toFloat()
+        lastRender = time
 
         renderFrameForEach(nodes, deltaTime.toDouble())
 
@@ -233,11 +253,72 @@ class WebGLRenderer : SceneRenderer {
             window.requestAnimationFrame { t -> renderFrame(t, false) }
         }
 
+        if (firstRender)
+            firstRender = false
+
+    }
+
+    private fun calcDirectionVectors3D(o: SceneObject, X: Double, Y: Double, Z: Double) : Triple<Double, Double, Double> {
+        //doesn't work for all combinations -> better use Eulerwinkel
+        var returnDirs : Pair<Double, Double>
+        var lX : Double = X
+        var lY : Double = Y
+        var lZ : Double = Z
+        returnDirs = calcDirectionVectors2D(o.speedX, o.rotationAngleZ, lX, lY)
+        lX += returnDirs.first
+        lY += returnDirs.second
+        returnDirs = calcDirectionVectors2D(o.speedY, o.rotationAngleX, lY, lZ)
+        lY += returnDirs.first
+        lZ += returnDirs.second
+        returnDirs = calcDirectionVectors2D(o.speedZ, o.rotationAngleY, lZ, lX)
+        lZ += returnDirs.first
+        lX += returnDirs.second
+
+        return Triple(lX, lY, lZ)
+    }
+
+    private fun calcDirectionVectors2D(speed: Double, angle: Double, direction1: Double, direction2: Double) : Pair<Double, Double> {
+        if ((speed == 0.0) || (angle == 0.0))
+            return Pair(speed, 0.0)
+        var Dir1 = direction1
+        var Dir2 = direction2
+        if (angle == 0.0) {
+            Dir1 = speed
+        }
+        else if (angle == Math.PI/2) {
+            Dir2 = speed
+        }
+        else if (angle == Math.PI) {
+            Dir1 = - speed
+        }
+        else if (angle == Math.PI * 1.5) {
+            Dir2 = -speed
+        } else if (angle < Math.PI/2) {
+            var TempY = speed * Math.sin(angle)
+            Dir1 = TempY * Math.sin(Math.PI/2 - angle) / Math.sin(angle)
+            Dir2 = -TempY
+        } else if (angle < Math.PI) {
+            var rotationZ = 2* Math.PI - angle
+            var TempY = speed * Math.sin(rotationZ)
+            Dir1 = TempY * Math.sin(Math.PI/2 - rotationZ) / Math.sin(rotationZ)
+            Dir2 = TempY
+        } else if (angle < 3*Math.PI/2) {
+            var rotationZ = angle - Math.PI
+            var TempY = speed * Math.sin(rotationZ)
+            Dir1 = - TempY * Math.sin(Math.PI/2 - rotationZ) / Math.sin(rotationZ)
+            Dir2 = TempY
+        } else if (angle < 2* Math.PI) {
+            var rotationZ = -angle
+            var TempY = speed * Math.sin(rotationZ)
+            Dir1 = TempY * Math.sin(Math.PI/2 - rotationZ) / Math.sin(rotationZ)
+            Dir2 = TempY
+        }
+        return Pair(Dir1, Dir2)
     }
 
     override fun add(sceneNode: SceneNode) {
         if (sceneNode is SceneObject)
-            sceneNode.model = Mat4().translate(arrayOf(-2.0, 1.0, 0.0))
+            sceneNode.model = Mat4().translate(arrayOf(0.0, 0.0, 0.0))
         nodes += sceneNode
     }
 

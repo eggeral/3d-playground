@@ -8,15 +8,22 @@ class SceneNodesAttached : SceneNode {
     override var rotationSpeedX: Double = 0.0
     override var rotationSpeedY: Double = 0.0
     override var rotationSpeedZ: Double = 0.0
+    override var rotationAngleX: Double = 0.0
+    override var rotationAngleY: Double = 0.0
+    override var rotationAngleZ: Double = 0.0
+    override var speedX: Double = 0.0
+    override var speedY: Double = 0.0
+    override var speedZ: Double = 0.0
+    override var center: Coordinate = Coordinate()
     val children = mutableListOf<SceneNode>()
 
     fun addChild(child: SceneNode) {
-        child.model = Mat4().translate(arrayOf(-2.0, 1.0, 0.0))
+        child.model = Mat4().translate(arrayOf(0.0, 0.0, 0.0))
         children.add(child)
     }
 
 
-    override var position: Coordinate = Coordinate(0.0f, 0.0f, 0.0f)
+    override var absoluteCoordinate: Coordinate = Coordinate(0.0f, 0.0f, 0.0f)
         set(value) {
 
             val oldValue = field
@@ -29,11 +36,11 @@ class SceneNodesAttached : SceneNode {
             for (child in children) {
 
                 val newPosition = Coordinate(
-                        child.position.x - xDiff,
-                        child.position.y - yDiff,
-                        child.position.z - zDiff
+                        child.absoluteCoordinate.x - xDiff,
+                        child.absoluteCoordinate.y - yDiff,
+                        child.absoluteCoordinate.z - zDiff
                 )
-                child.position = newPosition
+                child.absoluteCoordinate = newPosition
             }
         }
 

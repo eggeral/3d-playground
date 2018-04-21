@@ -8,19 +8,19 @@ class ApplicationAttachedObjects {
 
     fun run() {
 
-        val center1 = Coordinate(5.0f, 0.0f, 0.0f)
-        val center2 = Coordinate(-1.0f, 0.0f, 0.0f)
-        val center3 = Coordinate(1.0f, 0.0f, 0.0f)
-        val center4 = Coordinate(-1.0f, 1.0f, 0.0f)
-        val center5 = Coordinate(1.0f, 1.0f, 0.0f)
-        val center6 = Coordinate(0.0f, 2.25f, 0.0f)
-        val center7 = Coordinate(0.0f, 3.75f, 0.0f)
-        val center7a = Coordinate(1.25f, 3.75f, 0.0f)
-        val center7aa = Coordinate(-2.0f, 3.75f, 0.0f)
-        val center7b = Coordinate(-1.25f, 3.75f, 0.0f)
-        val center7bb = Coordinate(2.0f, 3.75f, 0.0f)
-        val center8 = Coordinate(0.0f, 4.75f, 0.0f)
-        val center9 = Coordinate(0.0f, 5.75f, 0.0f)
+        val center1 = Coordinate(5.0f, -2.0f, 0.0f)
+        val center2 = Coordinate(-1.0f, -2.0f, 0.0f)
+        val center3 = Coordinate(1.0f, -2.0f, 0.0f)
+        val center4 = Coordinate(-1.0f, -1.0f, 0.0f)
+        val center5 = Coordinate(1.0f, -1.0f, 0.0f)
+        val center6 = Coordinate(0.0f, 0.25f, 0.0f)
+        val center7 = Coordinate(0.0f, 1.75f, 0.0f)
+        val center7a = Coordinate(1.25f, 1.75f, 0.0f)
+        val center7aa = Coordinate(-2.0f, 1.75f, 0.0f)
+        val center7b = Coordinate(-1.25f, 1.75f, 0.0f)
+        val center7bb = Coordinate(2.0f, 1.75f, 0.0f)
+        val center8 = Coordinate(0.0f, 2.75f, 0.0f)
+        val center9 = Coordinate(0.0f, 3.75f, 0.0f)
         val cubeSize1 = 1.0f
         val cubeSize1_5 = 1.5f
         val cubeSize0_5 = 0.5f
@@ -69,11 +69,9 @@ class ApplicationAttachedObjects {
         attachedCubes.addChild(cube8)
         attachedCubes.addChild(cube9)
 
-        attachedCubes.position = Coordinate(0.0f, 0.0f, 0.0f)
         //attachedCubes.rotationSpeedX = 0.005
         //attachedCubes.rotationSpeedY = 0.003
         //attachedCubes.rotationSpeedZ = 0.003
-        attachedCubes.position = Coordinate(0.0f, -4.0f, 0.0f)
 
 
         renderer.add(cube1)
