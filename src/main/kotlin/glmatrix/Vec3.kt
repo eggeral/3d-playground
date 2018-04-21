@@ -8,15 +8,18 @@ class Vec3() : GlMatrix() {
 
     public var x: Double
         get() = this[0]
-        set(value) { this[0] = value; }
+        set(value) {
+            this[0] = value; }
 
     public var y: Double
         get() = this[1]
-        set(value) { this[1] = value; }
+        set(value) {
+            this[1] = value; }
 
     public var z: Double
         get() = this[2]
-        set(value) { this[2] = value; }
+        set(value) {
+            this[2] = value; }
 
 
     constructor(componentX: Double, componentY: Double, componentZ: Double) : this() {
@@ -718,12 +721,4 @@ class Vec3() : GlMatrix() {
 
         return this;
     }
-
-    /**
-     * Unprojects the vector with the camera's modelMatrix and projectionMatrix.
-     */
-    fun unproject(modelMatrix: Mat4, projectionMatrix: Mat4): Vec3 {
-        return this.transformMat4(modelMatrix * Mat4.invert(projectionMatrix));
-    }
-
 }
