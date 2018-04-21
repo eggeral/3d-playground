@@ -168,9 +168,9 @@ class WebGLRenderer : SceneRenderer {
         nodes.forEach { node ->
             when (node) {
                 is SceneObject -> {
-                    node.model = Mat4.rotateX(node.model, deltaTime * node.rotationSpeedX)
-                    node.model = Mat4.rotateY(node.model, deltaTime * node.rotationSpeedY)
-                    node.model = Mat4.rotateZ(node.model, deltaTime * node.rotationSpeedZ)
+                    node.model.rotateX( deltaTime * node.rotationSpeedX)
+                    node.model.rotateX(deltaTime * node.rotationSpeedY)
+                    node.model.rotateX(deltaTime * node.rotationSpeedZ)
                 }
                 is SceneNodesAttached -> {
                     renderFrameForEach(node.children, deltaTime)
