@@ -2,11 +2,14 @@ package spr5
 
 import org.khronos.webgl.*
 import org.w3c.dom.HTMLCanvasElement
-import org.w3c.dom.HTMLDivElement
+import org.w3c.dom.HTMLElement
+import org.w3c.dom.events.KeyboardEvent
 import org.w3c.dom.events.MouseEvent
 import org.w3c.dom.events.WheelEvent
 import spr5.matrix.Mat4
+import spr5.matrix.Vec2
 import spr5.matrix.Vec3
+import spr5.matrix.Vec4
 import spr5.scene.SceneObject
 import spr5.scene.SceneRenderer
 import threed.asRad
@@ -27,6 +30,8 @@ class WebGLRenderer : SceneRenderer {
     private var projectionMatrixUniform: WebGLUniformLocation
     private var viewMatrixUniform: WebGLUniformLocation
     private var modelMatrixUniform: WebGLUniformLocation
+    private var pickingUniform: WebGLUniformLocation;
+    private var diffuseUniform: WebGLUniformLocation;
 
     private var objects: List<SceneObject> = listOf();
 
@@ -45,9 +50,7 @@ class WebGLRenderer : SceneRenderer {
     private val MOUSE_BUTTON_RIGHT: Short = 2
 
     init {
-        val container = document.getElementById("container") as HTMLDivElement;
-        val canvas = document.createElement("canvas") as HTMLCanvasElement;
-        canvas.style.height = "100%";
+        val canvas = document.getElementById("canvas") as HTMLCanvasElement;
 
         document.addEventListener("mousedown", { e -> mouseDown(e) })
         document.addEventListener("mousemove", { e -> mouseMove(e) })
@@ -56,10 +59,11 @@ class WebGLRenderer : SceneRenderer {
         document.addEventListener("touchstart", { console.log("touch started" )})
         document.addEventListener("touchmove", { console.log("touch moved" )})
         document.addEventListener("touchend", { console.log("touch ended" )})
+        document.addEventListener("keydown", {e -> keyDown(e)})
+        document.addEventListener("keyup", {e -> keyUp(e)})
 
         gl = createWebGLRenderingContext(canvas);
 
-        container.appendChild(canvas);
 
         // Create buffers
         vertexBuffer = gl.createBuffer() as WebGLBuffer;
@@ -85,9 +89,18 @@ class WebGLRenderer : SceneRenderer {
         val fragmentShaderCode = // Fragment shaders calculate the pixel color
                 """
                 precision mediump float;
+
+                uniform bool uPicking;
+                uniform vec4 uMaterialDiffuse;
+
                 varying vec4 vColor;
+
                 void main(void) {
-                    gl_FragColor = vColor;
+                    if (uPicking) {
+                        gl_FragColor = uMaterialDiffuse;
+                    } else {
+                        gl_FragColor = vColor;
+                    }
                 }
                 """
 
@@ -110,6 +123,8 @@ class WebGLRenderer : SceneRenderer {
         projectionMatrixUniform = gl.getUniformLocation(shaderProgram, "projectionMatrix") as WebGLUniformLocation;
         viewMatrixUniform = gl.getUniformLocation(shaderProgram, "viewMatrix") as WebGLUniformLocation;
         modelMatrixUniform = gl.getUniformLocation(shaderProgram, "modelMatrix") as WebGLUniformLocation;
+        pickingUniform = gl.getUniformLocation(shaderProgram, "uPicking") as WebGLUniformLocation;
+        diffuseUniform = gl.getUniformLocation(shaderProgram, "uMaterialDiffuse") as WebGLUniformLocation;
 
         gl.bindBuffer(WebGLRenderingContext.ARRAY_BUFFER, colorBuffer)
         val colors = gl.getAttribLocation(shaderProgram, "color")
@@ -132,20 +147,34 @@ class WebGLRenderer : SceneRenderer {
         gl.useProgram(shaderProgram)
 
         projectionMatrix = Mat4().perspective(
-                40.0.asRad,
+                45.0.asRad,
                 gl.canvas.width.toDouble() / gl.canvas.height.toDouble(),
                 1.0,
                 100.0);
         viewMatrix = Mat4().translate(arrayOf(0.0, 0.0, -15.0));
-        modelMatrix = Mat4().translate(arrayOf(-2.0, 1.0, 0.0));
+        modelMatrix = Mat4();
 
-        window.requestAnimationFrame { t -> renderFrame(t) }
+        window.requestAnimationFrame { t -> renderFrame(t, false) }
+        window.addEventListener("resize", {
+            projectionMatrix = Mat4().perspective(
+                    45.0.asRad,
+                    gl.canvas.width.toDouble() / gl.canvas.height.toDouble(),
+                    1.0,
+                    100.0);
+            renderFrame(lastRender, false);
+        })
     }
 
-    private fun drawObjects() {
+    private fun drawObjects(picking: Boolean) {
         gl.uniformMatrix4fv(modelMatrixUniform, false, modelMatrix.toFloat32Array());
 
+        var idx = 1;
         objects.forEach { o ->
+            if (picking) {
+                gl.uniform4fv(diffuseUniform, Vec4(1.0, 1.0, 1.0, idx / 255.0).toFloat32Array())
+                idx += 1;
+            }
+
             gl.bindBuffer(WebGLRenderingContext.ARRAY_BUFFER, vertexBuffer);
             gl.bufferData(
                     WebGLRenderingContext.ARRAY_BUFFER,
@@ -172,29 +201,35 @@ class WebGLRenderer : SceneRenderer {
         }
     }
 
-    private fun renderFrame(time: Double) {
+    private fun renderFrame(time: Double, picking: Boolean) {
         gl.fitDrawingBufferIntoCanvas();
 
         val deltaTime = ((time - lastRender) / 10.0).toFloat()
         lastRender = time;
 
-        rotateModel(deltaTime * 0.005);
+//        rotateModel(deltaTime * 0.005);
 
         gl.enable(WebGLRenderingContext.DEPTH_TEST)
         gl.depthFunc(WebGLRenderingContext.LEQUAL)
         gl.clearDepth(1.0f)
 
-        gl.clearColor(0.5f, 0.5f, 0.5f, 0.9f)
+        gl.clearColor(0.5f, 0.5f, 0.5f, 1.0f)
 
         gl.clear(WebGLRenderingContext.COLOR_BUFFER_BIT.or(WebGLRenderingContext.DEPTH_BUFFER_BIT))
 
         gl.uniformMatrix4fv(projectionMatrixUniform, false, projectionMatrix.toFloat32Array())
         gl.uniformMatrix4fv(viewMatrixUniform, false, viewMatrix.toFloat32Array())
 
-        drawObjects();
+        if (picking)
+            gl.uniform1i(pickingUniform, 1);
+        else
+            gl.uniform1i(pickingUniform, 0);
 
-        window.requestAnimationFrame { t -> renderFrame(t) }
+        drawObjects(picking);
 
+        if (!picking) {
+            window.requestAnimationFrame { t -> renderFrame(t, false) };
+        }
     }
 
     override fun add(sceneObject: SceneObject) {
@@ -281,7 +316,26 @@ class WebGLRenderer : SceneRenderer {
         if (e is MouseEvent) {
             if(e.button == MOUSE_BUTTON_LEFT) {
                 dragging = false
-                window.requestAnimationFrame { time -> renderFrame(time) }
+//                window.requestAnimationFrame { time -> renderFrame(time, false) }
+
+
+                renderFrame(lastRender, true);
+                var readout = Uint8Array(4);
+                var coords = get2dCoords(e);
+                gl.readPixels(coords.x.toInt(), coords.y.toInt(), 1, 1, WebGLRenderingContext.RGBA, WebGLRenderingContext.UNSIGNED_BYTE, readout);
+
+                var idx = readout[3] - 1;
+
+                if (idx >= 0 && idx < objects.size) {
+                    if (ctrlPressed)
+                        objects[idx].setHit(!objects[idx].isHit())
+                    else {
+                        releaseHighlightedObjects()
+                        objects[idx].setHit(true)
+                    }
+                } else { // nothing hit
+                    if (!ctrlPressed) releaseHighlightedObjects()
+                }
             }
             if(e.button == MOUSE_BUTTON_RIGHT) {
                 moveCam = false
@@ -292,11 +346,56 @@ class WebGLRenderer : SceneRenderer {
         }
     }
 
+    private fun releaseHighlightedObjects() {
+        for (form in objects) {
+            form.setHit(false)
+        }
+    }
+
+    private var ctrlPressed: Boolean = false
+
+    private fun keyDown(e: Any) {
+        // check for CTRL pressed
+        if (e is KeyboardEvent && e.ctrlKey && !ctrlPressed) {
+            ctrlPressed = true
+        }
+    }
+
+    private fun keyUp(e: Any) {
+        // check for CTRL release (keyCode 17 = ctrlKey)
+        if (e is KeyboardEvent && e.keyCode == 17) {
+            ctrlPressed = false
+        }
+    }
+
     private fun zoomCam(e: Any) { // zoom in or out camera
         if (e is WheelEvent) {
             console.log("Wheel event!" + e.deltaY)
             viewMatrixV3.set(2, viewMatrixV3.get(2) + (e.deltaY / 100).toFloat())
             viewMatrix = Mat4().translate(viewMatrixV3)
         }
+    }
+
+    private fun get2dCoords(ev: MouseEvent): Vec2 {
+        var x = 0;
+        var y = 0;
+        var top = 0;
+        var left = 0;
+        var obj: HTMLElement? = gl.canvas;
+
+        while (obj is HTMLElement && obj.tagName !== "BODY") {
+            top += obj.offsetTop;
+            left += obj.offsetLeft;
+            obj = obj.offsetParent as HTMLElement?;
+        }
+
+        left += window.pageXOffset.toInt();
+        top -= window.pageYOffset.toInt();
+
+        // return relative mouse position
+        x = ev.clientX - left;
+        y = gl.canvas.height - (ev.clientY - top);
+        //console.info('x='+x+', y='+y);
+        return Vec2(x.toDouble(), y.toDouble());
     }
 }

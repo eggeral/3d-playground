@@ -1,5 +1,7 @@
 package spr5.util;
 
+import spr5.matrix.Vec3
+import spr5.scene.SceneObject
 import kotlin.js.Math;
 
 const val EPS = 0.00001;
@@ -31,4 +33,26 @@ fun assertTrue(stmt: Boolean, message: String = "Value is not true") {
 
 fun assertFalse(stmt: Boolean, message: String = "Value is not false") {
     assert(!stmt, message);
+}
+
+fun getMesh(o: SceneObject): Array<Triangle> {
+    val vertices = o.getVertices();
+    var points = arrayOf<Vec3>();
+
+    for (i in 0 until vertices.size step 3) {
+        points += Vec3(vertices[i].toDouble(),
+                       vertices[i + 1].toDouble(),
+                       vertices[i + 2].toDouble());
+    }
+
+    val indices = o.getIndices();
+    var faces = arrayOf<Triangle>();
+
+    for (i in 0 until indices.size step 3) {
+        faces += Triangle(points[indices[i].toInt()],
+                          points[indices[i + 1].toInt()],
+                          points[indices[i + 2].toInt()]);
+    }
+
+    return faces;
 }

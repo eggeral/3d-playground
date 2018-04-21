@@ -3,7 +3,7 @@ package spr5
 import spr5.scene.*
 
 class Application {
-    val renderer: WebGLRenderer = WebGLRenderer();
+    val renderer: SceneRenderer = WebGLRenderer();
 
     fun run() {
 

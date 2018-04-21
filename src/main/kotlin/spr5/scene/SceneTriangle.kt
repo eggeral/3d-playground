@@ -1,13 +1,18 @@
 package spr5.scene
 
+import spr5.matrix.Vec3
+import spr5.util.Ray
+import spr5.util.Triangle
 import spr5.util.assert
 
 
 class SceneTriangle(var vertices: Array<Coordinate>, override var color: Rgba) : WebGLDrawable {
-
     private val _vertices: Array<Float>
-    private val _color: Array<Float>
+    private var _color: Array<Float>
     private val _indices: Array<Short>
+
+    var hit: Boolean = false
+    var highlightColor: Rgba = Rgba.Blue
 
     init {
         assert(vertices.size == 3, "SceneTriangle expects 3 coordinates")
@@ -26,7 +31,23 @@ class SceneTriangle(var vertices: Array<Coordinate>, override var color: Rgba) :
     }
 
     override fun getColors(): Array<Float> {
-        return _color
+        if(hit){
+            return arrayOf(
+                    highlightColor.red, highlightColor.green, highlightColor.blue, highlightColor.alpha
+            )
+        }else{
+            return _color
+        }
+    }
+
+    override fun setColors(color: Rgba){
+        _color = arrayOf(
+                color.red, color.green, color.blue, color.alpha
+        )
+    }
+
+    override fun setColors(colors:Array<Float>){
+        _color = colors
     }
 
     override fun getVertices(): Array<Float> {
@@ -36,4 +57,28 @@ class SceneTriangle(var vertices: Array<Coordinate>, override var color: Rgba) :
     override fun getIndices(): Array<Short> {
         return _indices
     }
+
+    override fun isHit(): Boolean{
+        return hit
+	}
+    override fun setHit(hit: Boolean){
+        this.hit = hit;
+    }
+
+    override fun getMesh(): Array<Triangle> {
+        return arrayOf(Triangle(
+                Vec3(vertices[0].x.toDouble(), vertices[0].y.toDouble(), vertices[0].z.toDouble()),
+                Vec3(vertices[1].x.toDouble(), vertices[1].y.toDouble(), vertices[1].z.toDouble()),
+                Vec3(vertices[2].x.toDouble(), vertices[2].y.toDouble(), vertices[2].z.toDouble())
+        ));
+    }
+
+    override fun getNormals(): Array<Vec3> {
+        return getMesh().map { tri -> tri.normal }.toTypedArray();
+    }
+
+    override fun intersect(ray: Ray): Triangle? {
+        return getMesh().firstOrNull { tri -> ray.intersectTriangle(tri) != null }
+    }
+
 }

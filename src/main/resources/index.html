@@ -1,12 +1,26 @@
 <!DOCTYPE html>
-<html style="height: 100%">
+<html>
 <head>
     <meta charset='UTF-8'>
     <script src='lib/kotlin.js'></script>
 
+    <style>
+        body {
+            height: 100vh;
+            width: 100vw;
+            margin: 0px;
+            overflow: hidden;
+        }
+
+        #canvas, #container {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
 </head>
-<body style="height: 100%">
-<div id="container" style="height: 100%">
+<body>
+<div id="container">
+    <canvas id="canvas"></canvas>
 </div>
 <script src='3d-playground.js'></script>
 <script>
