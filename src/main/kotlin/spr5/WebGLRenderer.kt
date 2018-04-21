@@ -3,6 +3,7 @@ package spr5
 import org.khronos.webgl.*
 import org.w3c.dom.HTMLCanvasElement
 import org.w3c.dom.HTMLElement
+import org.w3c.dom.events.KeyboardEvent
 import org.w3c.dom.events.MouseEvent
 import org.w3c.dom.events.WheelEvent
 import spr5.matrix.Mat4
@@ -58,6 +59,8 @@ class WebGLRenderer : SceneRenderer {
         document.addEventListener("touchstart", { console.log("touch started" )})
         document.addEventListener("touchmove", { console.log("touch moved" )})
         document.addEventListener("touchend", { console.log("touch ended" )})
+        document.addEventListener("keydown", {e -> keyDown(e)})
+        document.addEventListener("keyup", {e -> keyUp(e)})
 
         gl = createWebGLRenderingContext(canvas);
 
@@ -324,7 +327,14 @@ class WebGLRenderer : SceneRenderer {
                 var idx = readout[3] - 1;
 
                 if (idx >= 0 && idx < objects.size) {
-                    objects[idx].setHit(!objects[idx].isHit());
+                    if (ctrlPressed)
+                        objects[idx].setHit(!objects[idx].isHit())
+                    else {
+                        releaseHighlightedObjects()
+                        objects[idx].setHit(true)
+                    }
+                } else { // nothing hit
+                    if (!ctrlPressed) releaseHighlightedObjects()
                 }
             }
             if(e.button == MOUSE_BUTTON_RIGHT) {
@@ -333,6 +343,28 @@ class WebGLRenderer : SceneRenderer {
             if(e.button == MOUSE_BUTTON_MIDDLE) {
                 // do nothing
             }
+        }
+    }
+
+    private fun releaseHighlightedObjects() {
+        for (form in objects) {
+            form.setHit(false)
+        }
+    }
+
+    private var ctrlPressed: Boolean = false
+
+    private fun keyDown(e: Any) {
+        // check for CTRL pressed
+        if (e is KeyboardEvent && e.ctrlKey && !ctrlPressed) {
+            ctrlPressed = true
+        }
+    }
+
+    private fun keyUp(e: Any) {
+        // check for CTRL release (keyCode 17 = ctrlKey)
+        if (e is KeyboardEvent && e.keyCode == 17) {
+            ctrlPressed = false
         }
     }
 
