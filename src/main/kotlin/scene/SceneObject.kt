@@ -1,6 +1,11 @@
 package scene
 
+import glmatrix.Mat4
+
 interface SceneObject : SceneNode {
+    var absoluteCoordinate: Coordinate
+    var model: Mat4
+    var center: Coordinate
     fun getVertices(): Array<Float>
     fun getColors(): Array<Float>
     fun setColors(color: Rgba)
@@ -13,5 +18,4 @@ interface SceneObject : SceneNode {
     fun setAbsoluteCoordinate(x: Float, y: Float, z: Float)
     fun addAbsoluteCoordinate(c: Coordinate)
     fun addAbsoluteCoordinate(x: Float, y: Float, z: Float)
-    fun copyProperties(sceneObject: SceneObject)
 }

@@ -4,6 +4,7 @@ import glmatrix.*
 import org.khronos.webgl.*
 import org.w3c.dom.HTMLCanvasElement
 import org.w3c.dom.HTMLElement
+import org.w3c.dom.NodeList
 import org.w3c.dom.events.KeyboardEvent
 import org.w3c.dom.events.MouseEvent
 import org.w3c.dom.events.WheelEvent
@@ -36,7 +37,6 @@ class WebGLRenderer : SceneRenderer {
 
     private var nodes: List<SceneNode> = listOf()
 
-    //private var modelMatrix: Mat4
     private var projectionMatrix: Mat4
     private var viewMatrixV3 = Vec3(0.0, 0.0, -15.0)
     private var viewMatrix = Mat4().translate(viewMatrixV3)
@@ -196,9 +196,9 @@ class WebGLRenderer : SceneRenderer {
                         val startPoint = node.getAbsoluteCoordinate()
                         node.model.translate(Vec3(startPoint.x.toDouble(), startPoint.y.toDouble(), startPoint.z.toDouble()))
                     }
-                    node.rotationAngleX = (deltaTime * node.rotationSpeedX + node.rotationAngleX) % (2*Math.PI)
-                    node.rotationAngleY = (deltaTime * node.rotationSpeedY + node.rotationAngleY) % (2*Math.PI)
-                    node.rotationAngleZ = (deltaTime * node.rotationSpeedZ + node.rotationAngleZ) % (2*Math.PI)
+                    node.rotationAngleX = (deltaTime * node.rotationSpeedX + node.rotationAngleX) % (2 * Math.PI)
+                    node.rotationAngleY = (deltaTime * node.rotationSpeedY + node.rotationAngleY) % (2 * Math.PI)
+                    node.rotationAngleZ = (deltaTime * node.rotationSpeedZ + node.rotationAngleZ) % (2 * Math.PI)
                     node.model.rotateX(deltaTime * node.rotationSpeedX)
                     node.model.rotateY(deltaTime * node.rotationSpeedY)
                     node.model.rotateZ(deltaTime * node.rotationSpeedZ)
@@ -206,14 +206,12 @@ class WebGLRenderer : SceneRenderer {
                     var X = 0.0
                     var Y = 0.0
                     var Z = 0.0
-                    var returnDirs : Triple<Double, Double, Double>
+                    var returnDirs: Triple<Double, Double, Double>
                     returnDirs = calcDirectionVectors3D(node, X, Y, Z)
                     X = returnDirs.first
                     Y = returnDirs.second
                     Z = returnDirs.third
 
-                    if (node.speedX != 0.0)
-                        console.log(node.speedX.toString() + " - " + X.toString() + " - " + Y.toString())
                     node.model.translate(Vec3(X, Y, Z))
                 }
                 is SceneNodesAttached -> {
@@ -258,7 +256,7 @@ class WebGLRenderer : SceneRenderer {
 
     }
 
-    private fun calcDirectionVectors3D(o: SceneObject, X: Double, Y: Double, Z: Double) : Triple<Double, Double, Double> {
+    private fun calcDirectionVectors3D(o: SceneNode, X: Double, Y: Double, Z: Double) : Triple<Double, Double, Double> {
         //doesn't work for all combinations -> better use Eulerwinkel
         var returnDirs : Pair<Double, Double>
         var lX : Double = X
@@ -317,6 +315,9 @@ class WebGLRenderer : SceneRenderer {
     }
 
     override fun add(sceneNode: SceneNode) {
+        if (sceneNode in nodes) {
+            remove(sceneNode)
+        }
         if (sceneNode is SceneObject)
             sceneNode.model = Mat4().translate(arrayOf(0.0, 0.0, 0.0))
         nodes += sceneNode
@@ -326,21 +327,20 @@ class WebGLRenderer : SceneRenderer {
         nodes -= sceneNode
     }
 
-    override fun rotateModel(rotateRad: Double) {
-        return rotateModel(rotateRad, rotateRad, rotateRad)
+    fun attachToNode(nodeList: SceneNodesAttached, node: SceneNode) {
+        nodes -= node
+        var nl = nodeList
+        nl.addChild(node)
     }
 
-
-    override fun rotateModel(rotateXRad: Double, rotateYRad: Double, rotateZRad: Double) {
-        //modelMatrix = modelMatrix * Mat4().rotateX(rotateXRad) *
-        //        Mat4().rotateY(rotateYRad) *
-        //        Mat4().rotateZ(rotateZRad)
+    fun removeFromNode(nodeList: SceneNodesAttached, node: SceneNode, resetDefault: Boolean) {
+        var nl = nodeList
+        nl.removeChild(node, resetDefault)
+        nodes += node
     }
-
 
     private fun getPositionInCanvas(x: Int, y: Int): Array<Int> {
         val rect = gl.canvas.getBoundingClientRect()
-        console.log("Left: " + rect.left + ", Top: " + rect.top)
         var cx = x - rect.left.toInt()
         var cy = y - rect.top.toInt()
         if (cx < 0)
@@ -363,7 +363,6 @@ class WebGLRenderer : SceneRenderer {
                     moveCam = true
                 e.button == MOUSE_BUTTON_LEFT -> { // left mouse button to select an object
                     val (cx, cy) = getPositionInCanvas(clickPosX, clickPosY)
-                    console.log("X: $cx, Y: $cy")
                     dragging = true
                     // 2do: select right object
                 }
