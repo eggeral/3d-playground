@@ -7,7 +7,7 @@ class ApplicationAttachedObjects {
     private val renderer: WebGLRenderer = WebGLRenderer()
 
     fun run() {
-        val case = 1    //1..3
+        val case = 0    //0..3
 
         val center1 = Coordinate(5.0f, -2.0f, 0.0f)
         val center2 = Coordinate(-1.0f, -2.0f, 0.0f)
@@ -66,6 +66,9 @@ class ApplicationAttachedObjects {
             robot.rotationSpeedY = 0.005
             robot.rotationSpeedZ = 0.007
             robot.addChild(head)
+        } else {
+            robot.addChild(head)
+            head.rotationSpeedY = -0.003
         }
         robot.addChild(body)
         robot.addChild(leftArm)
@@ -83,7 +86,7 @@ class ApplicationAttachedObjects {
         leftArm.addChild(upperArmLeft)
         leftArm.addChild(lowerArmLeft)
 
-        if ((case == 1) || (case == 2)) {
+        if (case < 3) {
             legs.addChild(footLeft)
             legs.addChild(thighRight)
             legs.addChild(footRight)
