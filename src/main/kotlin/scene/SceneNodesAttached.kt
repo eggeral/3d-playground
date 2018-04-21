@@ -37,4 +37,11 @@ class SceneNodesAttached : SceneNode {
             }
         }
 
+    override fun isHit(): Boolean {
+        return children.any { c -> c.isHit() }
+    }
+
+    override fun setHit(hit: Boolean) {
+        children.forEach { c -> c.setHit(hit) }
+    }
 }
