@@ -5,6 +5,9 @@ import util.assert
 
 class SceneRectangle(override var position: Coordinate, var width: Float, var height: Float, override var color: Rgba) : WebGLDrawable {
 
+    var hit: Boolean = false
+    var highlightColor: Rgba = Rgba.Blue
+
     override var model: Mat4 = Mat4(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
     override var rotationSpeedX: Double = 0.0
     override var rotationSpeedY: Double = 0.0
@@ -24,16 +27,36 @@ class SceneRectangle(override var position: Coordinate, var width: Float, var he
     }
 
     override fun getColors(): Array<Float> {
-        return arrayOf(
-                color.red, color.green, color.blue, color.alpha
-                , color.red, color.green, color.blue, color.alpha
-                , color.red, color.green, color.blue, color.alpha
-                , color.red, color.green, color.blue, color.alpha)
+        if(hit){
+            return arrayOf(highlightColor.red, highlightColor.green, highlightColor.blue, highlightColor.alpha)
+        }else{
+            return arrayOf(
+                    color.red, color.green, color.blue, color.alpha
+                    ,color.red, color.green, color.blue, color.alpha
+                    ,color.red, color.green, color.blue, color.alpha
+                    ,color.red, color.green, color.blue, color.alpha)
+        }
+    }
+
+    override fun setColors(color: Rgba){
+        this.color = color;
+    }
+
+    override fun setColors(colors:Array<Float>){
+        color = Rgba(
+                colors[0], colors[1], colors[2], colors[3]
+        )
     }
 
     override fun getIndices(): Array<Short> {
         return arrayOf(0, 1, 2
                 , 2, 1, 3)
+    }
+    override fun isHit(): Boolean{
+        return hit
+    }
+    override fun setHit(hit: Boolean){
+        this.hit = hit;
     }
 }
 

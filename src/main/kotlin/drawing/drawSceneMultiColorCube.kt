@@ -1,15 +1,16 @@
 package drawing
 
+import glmatrix.GlMatrix
+import glmatrix.GlMatrix.Companion.perspectiveProjectionMatrix
 import glmatrix.Mat4
 import glmatrix.Vec3
-import glmatrix.glMatrix
-import glmatrix.glMatrix.Companion.perspectiveProjectionMatrix
 import org.khronos.webgl.Float32Array
 import org.khronos.webgl.Uint16Array
 import org.khronos.webgl.WebGLRenderingContext
 import scene.Coordinate
 import scene.Rgba
 import scene.createMulticolorCube
+import shadercode.ShaderCode
 import webgl.fitDrawingBufferIntoCanvas
 import kotlin.browser.window
 
@@ -64,29 +65,9 @@ fun drawSceneMultiColorCube(gl: WebGLRenderingContext) {
     gl.bindBuffer(WebGLRenderingContext.ELEMENT_ARRAY_BUFFER, indexBuffer)
     gl.bufferData(WebGLRenderingContext.ELEMENT_ARRAY_BUFFER, Uint16Array(indices), WebGLRenderingContext.STATIC_DRAW)
 
-    val vertexShaderCode =
-            """
-            uniform mat4 projectionMatrix;
-            uniform mat4 viewMatrix;
-            uniform mat4 modelMatrix;
-
-            attribute vec3 vertices;
-            attribute vec4 color;
-            varying vec4 vColor;
-
-            void main(void) {
-                gl_Position = projectionMatrix*viewMatrix*modelMatrix*vec4(vertices, 1.0);
-                vColor = color;
-            }
-            """
-    val fragmentShaderCode = // Fragment shaders calculate the pixel color
-            """
-            precision mediump float;
-            varying vec4 vColor;
-            void main(void) {
-                gl_FragColor = vColor;
-            }
-            """
+    val vertexShaderCode = ShaderCode.VERTEX_MULTI_COLOR_CUBE.value
+    // Fragment shaders calculate the pixel color
+    val fragmentShaderCode = ShaderCode.FRAGMENT_MULTI_COLOR_CUBE.value
 
     // Create vertex shader
     val vertexShader = gl.createShader(WebGLRenderingContext.VERTEX_SHADER)
@@ -125,7 +106,7 @@ fun drawSceneMultiColorCube(gl: WebGLRenderingContext) {
 
     gl.useProgram(shaderProgram)
 
-    val projectionMatrix = perspectiveProjectionMatrix(glMatrix.toRad(40.0).toFloat(), (gl.canvas.width.toFloat() / gl.canvas.height.toFloat()), 1.0f, 100.0f)
+    val projectionMatrix = perspectiveProjectionMatrix(GlMatrix.toRad(40.0).toFloat(), (gl.canvas.width.toFloat() / gl.canvas.height.toFloat()), 1.0f, 100.0f)
 
     val viewMatrix: Mat4 = Mat4().translate(Vec3(0.0, 0.0, -15.0)) // z:-15f = more distance to the objects
 

@@ -6,6 +6,16 @@ import util.assert
 
 class SceneBlock(override var position: Coordinate, var width: Float, var height: Float, var depth: Float, override var colors: Array<Rgba>) : WebGLDrawableMulticolored {
 
+    var hit: Boolean = false
+    var highlightColor: Rgba = Rgba.Red
+
+    override fun isHit(): Boolean {
+        return hit;
+    }
+
+    override fun setHit(hit: Boolean) {
+        this.hit = hit;
+    }
 
     override var model: Mat4 = Mat4(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
     override var rotationSpeedX: Double = 0.0
@@ -56,31 +66,74 @@ class SceneBlock(override var position: Coordinate, var width: Float, var height
     }
 
     override fun getColors(): Array<Float> {
-        return arrayOf(
-                colors[0].red, colors[0].green, colors[0].blue, colors[0].alpha
-                , colors[0].red, colors[0].green, colors[0].blue, colors[0].alpha
-                , colors[0].red, colors[0].green, colors[0].blue, colors[0].alpha
-                , colors[0].red, colors[0].green, colors[0].blue, colors[0].alpha
-                , colors[1].red, colors[1].green, colors[1].blue, colors[1].alpha
-                , colors[1].red, colors[1].green, colors[1].blue, colors[1].alpha
-                , colors[1].red, colors[1].green, colors[1].blue, colors[1].alpha
-                , colors[1].red, colors[1].green, colors[1].blue, colors[1].alpha
-                , colors[2].red, colors[2].green, colors[2].blue, colors[2].alpha
-                , colors[2].red, colors[2].green, colors[2].blue, colors[2].alpha
-                , colors[2].red, colors[2].green, colors[2].blue, colors[2].alpha
-                , colors[2].red, colors[2].green, colors[2].blue, colors[2].alpha
-                , colors[3].red, colors[3].green, colors[3].blue, colors[3].alpha
-                , colors[3].red, colors[3].green, colors[3].blue, colors[3].alpha
-                , colors[3].red, colors[3].green, colors[3].blue, colors[3].alpha
-                , colors[3].red, colors[3].green, colors[3].blue, colors[3].alpha
-                , colors[4].red, colors[4].green, colors[4].blue, colors[4].alpha
-                , colors[4].red, colors[4].green, colors[4].blue, colors[4].alpha
-                , colors[4].red, colors[4].green, colors[4].blue, colors[4].alpha
-                , colors[4].red, colors[4].green, colors[4].blue, colors[4].alpha
-                , colors[5].red, colors[5].green, colors[5].blue, colors[5].alpha
-                , colors[5].red, colors[5].green, colors[5].blue, colors[5].alpha
-                , colors[5].red, colors[5].green, colors[5].blue, colors[5].alpha
-                , colors[5].red, colors[5].green, colors[5].blue, colors[5].alpha)
+        if( hit ){
+            console.log("Object hit " + highlightColor);
+            return arrayOf(
+                    highlightColor.red, highlightColor.green, highlightColor.blue, highlightColor.alpha
+                    ,highlightColor.red, highlightColor.green, highlightColor.blue, highlightColor.alpha
+                    ,highlightColor.red, highlightColor.green, highlightColor.blue, highlightColor.alpha
+                    ,highlightColor.red, highlightColor.green, highlightColor.blue, highlightColor.alpha
+                    ,highlightColor.red, highlightColor.green, highlightColor.blue, highlightColor.alpha
+                    ,highlightColor.red, highlightColor.green, highlightColor.blue, highlightColor.alpha
+                    ,highlightColor.red, highlightColor.green, highlightColor.blue, highlightColor.alpha
+                    ,highlightColor.red, highlightColor.green, highlightColor.blue, highlightColor.alpha
+                    ,highlightColor.red, highlightColor.green, highlightColor.blue, highlightColor.alpha
+                    ,highlightColor.red, highlightColor.green, highlightColor.blue, highlightColor.alpha
+                    ,highlightColor.red, highlightColor.green, highlightColor.blue, highlightColor.alpha
+                    ,highlightColor.red, highlightColor.green, highlightColor.blue, highlightColor.alpha
+                    ,highlightColor.red, highlightColor.green, highlightColor.blue, highlightColor.alpha
+                    ,highlightColor.red, highlightColor.green, highlightColor.blue, highlightColor.alpha
+                    ,highlightColor.red, highlightColor.green, highlightColor.blue, highlightColor.alpha
+                    ,highlightColor.red, highlightColor.green, highlightColor.blue, highlightColor.alpha
+                    ,highlightColor.red, highlightColor.green, highlightColor.blue, highlightColor.alpha
+                    ,highlightColor.red, highlightColor.green, highlightColor.blue, highlightColor.alpha
+                    ,highlightColor.red, highlightColor.green, highlightColor.blue, highlightColor.alpha
+                    ,highlightColor.red, highlightColor.green, highlightColor.blue, highlightColor.alpha
+                    ,highlightColor.red, highlightColor.green, highlightColor.blue, highlightColor.alpha
+                    ,highlightColor.red, highlightColor.green, highlightColor.blue, highlightColor.alpha
+                    ,highlightColor.red, highlightColor.green, highlightColor.blue, highlightColor.alpha
+                    ,highlightColor.red, highlightColor.green, highlightColor.blue, highlightColor.alpha)
+        }else{
+            return arrayOf(
+                    colors[0].red, colors[0].green, colors[0].blue, colors[0].alpha
+                    ,colors[0].red, colors[0].green, colors[0].blue, colors[0].alpha
+                    ,colors[0].red, colors[0].green, colors[0].blue, colors[0].alpha
+                    ,colors[0].red, colors[0].green, colors[0].blue, colors[0].alpha
+                    ,colors[1].red, colors[1].green, colors[1].blue, colors[1].alpha
+                    ,colors[1].red, colors[1].green, colors[1].blue, colors[1].alpha
+                    ,colors[1].red, colors[1].green, colors[1].blue, colors[1].alpha
+                    ,colors[1].red, colors[1].green, colors[1].blue, colors[1].alpha
+                    ,colors[2].red, colors[2].green, colors[2].blue, colors[2].alpha
+                    ,colors[2].red, colors[2].green, colors[2].blue, colors[2].alpha
+                    ,colors[2].red, colors[2].green, colors[2].blue, colors[2].alpha
+                    ,colors[2].red, colors[2].green, colors[2].blue, colors[2].alpha
+                    ,colors[3].red, colors[3].green, colors[3].blue, colors[3].alpha
+                    ,colors[3].red, colors[3].green, colors[3].blue, colors[3].alpha
+                    ,colors[3].red, colors[3].green, colors[3].blue, colors[3].alpha
+                    ,colors[3].red, colors[3].green, colors[3].blue, colors[3].alpha
+                    ,colors[4].red, colors[4].green, colors[4].blue, colors[4].alpha
+                    ,colors[4].red, colors[4].green, colors[4].blue, colors[4].alpha
+                    ,colors[4].red, colors[4].green, colors[4].blue, colors[4].alpha
+                    ,colors[4].red, colors[4].green, colors[4].blue, colors[4].alpha
+                    ,colors[5].red, colors[5].green, colors[5].blue, colors[5].alpha
+                    ,colors[5].red, colors[5].green, colors[5].blue, colors[5].alpha
+                    ,colors[5].red, colors[5].green, colors[5].blue, colors[5].alpha
+                    ,colors[5].red, colors[5].green, colors[5].blue, colors[5].alpha)
+        }
+    }
+
+    override fun setColors(color: Rgba){
+        this.colors = arrayOf(color,color,color,color,color,color);
+    }
+
+    override fun setColors(colors:Array<Float>){
+        this.colors = arrayOf(
+                Rgba(colors[0], colors[1], colors[2], colors[3]),
+                Rgba(colors[16], colors[17], colors[18], colors[19]),
+                Rgba(colors[32], colors[33], colors[34], colors[35]),
+                Rgba(colors[48], colors[49], colors[50], colors[51]),
+                Rgba(colors[64], colors[65], colors[66], colors[67]),
+                Rgba(colors[80], colors[81], colors[82], colors[83]))
     }
 
     override fun getIndices(): Array<Short> {

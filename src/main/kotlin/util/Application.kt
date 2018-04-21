@@ -3,7 +3,7 @@ package util
 import scene.*
 
 class Application {
-    private val renderer: WebGLRenderer = WebGLRenderer()
+    val renderer: SceneRenderer = WebGLRenderer();
 
     fun run() {
 

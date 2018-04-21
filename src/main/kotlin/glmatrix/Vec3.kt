@@ -2,9 +2,25 @@ package glmatrix
 
 import kotlin.js.Math
 
-class Vec3() : glMatrix() {
+class Vec3() : GlMatrix() {
 
     private val vector: Array<Double> = arrayOf(0.0, 0.0, 0.0)
+
+    public var x: Double
+        get() = this[0]
+        set(value) {
+            this[0] = value; }
+
+    public var y: Double
+        get() = this[1]
+        set(value) {
+            this[1] = value; }
+
+    public var z: Double
+        get() = this[2]
+        set(value) {
+            this[2] = value; }
+
 
     constructor(componentX: Double, componentY: Double, componentZ: Double) : this() {
         vector[0] = componentX
@@ -485,6 +501,10 @@ class Vec3() : glMatrix() {
         return output
     }
 
+    fun transformMat4(m: Mat4): Vec3 {
+        return transformMat4(m.toDoubleArray());
+    }
+
     /**
      * Transforms the Vec3 with vec3ToTransform Mat3.
      *
@@ -676,5 +696,29 @@ class Vec3() : glMatrix() {
         return (Math.abs(a0 - b0) <= EPSILON * Math.max(1.0, Math.abs(a0), Math.abs(b0)) &&
                 Math.abs(a1 - b1) <= EPSILON * Math.max(1.0, Math.abs(a1), Math.abs(b1)) &&
                 Math.abs(a2 - b2) <= EPSILON * Math.max(1.0, Math.abs(a2), Math.abs(b2)))
+    }
+
+
+    /**
+     * Sets this vector to the position elements of the transformation matrix m.
+     */
+    fun setFromMatrixPosition(m: Mat4): Vec3 {
+        return this.set(m.getTranslation());
+    }
+
+    fun set(x: Double, y: Double, z: Double): Vec3 {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+
+        return this;
+    }
+
+    fun set(v: Vec3): Vec3 {
+        this.x = v.x;
+        this.y = v.y;
+        this.z = v.z;
+
+        return this;
     }
 }

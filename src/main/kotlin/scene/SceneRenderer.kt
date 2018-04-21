@@ -6,5 +6,4 @@ interface SceneRenderer {
 
     fun rotateModel(rotateRad: Double);
     fun rotateModel(rotateXRad: Double, rotateYRad: Double, rotateZRad: Double);
-
 }
