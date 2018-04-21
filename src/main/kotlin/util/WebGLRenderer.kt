@@ -192,8 +192,8 @@ class WebGLRenderer : SceneRenderer {
             when (node) {
                 is SceneObject -> {
                     node.model.rotateX( deltaTime * node.rotationSpeedX)
-                    node.model.rotateX(deltaTime * node.rotationSpeedY)
-                    node.model.rotateX(deltaTime * node.rotationSpeedZ)
+                    node.model.rotateY(deltaTime * node.rotationSpeedY)
+                    node.model.rotateZ(deltaTime * node.rotationSpeedZ)
                 }
                 is SceneNodesAttached -> {
                     renderFrameForEach(node.children, deltaTime)
