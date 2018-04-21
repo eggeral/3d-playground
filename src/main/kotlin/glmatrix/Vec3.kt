@@ -98,7 +98,7 @@ class Vec3() : GlMatrix() {
     }
 
     operator fun plus(summand: Vec3): Vec3 {
-        return clone().add(summand);
+        return clone().add(summand)
     }
 
     /**
@@ -117,7 +117,7 @@ class Vec3() : GlMatrix() {
     }
 
     operator fun minus(subtrahend: Vec3): Vec3 {
-        return clone().subtract(subtrahend);
+        return clone().subtract(subtrahend)
     }
 
     /**
@@ -136,7 +136,7 @@ class Vec3() : GlMatrix() {
     }
 
     operator fun times(multiplier: Vec3): Vec3 {
-        return multiplier.clone().multiply(this);
+        return multiplier.clone().multiply(this)
     }
 
     /**
@@ -155,7 +155,7 @@ class Vec3() : GlMatrix() {
     }
 
     operator fun div(divisor: Vec3): Vec3 {
-        return clone().divide(divisor);
+        return clone().divide(divisor)
     }
 
     /**
@@ -502,7 +502,7 @@ class Vec3() : GlMatrix() {
     }
 
     fun transformMat4(m: Mat4): Vec3 {
-        return transformMat4(m.toDoubleArray());
+        return transformMat4(m.toDoubleArray())
     }
 
     /**
@@ -703,22 +703,22 @@ class Vec3() : GlMatrix() {
      * Sets this vector to the position elements of the transformation matrix m.
      */
     fun setFromMatrixPosition(m: Mat4): Vec3 {
-        return this.set(m.getTranslation());
+        return this.set(m.getTranslation())
     }
 
     fun set(x: Double, y: Double, z: Double): Vec3 {
-        this.x = x;
-        this.y = y;
-        this.z = z;
+        this.x = x
+        this.y = y
+        this.z = z
 
-        return this;
+        return this
     }
 
     fun set(v: Vec3): Vec3 {
-        this.x = v.x;
-        this.y = v.y;
-        this.z = v.z;
+        this.x = v.x
+        this.y = v.y
+        this.z = v.z
 
-        return this;
+        return this
     }
 }

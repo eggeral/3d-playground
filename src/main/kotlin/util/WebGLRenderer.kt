@@ -3,7 +3,6 @@ package util
 import glmatrix.*
 import org.khronos.webgl.*
 import org.w3c.dom.HTMLCanvasElement
-import org.w3c.dom.HTMLDivElement
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.events.KeyboardEvent
 import org.w3c.dom.events.MouseEvent
@@ -30,8 +29,8 @@ class WebGLRenderer : SceneRenderer {
     private var projectionMatrixUniform: WebGLUniformLocation
     private var viewMatrixUniform: WebGLUniformLocation
     private var modelMatrixUniform: WebGLUniformLocation
-    private var pickingUniform: WebGLUniformLocation;
-    private var diffuseUniform: WebGLUniformLocation;
+    private var pickingUniform: WebGLUniformLocation
+    private var diffuseUniform: WebGLUniformLocation
 
     private var nodes: List<SceneNode> = listOf()
 
@@ -50,7 +49,7 @@ class WebGLRenderer : SceneRenderer {
     private val MOUSE_BUTTON_RIGHT: Short = 2
 
     init {
-        val canvas = document.getElementById("canvas") as HTMLCanvasElement;
+        val canvas = document.getElementById("canvas") as HTMLCanvasElement
 
         document.addEventListener("mousedown", { e -> mouseDown(e) })
         document.addEventListener("mousemove", { e -> mouseMove(e) })
@@ -132,7 +131,7 @@ class WebGLRenderer : SceneRenderer {
                     gl.canvas.width.toDouble() / gl.canvas.height.toDouble(),
                     1.0,
                     100.0)
-            renderFrame(lastRender, false);
+            renderFrame(lastRender, false)
         })
     }
 
@@ -149,7 +148,7 @@ class WebGLRenderer : SceneRenderer {
                         gl.uniform4fv(diffuseUniform, Vec4(1.0, 1.0, 1.0, idx / 255.0).toFloat32Array())
 
                         if (parentIdx == -1)
-                            idx += 1;
+                            idx += 1
                     }
 
                     gl.uniformMatrix4fv(modelMatrixUniform, false, node.model.toFloat32Array())
@@ -192,8 +191,8 @@ class WebGLRenderer : SceneRenderer {
             when (node) {
                 is SceneObject -> {
                     node.model.rotateX( deltaTime * node.rotationSpeedX)
-                    node.model.rotateX(deltaTime * node.rotationSpeedY)
-                    node.model.rotateX(deltaTime * node.rotationSpeedZ)
+                    node.model.rotateY(deltaTime * node.rotationSpeedY)
+                    node.model.rotateZ(deltaTime * node.rotationSpeedZ)
                 }
                 is SceneNodesAttached -> {
                     renderFrameForEach(node.children, deltaTime)
@@ -224,14 +223,14 @@ class WebGLRenderer : SceneRenderer {
         gl.uniformMatrix4fv(viewMatrixUniform, false, viewMatrix.toFloat32Array())
 
         if (picking)
-            gl.uniform1i(pickingUniform, 1);
+            gl.uniform1i(pickingUniform, 1)
         else
-            gl.uniform1i(pickingUniform, 0);
+            gl.uniform1i(pickingUniform, 0)
 
         drawObjects(nodes, picking, -1)
 
         if (!picking) {
-            window.requestAnimationFrame { t -> renderFrame(t, false) };
+            window.requestAnimationFrame { t -> renderFrame(t, false) }
         }
 
     }
@@ -329,14 +328,14 @@ class WebGLRenderer : SceneRenderer {
             if (e.button == MOUSE_BUTTON_LEFT) {
                 dragging = false
 
-                renderFrame(lastRender, true);
-                var readout = Uint8Array(4);
-                var coords = get2dCoords(e);
-                gl.readPixels(coords.x.toInt(), coords.y.toInt(), 1, 1, WebGLRenderingContext.RGBA, WebGLRenderingContext.UNSIGNED_BYTE, readout);
+                renderFrame(lastRender, true)
+                val readout = Uint8Array(4)
+                val coords = get2dCoords(e)
+                gl.readPixels(coords.x.toInt(), coords.y.toInt(), 1, 1, WebGLRenderingContext.RGBA, WebGLRenderingContext.UNSIGNED_BYTE, readout)
 
-                console.log(readout);
+                console.log(readout)
 
-                var idx = readout[3] - 1;
+                val idx = readout[3] - 1
 
                 if (idx >= 0 && idx < nodes.size) {
                     if (ctrlPressed)
@@ -387,25 +386,23 @@ class WebGLRenderer : SceneRenderer {
     }
 
     private fun get2dCoords(ev: MouseEvent): Vec2 {
-        var x = 0;
-        var y = 0;
-        var top = 0;
-        var left = 0;
-        var obj: HTMLElement? = gl.canvas;
+        var top = 0
+        var left = 0
+        var obj: HTMLElement? = gl.canvas
 
         while (obj is HTMLElement && obj.tagName !== "BODY") {
-            top += obj.offsetTop;
-            left += obj.offsetLeft;
-            obj = obj.offsetParent as HTMLElement?;
+            top += obj.offsetTop
+            left += obj.offsetLeft
+            obj = obj.offsetParent as HTMLElement?
         }
 
-        left += window.pageXOffset.toInt();
-        top -= window.pageYOffset.toInt();
+        left += window.pageXOffset.toInt()
+        top -= window.pageYOffset.toInt()
 
         // return relative mouse position
-        x = ev.clientX - left;
-        y = gl.canvas.height - (ev.clientY - top);
+        val x = ev.clientX - left
+        val y = gl.canvas.height - (ev.clientY - top)
         //console.info('x='+x+', y='+y);
-        return Vec2(x.toDouble(), y.toDouble());
+        return Vec2(x.toDouble(), y.toDouble())
     }
 }
