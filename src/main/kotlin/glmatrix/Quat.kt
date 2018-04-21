@@ -2,7 +2,7 @@ package glmatrix
 
 import kotlin.js.Math
 
-class Quat() : glMatrix() {
+class Quat() : GlMatrix() {
 
     private val quaternion: Array<Double> = arrayOf(0.0, 0.0, 0.0, 0.0)
 

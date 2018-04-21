@@ -1,8 +1,8 @@
 package util
 
+import glmatrix.GlMatrix
 import glmatrix.Mat4
 import glmatrix.Vec3
-import glmatrix.glMatrix
 import org.khronos.webgl.*
 import org.w3c.dom.HTMLCanvasElement
 import org.w3c.dom.HTMLDivElement
@@ -12,6 +12,7 @@ import scene.SceneNode
 import scene.SceneNodesAttached
 import scene.SceneObject
 import scene.SceneRenderer
+import shadercode.ShaderCode
 import webgl.createWebGLRenderingContext
 import webgl.fitDrawingBufferIntoCanvas
 import kotlin.browser.document
@@ -19,12 +20,12 @@ import kotlin.browser.window
 
 
 class WebGLRenderer : SceneRenderer {
-    private var gl: WebGLRenderingContext;
-    private var lastRender: Double = 0.0;
+    private var gl: WebGLRenderingContext
+    private var lastRender: Double = 0.0
 
-    private var vertexBuffer: WebGLBuffer;
-    private var colorBuffer: WebGLBuffer;
-    private var indexBuffer: WebGLBuffer;
+    private var vertexBuffer: WebGLBuffer
+    private var colorBuffer: WebGLBuffer
+    private var indexBuffer: WebGLBuffer
 
     private var projectionMatrixUniform: WebGLUniformLocation
     private var viewMatrixUniform: WebGLUniformLocation
@@ -32,8 +33,8 @@ class WebGLRenderer : SceneRenderer {
 
     private var nodes: List<SceneNode> = listOf()
 
-    //private var modelMatrix: Mat4;
-    private var projectionMatrix: Mat4;
+    //private var modelMatrix: Mat4
+    private var projectionMatrix: Mat4
     private var viewMatrixV3 = Vec3(0.0, 0.0, -15.0)
     private var viewMatrix = Mat4().translate(viewMatrixV3)
 
@@ -47,9 +48,9 @@ class WebGLRenderer : SceneRenderer {
     private val MOUSE_BUTTON_RIGHT: Short = 2
 
     init {
-        val container = document.getElementById("container") as HTMLDivElement;
-        val canvas = document.createElement("canvas") as HTMLCanvasElement;
-        canvas.style.height = "100%";
+        val container = document.getElementById("container") as HTMLDivElement
+        val canvas = document.createElement("canvas") as HTMLCanvasElement
+        canvas.style.height = "100%"
 
         document.addEventListener("mousedown", { e -> mouseDown(e) })
         document.addEventListener("mousemove", { e -> mouseMove(e) })
@@ -60,39 +61,18 @@ class WebGLRenderer : SceneRenderer {
         document.addEventListener("touchend", { console.log("touch ended") })
         document.addEventListener("contextmenu", { e -> e.preventDefault() })
 
-        gl = createWebGLRenderingContext(canvas);
+        gl = createWebGLRenderingContext(canvas)
 
-        container.appendChild(canvas);
+        container.appendChild(canvas)
 
         // Create buffers
-        vertexBuffer = gl.createBuffer() as WebGLBuffer;
-        colorBuffer = gl.createBuffer() as WebGLBuffer;
-        indexBuffer = gl.createBuffer() as WebGLBuffer;
+        vertexBuffer = gl.createBuffer() as WebGLBuffer
+        colorBuffer = gl.createBuffer() as WebGLBuffer
+        indexBuffer = gl.createBuffer() as WebGLBuffer
 
-
-        val vertexShaderCode =
-                """
-                uniform mat4 projectionMatrix;
-                uniform mat4 viewMatrix;
-                uniform mat4 modelMatrix;
-
-                attribute vec3 vertices;
-                attribute vec4 color;
-                varying vec4 vColor;
-
-                void main(void) {
-                    gl_Position = projectionMatrix*viewMatrix*modelMatrix*vec4(vertices, 1.0);
-                    vColor = color;
-                }
-                """
-        val fragmentShaderCode = // Fragment shaders calculate the pixel color
-                """
-                precision mediump float;
-                varying vec4 vColor;
-                void main(void) {
-                    gl_FragColor = vColor;
-                }
-                """
+        val vertexShaderCode = ShaderCode.VERTEX_MULTI_COLOR_CUBE.value
+        // Fragment shaders calculate the pixel color
+        val fragmentShaderCode = ShaderCode.FRAGMENT_MULTI_COLOR_CUBE.value
 
         // Create vertex shader
         val vertexShader = gl.createShader(WebGLRenderingContext.VERTEX_SHADER)
@@ -110,9 +90,9 @@ class WebGLRenderer : SceneRenderer {
         gl.attachShader(shaderProgram, fragmentShader)
         gl.linkProgram(shaderProgram)
 
-        projectionMatrixUniform = gl.getUniformLocation(shaderProgram, "projectionMatrix") as WebGLUniformLocation;
-        viewMatrixUniform = gl.getUniformLocation(shaderProgram, "viewMatrix") as WebGLUniformLocation;
-        modelMatrixUniform = gl.getUniformLocation(shaderProgram, "modelMatrix") as WebGLUniformLocation;
+        projectionMatrixUniform = gl.getUniformLocation(shaderProgram, "projectionMatrix") as WebGLUniformLocation
+        viewMatrixUniform = gl.getUniformLocation(shaderProgram, "viewMatrix") as WebGLUniformLocation
+        modelMatrixUniform = gl.getUniformLocation(shaderProgram, "modelMatrix") as WebGLUniformLocation
 
         gl.bindBuffer(WebGLRenderingContext.ARRAY_BUFFER, colorBuffer)
         val colors = gl.getAttribLocation(shaderProgram, "color")
@@ -125,9 +105,6 @@ class WebGLRenderer : SceneRenderer {
         gl.vertexAttribPointer(verticesAttribute, 3, WebGLRenderingContext.FLOAT, false, 0, 0)
         gl.enableVertexAttribArray(verticesAttribute)
 
-        // get uniform vColor attribute from fragment shader
-        val color = gl.getUniformLocation(shaderProgram, "vColor")
-
         // set background color
         gl.clearColor(0.9f, 0.9f, 0.9f, 1.0f)
         gl.clear(WebGLRenderingContext.COLOR_BUFFER_BIT)
@@ -135,46 +112,47 @@ class WebGLRenderer : SceneRenderer {
         gl.useProgram(shaderProgram)
 
         projectionMatrix = Mat4().perspective(
-                glMatrix.toRad(40.0),
+                GlMatrix.toRad(40.0),
                 gl.canvas.width.toDouble() / gl.canvas.height.toDouble(),
                 1.0,
-                100.0);
-        viewMatrix = Mat4().translate(arrayOf(0.0, 0.0, -15.0));
-        //modelMatrix = Mat4().translate(arrayOf(-2.0, 1.0, 0.0));
+                100.0)
+        viewMatrix = Mat4().translate(arrayOf(0.0, 0.0, -15.0))
+        //modelMatrix = Mat4().translate(arrayOf(-2.0, 1.0, 0.0))
 
         window.requestAnimationFrame { t -> renderFrame(t) }
     }
 
     private fun drawObjects(nodes: List<SceneNode>) {
+        //gl.uniformMatrix4fv(modelMatrixUniform, false, modelMatrix.toFloat32Array())
 
 
         nodes.forEach { node ->
             when (node) {
                 is SceneObject -> {
                     gl.uniformMatrix4fv(modelMatrixUniform, false, node.model.toFloat32Array())
-                    gl.bindBuffer(WebGLRenderingContext.ARRAY_BUFFER, vertexBuffer);
+                    gl.bindBuffer(WebGLRenderingContext.ARRAY_BUFFER, vertexBuffer)
                     gl.bufferData(
                             WebGLRenderingContext.ARRAY_BUFFER,
                             Float32Array(node.getVertices()),
-                            WebGLRenderingContext.STATIC_DRAW);
+                            WebGLRenderingContext.STATIC_DRAW)
 
-                    gl.bindBuffer(WebGLRenderingContext.ARRAY_BUFFER, colorBuffer);
+                    gl.bindBuffer(WebGLRenderingContext.ARRAY_BUFFER, colorBuffer)
                     gl.bufferData(
                             WebGLRenderingContext.ARRAY_BUFFER,
                             Float32Array(node.getColors()),
-                            WebGLRenderingContext.STATIC_DRAW);
+                            WebGLRenderingContext.STATIC_DRAW)
 
-                    gl.bindBuffer(WebGLRenderingContext.ELEMENT_ARRAY_BUFFER, indexBuffer);
+                    gl.bindBuffer(WebGLRenderingContext.ELEMENT_ARRAY_BUFFER, indexBuffer)
                     gl.bufferData(
                             WebGLRenderingContext.ELEMENT_ARRAY_BUFFER,
                             Uint16Array(node.getIndices()),
-                            WebGLRenderingContext.STATIC_DRAW);
+                            WebGLRenderingContext.STATIC_DRAW)
 
                     gl.drawElements(
                             WebGLRenderingContext.TRIANGLES,
                             node.getIndices().size,
                             WebGLRenderingContext.UNSIGNED_SHORT,
-                            0);
+                            0)
 
                 }
                 is SceneNodesAttached -> {
@@ -193,7 +171,6 @@ class WebGLRenderer : SceneRenderer {
                     node.model = Mat4.rotateX(node.model, deltaTime * node.rotationSpeedX)
                     node.model = Mat4.rotateY(node.model, deltaTime * node.rotationSpeedY)
                     node.model = Mat4.rotateZ(node.model, deltaTime * node.rotationSpeedZ)
-
                 }
                 is SceneNodesAttached -> {
                     renderFrameForEach(node.children, deltaTime)
@@ -236,19 +213,19 @@ class WebGLRenderer : SceneRenderer {
         nodes += sceneNode
     }
 
-    override fun remove(sceneObject: SceneNode) {
-        nodes -= sceneObject;
+    override fun remove(sceneNode: SceneNode) {
+        nodes -= sceneNode
     }
 
     override fun rotateModel(rotateRad: Double) {
-        return rotateModel(rotateRad, rotateRad, rotateRad);
+        return rotateModel(rotateRad, rotateRad, rotateRad)
     }
 
 
     override fun rotateModel(rotateXRad: Double, rotateYRad: Double, rotateZRad: Double) {
         //modelMatrix = modelMatrix * Mat4().rotateX(rotateXRad) *
         //        Mat4().rotateY(rotateYRad) *
-        //        Mat4().rotateZ(rotateZRad);
+        //        Mat4().rotateZ(rotateZRad)
     }
 
 
@@ -272,15 +249,18 @@ class WebGLRenderer : SceneRenderer {
         if (e is MouseEvent) {
             clickPosX = e.clientX
             clickPosY = e.clientY
-            if (e.button == MOUSE_BUTTON_RIGHT) { // right mouse button to move cam
-                moveCam = true
-            } else if (e.button == MOUSE_BUTTON_LEFT) { // left mouse button to select an object
-                val (cx, cy) = getPositionInCanvas(clickPosX, clickPosY)
-                console.log("X: $cx, Y: $cy")
-                dragging = true
-                // 2do: select right object
-            } else if (e.button == MOUSE_BUTTON_MIDDLE) {
-                // do nothing
+            when {
+                e.button == MOUSE_BUTTON_RIGHT -> // right mouse button to move cam
+                    moveCam = true
+                e.button == MOUSE_BUTTON_LEFT -> { // left mouse button to select an object
+                    val (cx, cy) = getPositionInCanvas(clickPosX, clickPosY)
+                    console.log("X: $cx, Y: $cy")
+                    dragging = true
+                    // 2do: select right object
+                }
+                e.button == MOUSE_BUTTON_MIDDLE -> {
+                    // do nothing
+                }
             }
         }
     }
@@ -288,27 +268,27 @@ class WebGLRenderer : SceneRenderer {
     private fun mouseMove(e: Any) {
         if (e is MouseEvent) {
             if (moveCam) {
-                var newX = e.clientX
-                var newY = e.clientY
-                var deltaX = newX - clickPosX
-                var deltaY = newY - clickPosY
-                viewMatrix = viewMatrix.rotateX(glMatrix.toRad(deltaX.toDouble()))
-                viewMatrix = viewMatrix.rotateY(glMatrix.toRad(deltaY.toDouble()))
+                val newX = e.clientX
+                val newY = e.clientY
+                val deltaX = newX - clickPosX
+                val deltaY = newY - clickPosY
+                viewMatrix = viewMatrix.rotateX(GlMatrix.toRad(deltaX.toDouble()))
+                viewMatrix = viewMatrix.rotateY(GlMatrix.toRad(deltaY.toDouble()))
 
                 clickPosX = newX
-                clickPosY = newY;
+                clickPosY = newY
             } else if (dragging) {
                 //TODO: 0.1f should be replaced by perspective factor. Otherwise there are different
                 // speeds when moving in X and Y-direction)
                 if (e.clientX > clickPosX) {
-                    viewMatrix.set(12, viewMatrix.get(12) + 0.1)
+                    viewMatrix[12] = viewMatrix[12] + 0.1
                 }
                 if (e.clientY > clickPosY)
-                    viewMatrix.set(13, viewMatrix.get(13) - 0.1)
+                    viewMatrix[13] = viewMatrix[13] - 0.1
                 if (e.clientX < clickPosX)
-                    viewMatrix.set(12, viewMatrix.get(12) - 0.1)
+                    viewMatrix[12] = viewMatrix[12] - 0.1
                 if (e.clientY < clickPosY)
-                    viewMatrix.set(13, viewMatrix.get(13) + 0.1)
+                    viewMatrix[13] = viewMatrix[13] + 0.1
                 clickPosX = e.clientX
                 clickPosY = e.clientY
             }
