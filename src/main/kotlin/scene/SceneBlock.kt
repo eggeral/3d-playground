@@ -165,7 +165,7 @@ class SceneBlock(override var absoluteCoordinate: Coordinate, var width: Float, 
                 20, 22, 23)
     }
 
-    override fun getCoordinate(): Coordinate {
+    override fun getCenter(): Coordinate {
         return center
     }
 

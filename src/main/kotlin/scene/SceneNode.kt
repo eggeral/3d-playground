@@ -11,6 +11,9 @@ interface SceneNode {
     var speedY: Double
     var speedZ: Double
     var isChildOf: SceneNode?
+    var center: Coordinate
+    fun getCenter(): Coordinate
+    fun setCenter(c: Coordinate)
     fun copyProperties(sceneNode: SceneNode)
 
     fun isHit(): Boolean

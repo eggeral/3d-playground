@@ -68,7 +68,7 @@ class SceneRectangle(override var absoluteCoordinate: Coordinate, var width: Flo
         this.hit = hit;
     }
 
-    override fun getCoordinate(): Coordinate {
+    override fun getCenter(): Coordinate {
         return center
     }
 
@@ -118,4 +118,8 @@ class SceneRectangle(override var absoluteCoordinate: Coordinate, var width: Flo
 
 fun createSquare(center: Coordinate, size: Float, color: Rgba): SceneRectangle {
     return SceneRectangle(center, size, size, color)
+}
+
+fun createRect(center: Coordinate, width: Float, height: Float, color: Rgba): SceneRectangle {
+    return SceneRectangle(center, width, height, color)
 }

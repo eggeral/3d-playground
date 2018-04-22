@@ -196,6 +196,17 @@ class WebGLRenderer : SceneRenderer {
                         val startPoint = node.getAbsoluteCoordinate()
                         node.model.translate(Vec3(startPoint.x.toDouble(), startPoint.y.toDouble(), startPoint.z.toDouble()))
                     }
+                    if (node.isChildOf != null) {
+                        val parentNode: SceneNode? = node.isChildOf
+                        if (parentNode != null) {
+                            node.rotationAngleX = (deltaTime * parentNode.rotationSpeedX + node.rotationAngleX) % (2 * Math.PI)
+                            node.rotationAngleY = (deltaTime * parentNode.rotationSpeedY + node.rotationAngleY) % (2 * Math.PI)
+                            node.rotationAngleZ = (deltaTime * parentNode.rotationSpeedZ + node.rotationAngleZ) % (2 * Math.PI)
+                            node.model.rotateX(deltaTime * parentNode.rotationSpeedX)
+                            node.model.rotateY(deltaTime * parentNode.rotationSpeedY)
+                            node.model.rotateZ(deltaTime * parentNode.rotationSpeedZ)
+                        }
+                    }
                     node.rotationAngleX = (deltaTime * node.rotationSpeedX + node.rotationAngleX) % (2 * Math.PI)
                     node.rotationAngleY = (deltaTime * node.rotationSpeedY + node.rotationAngleY) % (2 * Math.PI)
                     node.rotationAngleZ = (deltaTime * node.rotationSpeedZ + node.rotationAngleZ) % (2 * Math.PI)
@@ -203,16 +214,19 @@ class WebGLRenderer : SceneRenderer {
                     node.model.rotateY(deltaTime * node.rotationSpeedY)
                     node.model.rotateZ(deltaTime * node.rotationSpeedZ)
 
-                    var X = 0.0
-                    var Y = 0.0
-                    var Z = 0.0
-                    var returnDirs: Triple<Double, Double, Double>
-                    returnDirs = calcDirectionVectors3D(node, X, Y, Z)
-                    X = returnDirs.first
-                    Y = returnDirs.second
-                    Z = returnDirs.third
+                    //for absolute movement
+                    run {
+                        var X = 0.0
+                        var Y = 0.0
+                        var Z = 0.0
+                        var returnDirs: Triple<Double, Double, Double>
+                        returnDirs = calcDirectionVectors3D(node, X, Y, Z)
+                        X = returnDirs.first
+                        Y = returnDirs.second
+                        Z = returnDirs.third
 
-                    node.model.translate(Vec3(X, Y, Z))
+                        node.model.translate(Vec3(X, Y, Z))
+                    }
                 }
                 is SceneNodesAttached -> {
                     renderFrameForEach(node.children, deltaTime)

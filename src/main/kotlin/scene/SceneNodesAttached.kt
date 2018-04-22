@@ -3,7 +3,6 @@ package scene
 import glmatrix.Mat4
 
 class SceneNodesAttached : SceneNode {
-
     override var rotationSpeedX: Double = 0.0
     override var rotationSpeedY: Double = 0.0
     override var rotationSpeedZ: Double = 0.0
@@ -13,7 +12,7 @@ class SceneNodesAttached : SceneNode {
     override var speedX: Double = 0.0
     override var speedY: Double = 0.0
     override var speedZ: Double = 0.0
-    //val children = mutableListOf<SceneNode>()
+    override var center: Coordinate = Coordinate(0.0f,0.0f,0.0f)
     var children: List<SceneNode> = listOf()
     override var isChildOf: SceneNode? = null
 
@@ -44,6 +43,14 @@ class SceneNodesAttached : SceneNode {
 
     override fun setHit(hit: Boolean) {
         children.forEach { c -> c.setHit(hit) }
+    }
+
+    override fun getCenter(): Coordinate {
+        return center
+    }
+
+    override fun setCenter(c: Coordinate) {
+        center = c
     }
 
     override fun copyProperties(sceneNode: SceneNode) {
