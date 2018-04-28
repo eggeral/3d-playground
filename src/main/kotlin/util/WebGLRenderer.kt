@@ -4,6 +4,7 @@ import glmatrix.*
 import org.khronos.webgl.*
 import org.w3c.dom.HTMLCanvasElement
 import org.w3c.dom.HTMLElement
+import org.w3c.dom.NodeList
 import org.w3c.dom.events.KeyboardEvent
 import org.w3c.dom.events.MouseEvent
 import org.w3c.dom.events.WheelEvent
@@ -16,11 +17,13 @@ import webgl.createWebGLRenderingContext
 import webgl.fitDrawingBufferIntoCanvas
 import kotlin.browser.document
 import kotlin.browser.window
+import kotlin.js.Math
 
 
 class WebGLRenderer : SceneRenderer {
     private var gl: WebGLRenderingContext
     private var lastRender: Double = 0.0
+    private var firstRender: Boolean = true
 
     private var vertexBuffer: WebGLBuffer
     private var colorBuffer: WebGLBuffer
@@ -34,7 +37,6 @@ class WebGLRenderer : SceneRenderer {
 
     private var nodes: List<SceneNode> = listOf()
 
-    //private var modelMatrix: Mat4
     private var projectionMatrix: Mat4
     private var viewMatrixV3 = Vec3(0.0, 0.0, -15.0)
     private var viewMatrix = Mat4().translate(viewMatrixV3)
@@ -107,6 +109,9 @@ class WebGLRenderer : SceneRenderer {
         gl.vertexAttribPointer(verticesAttribute, 3, WebGLRenderingContext.FLOAT, false, 0, 0)
         gl.enableVertexAttribArray(verticesAttribute)
 
+        // get uniform vColor attribute from fragment shader
+        val color = gl.getUniformLocation(shaderProgram, "vColor")
+
         // set background color
         gl.clearColor(0.9f, 0.9f, 0.9f, 1.0f)
         gl.clear(WebGLRenderingContext.COLOR_BUFFER_BIT)
@@ -114,7 +119,7 @@ class WebGLRenderer : SceneRenderer {
         gl.useProgram(shaderProgram)
 
         projectionMatrix = Mat4().perspective(
-                GlMatrix.toRadian(40.0),
+                GlMatrix.toRad(40.0),
                 gl.canvas.width.toDouble() / gl.canvas.height.toDouble(),
                 1.0,
                 100.0)
@@ -124,7 +129,7 @@ class WebGLRenderer : SceneRenderer {
         window.requestAnimationFrame { t -> renderFrame(t, false) }
         window.addEventListener("resize", {
             projectionMatrix = Mat4().perspective(
-                    GlMatrix.toRadian(40.0),
+                    GlMatrix.toRad(40.0),
                     gl.canvas.width.toDouble() / gl.canvas.height.toDouble(),
                     1.0,
                     100.0)
@@ -187,24 +192,54 @@ class WebGLRenderer : SceneRenderer {
         nodes.forEach { node ->
             when (node) {
                 is SceneObject -> {
-                    node.model.rotateX( deltaTime * node.rotationSpeedX)
+                    if (firstRender) {
+                        val startPoint = node.getAbsoluteCoordinate()
+                        node.model.translate(Vec3(startPoint.x.toDouble(), startPoint.y.toDouble(), startPoint.z.toDouble()))
+                    }
+                    if (node.isChildOf != null) {
+                        val parentNode: SceneNode? = node.isChildOf
+                        if (parentNode != null) {
+                            node.rotationAngleX = (deltaTime * parentNode.rotationSpeedX + node.rotationAngleX) % (2 * Math.PI)
+                            node.rotationAngleY = (deltaTime * parentNode.rotationSpeedY + node.rotationAngleY) % (2 * Math.PI)
+                            node.rotationAngleZ = (deltaTime * parentNode.rotationSpeedZ + node.rotationAngleZ) % (2 * Math.PI)
+                            node.model.rotateX(deltaTime * parentNode.rotationSpeedX)
+                            node.model.rotateY(deltaTime * parentNode.rotationSpeedY)
+                            node.model.rotateZ(deltaTime * parentNode.rotationSpeedZ)
+                        }
+                    }
+                    node.rotationAngleX = (deltaTime * node.rotationSpeedX + node.rotationAngleX) % (2 * Math.PI)
+                    node.rotationAngleY = (deltaTime * node.rotationSpeedY + node.rotationAngleY) % (2 * Math.PI)
+                    node.rotationAngleZ = (deltaTime * node.rotationSpeedZ + node.rotationAngleZ) % (2 * Math.PI)
+                    node.model.rotateX(deltaTime * node.rotationSpeedX)
                     node.model.rotateY(deltaTime * node.rotationSpeedY)
                     node.model.rotateZ(deltaTime * node.rotationSpeedZ)
+
+                    //for absolute movement
+                    run {
+                        var X = 0.0
+                        var Y = 0.0
+                        var Z = 0.0
+                        var returnDirs: Triple<Double, Double, Double>
+                        returnDirs = calcDirectionVectors3D(node, X, Y, Z)
+                        X = returnDirs.first
+                        Y = returnDirs.second
+                        Z = returnDirs.third
+
+                        node.model.translate(Vec3(X, Y, Z))
+                    }
                 }
                 is SceneNodesAttached -> {
                     renderFrameForEach(node.children, deltaTime)
                 }
                 else -> throw IllegalStateException("Unknown node type")
             }
-
         }
     }
 
     private fun renderFrame(time: Double, picking: Boolean) {
         gl.fitDrawingBufferIntoCanvas()
-        val timeTemp = time
-        val deltaTime = ((timeTemp - lastRender) / 10.0).toFloat()
-        lastRender = timeTemp
+        val deltaTime = ((time - lastRender) / 10.0).toFloat()
+        lastRender = time
 
         renderFrameForEach(nodes, deltaTime.toDouble())
 
@@ -230,11 +265,75 @@ class WebGLRenderer : SceneRenderer {
             window.requestAnimationFrame { t -> renderFrame(t, false) }
         }
 
+        if (firstRender)
+            firstRender = false
+
+    }
+
+    private fun calcDirectionVectors3D(o: SceneNode, X: Double, Y: Double, Z: Double) : Triple<Double, Double, Double> {
+        //doesn't work for all combinations -> better use Eulerwinkel
+        var returnDirs : Pair<Double, Double>
+        var lX : Double = X
+        var lY : Double = Y
+        var lZ : Double = Z
+        returnDirs = calcDirectionVectors2D(o.speedX, o.rotationAngleZ, lX, lY)
+        lX += returnDirs.first
+        lY += returnDirs.second
+        returnDirs = calcDirectionVectors2D(o.speedY, o.rotationAngleX, lY, lZ)
+        lY += returnDirs.first
+        lZ += returnDirs.second
+        returnDirs = calcDirectionVectors2D(o.speedZ, o.rotationAngleY, lZ, lX)
+        lZ += returnDirs.first
+        lX += returnDirs.second
+
+        return Triple(lX, lY, lZ)
+    }
+
+    private fun calcDirectionVectors2D(speed: Double, angle: Double, direction1: Double, direction2: Double) : Pair<Double, Double> {
+        if ((speed == 0.0) || (angle == 0.0))
+            return Pair(speed, 0.0)
+        var Dir1 = direction1
+        var Dir2 = direction2
+        if (angle == 0.0) {
+            Dir1 = speed
+        }
+        else if (angle == Math.PI/2) {
+            Dir2 = speed
+        }
+        else if (angle == Math.PI) {
+            Dir1 = - speed
+        }
+        else if (angle == Math.PI * 1.5) {
+            Dir2 = -speed
+        } else if (angle < Math.PI/2) {
+            var TempY = speed * Math.sin(angle)
+            Dir1 = TempY * Math.sin(Math.PI/2 - angle) / Math.sin(angle)
+            Dir2 = -TempY
+        } else if (angle < Math.PI) {
+            var rotationZ = 2* Math.PI - angle
+            var TempY = speed * Math.sin(rotationZ)
+            Dir1 = TempY * Math.sin(Math.PI/2 - rotationZ) / Math.sin(rotationZ)
+            Dir2 = TempY
+        } else if (angle < 3*Math.PI/2) {
+            var rotationZ = angle - Math.PI
+            var TempY = speed * Math.sin(rotationZ)
+            Dir1 = - TempY * Math.sin(Math.PI/2 - rotationZ) / Math.sin(rotationZ)
+            Dir2 = TempY
+        } else if (angle < 2* Math.PI) {
+            var rotationZ = -angle
+            var TempY = speed * Math.sin(rotationZ)
+            Dir1 = TempY * Math.sin(Math.PI/2 - rotationZ) / Math.sin(rotationZ)
+            Dir2 = TempY
+        }
+        return Pair(Dir1, Dir2)
     }
 
     override fun add(sceneNode: SceneNode) {
+        if (sceneNode in nodes) {
+            remove(sceneNode)
+        }
         if (sceneNode is SceneObject)
-            sceneNode.model = Mat4().translate(arrayOf(-2.0, 1.0, 0.0))
+            sceneNode.model = Mat4().translate(arrayOf(0.0, 0.0, 0.0))
         nodes += sceneNode
     }
 
@@ -242,9 +341,20 @@ class WebGLRenderer : SceneRenderer {
         nodes -= sceneNode
     }
 
+    fun attachToNode(nodeList: SceneNodesAttached, node: SceneNode) {
+        nodes -= node
+        var nl = nodeList
+        nl.addChild(node)
+    }
+
+    fun removeFromNode(nodeList: SceneNodesAttached, node: SceneNode, resetDefault: Boolean) {
+        var nl = nodeList
+        nl.removeChild(node, resetDefault)
+        nodes += node
+    }
+
     private fun getPositionInCanvas(x: Int, y: Int): Array<Int> {
         val rect = gl.canvas.getBoundingClientRect()
-        console.log("Left: " + rect.left + ", Top: " + rect.top)
         var cx = x - rect.left.toInt()
         var cy = y - rect.top.toInt()
         if (cx < 0)
@@ -267,7 +377,6 @@ class WebGLRenderer : SceneRenderer {
                     moveCam = true
                 e.button == MOUSE_BUTTON_LEFT -> { // left mouse button to select an object
                     val (cx, cy) = getPositionInCanvas(clickPosX, clickPosY)
-                    console.log("X: $cx, Y: $cy")
                     dragging = true
                     // 2do: select right object
                 }
@@ -285,8 +394,8 @@ class WebGLRenderer : SceneRenderer {
                 val newY = e.clientY
                 val deltaX = newX - clickPosX
                 val deltaY = newY - clickPosY
-                viewMatrix = viewMatrix.rotateX(GlMatrix.toRadian(deltaX.toDouble()))
-                viewMatrix = viewMatrix.rotateY(GlMatrix.toRadian(deltaY.toDouble()))
+                viewMatrix = viewMatrix.rotateX(GlMatrix.toRad(deltaX.toDouble()))
+                viewMatrix = viewMatrix.rotateY(GlMatrix.toRad(deltaY.toDouble()))
 
                 clickPosX = newX
                 clickPosY = newY

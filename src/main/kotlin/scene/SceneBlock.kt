@@ -1,10 +1,11 @@
 package scene
 
 import glmatrix.Mat4
+import glmatrix.Vec3
 import util.assert
 
 
-class SceneBlock(override var position: Coordinate, var width: Float, var height: Float, var depth: Float, override var colors: Array<Rgba>) : WebGLDrawableMulticolored {
+class SceneBlock(override var absoluteCoordinate: Coordinate, var width: Float, var height: Float, var depth: Float, override var colors: Array<Rgba>) : WebGLDrawableMulticolored {
 
     var hit: Boolean = false
     var highlightColor: Rgba = Rgba.Red
@@ -21,6 +22,14 @@ class SceneBlock(override var position: Coordinate, var width: Float, var height
     override var rotationSpeedX: Double = 0.0
     override var rotationSpeedY: Double = 0.0
     override var rotationSpeedZ: Double = 0.0
+    override var rotationAngleX: Double = 0.0
+    override var rotationAngleY: Double = 0.0
+    override var rotationAngleZ: Double = 0.0
+    override var speedX: Double = 0.0
+    override var speedY: Double = 0.0
+    override var speedZ: Double = 0.0
+    override var center: Coordinate = Coordinate()
+    override var isChildOf: SceneNode? = null
 
     init {
         assert(width > 0, "Width must be greater than 0!")
@@ -31,37 +40,37 @@ class SceneBlock(override var position: Coordinate, var width: Float, var height
 
     override fun getVertices(): Array<Float> {
         return arrayOf(
-                position.x - width / 2, position.y - height / 2, position.z - depth / 2           //left-bottom-back
-                , position.x + width / 2, position.y - height / 2, position.z - depth / 2          //right-bottom-back
-                , position.x + width / 2, position.y + height / 2, position.z - depth / 2          //right-top-back
+                center.x - width / 2, center.y - height / 2, center.z - depth / 2           //left-bottom-back
+                , center.x + width / 2, center.y - height / 2, center.z - depth / 2          //right-bottom-back
+                , center.x + width / 2, center.y + height / 2, center.z - depth / 2          //right-top-back
 
-                , position.x - width / 2, position.y + height / 2, position.z - depth / 2          //left-top-back
-                , position.x - width / 2, position.y - height / 2, position.z + depth / 2          //left-bottom-front
-                , position.x + width / 2, position.y - height / 2, position.z + depth / 2          //right-bottom-front
+                , center.x - width / 2, center.y + height / 2, center.z - depth / 2          //left-top-back
+                , center.x - width / 2, center.y - height / 2, center.z + depth / 2          //left-bottom-front
+                , center.x + width / 2, center.y - height / 2, center.z + depth / 2          //right-bottom-front
 
-                , position.x + width / 2, position.y + height / 2, position.z + depth / 2          //right-top-front
-                , position.x - width / 2, position.y + height / 2, position.z + depth / 2          //left-top-front
-                , position.x - width / 2, position.y - height / 2, position.z - depth / 2          //left-bottom-back
+                , center.x + width / 2, center.y + height / 2, center.z + depth / 2          //right-top-front
+                , center.x - width / 2, center.y + height / 2, center.z + depth / 2          //left-top-front
+                , center.x - width / 2, center.y - height / 2, center.z - depth / 2          //left-bottom-back
 
-                , position.x - width / 2, position.y + height / 2, position.z - depth / 2          //left-top-back
-                , position.x - width / 2, position.y + height / 2, position.z + depth / 2          //left-top-front
-                , position.x - width / 2, position.y - height / 2, position.z + depth / 2          //left-bottom-front
+                , center.x - width / 2, center.y + height / 2, center.z - depth / 2          //left-top-back
+                , center.x - width / 2, center.y + height / 2, center.z + depth / 2          //left-top-front
+                , center.x - width / 2, center.y - height / 2, center.z + depth / 2          //left-bottom-front
 
-                , position.x + width / 2, position.y - height / 2, position.z - depth / 2          //right-bottom-back
-                , position.x + width / 2, position.y + height / 2, position.z - depth / 2          //right-top-back
-                , position.x + width / 2, position.y + height / 2, position.z + depth / 2          //right-top-front
+                , center.x + width / 2, center.y - height / 2, center.z - depth / 2          //right-bottom-back
+                , center.x + width / 2, center.y + height / 2, center.z - depth / 2          //right-top-back
+                , center.x + width / 2, center.y + height / 2, center.z + depth / 2          //right-top-front
 
-                , position.x + width / 2, position.y - height / 2, position.z + depth / 2          //right-bottom-front
-                , position.x - width / 2, position.y - height / 2, position.z - depth / 2          //left-bottom-back
-                , position.x - width / 2, position.y - height / 2, position.z + depth / 2          //left-bottom-front
+                , center.x + width / 2, center.y - height / 2, center.z + depth / 2          //right-bottom-front
+                , center.x - width / 2, center.y - height / 2, center.z - depth / 2          //left-bottom-back
+                , center.x - width / 2, center.y - height / 2, center.z + depth / 2          //left-bottom-front
 
-                , position.x + width / 2, position.y - height / 2, position.z + depth / 2          //right-bottom-front
-                , position.x + width / 2, position.y - height / 2, position.z - depth / 2          //right-bottom-back
-                , position.x - width / 2, position.y + height / 2, position.z - depth / 2          //left-top-back
+                , center.x + width / 2, center.y - height / 2, center.z + depth / 2          //right-bottom-front
+                , center.x + width / 2, center.y - height / 2, center.z - depth / 2          //right-bottom-back
+                , center.x - width / 2, center.y + height / 2, center.z - depth / 2          //left-top-back
 
-                , position.x - width / 2, position.y + height / 2, position.z + depth / 2          //left-top-front
-                , position.x + width / 2, position.y + height / 2, position.z + depth / 2          //right-top-front
-                , position.x + width / 2, position.y + height / 2, position.z - depth / 2          //right-top-back
+                , center.x - width / 2, center.y + height / 2, center.z + depth / 2          //left-top-front
+                , center.x + width / 2, center.y + height / 2, center.z + depth / 2          //right-top-front
+                , center.x + width / 2, center.y + height / 2, center.z - depth / 2          //right-top-back
         )
     }
 
@@ -155,6 +164,53 @@ class SceneBlock(override var position: Coordinate, var width: Float, var height
                 20, 21, 22,
                 20, 22, 23)
     }
+
+    override fun getCenter(): Coordinate {
+        return center
+    }
+
+    override fun setCenter(c: Coordinate) {
+        center = c
+    }
+
+    override fun getAbsoluteCoordinate(): Coordinate {
+        return absoluteCoordinate
+    }
+
+    override fun setAbsoluteCoordinate(c: Coordinate) {
+        absoluteCoordinate = c
+    }
+
+    override  fun setAbsoluteCoordinate(x: Float, y: Float, z: Float) {
+        absoluteCoordinate = Coordinate(x, y, z)
+    }
+
+    override fun addAbsoluteCoordinate(c: Coordinate) {
+        absoluteCoordinate = absoluteCoordinate + c
+    }
+
+    override fun addAbsoluteCoordinate(x: Float, y: Float, z: Float) {
+        absoluteCoordinate = absoluteCoordinate + Coordinate(x, y, z)
+    }
+
+    override fun copyProperties(sceneNode: SceneNode) {
+        var absoluteCoordinate : Coordinate
+        if (sceneNode is SceneObject)
+            absoluteCoordinate = sceneNode.getAbsoluteCoordinate()
+        else
+            absoluteCoordinate = Coordinate(0.0f,0.0f,0.0f)
+        speedX = sceneNode.speedX
+        speedY = sceneNode.speedY
+        speedZ = sceneNode.speedZ
+        rotationSpeedX = sceneNode.rotationSpeedX
+        rotationSpeedY = sceneNode.rotationSpeedY
+        rotationSpeedZ = sceneNode.rotationSpeedZ
+        model.translate(Vec3(-getAbsoluteCoordinate().x.toDouble()-absoluteCoordinate.x, -getAbsoluteCoordinate().y.toDouble()-absoluteCoordinate.y, -getAbsoluteCoordinate().z.toDouble()-absoluteCoordinate.z))
+        setCenter(Coordinate(getAbsoluteCoordinate().x-absoluteCoordinate.x,getAbsoluteCoordinate().y-absoluteCoordinate.y,getAbsoluteCoordinate().z-absoluteCoordinate.z))
+        model.rotateX(-rotationAngleX+sceneNode.rotationAngleX)
+        model.rotateY(-rotationAngleY+sceneNode.rotationAngleY)
+        model.rotateZ(-rotationAngleZ+sceneNode.rotationAngleZ)
+    }
 }
 
 fun createCube(center: Coordinate, size: Float, color: Rgba): SceneBlock {
@@ -163,4 +219,8 @@ fun createCube(center: Coordinate, size: Float, color: Rgba): SceneBlock {
 
 fun createMulticolorCube(center: Coordinate, size: Float, colors: Array<Rgba>): SceneBlock {
     return SceneBlock(center, size, size, size, colors)
+}
+
+fun createBlock(center: Coordinate, width: Float, height: Float, depth: Float, color: Rgba): SceneBlock {
+    return SceneBlock(center, width, height, depth, arrayOf(color, color, color, color, color, color))
 }
