@@ -7,7 +7,7 @@ class ApplicationAttachedObjects {
     private val renderer: WebGLRenderer = WebGLRenderer()
 
     fun run() {
-        val case = 0    //0..3
+        val case = 3    //0..3
 
         val centerSoloCube = Coordinate(5.0f, -2.0f, 0.0f)
         val centerFootLeft = Coordinate(-1.0f, -2.0f, 0.0f)

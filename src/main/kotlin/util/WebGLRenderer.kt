@@ -4,7 +4,6 @@ import glmatrix.*
 import org.khronos.webgl.*
 import org.w3c.dom.HTMLCanvasElement
 import org.w3c.dom.HTMLElement
-import org.w3c.dom.NodeList
 import org.w3c.dom.events.KeyboardEvent
 import org.w3c.dom.events.MouseEvent
 import org.w3c.dom.events.WheelEvent
@@ -119,7 +118,7 @@ class WebGLRenderer : SceneRenderer {
         gl.useProgram(shaderProgram)
 
         projectionMatrix = Mat4().perspective(
-                GlMatrix.toRad(40.0),
+                GlMatrix.toRadian(40.0),
                 gl.canvas.width.toDouble() / gl.canvas.height.toDouble(),
                 1.0,
                 100.0)
@@ -129,7 +128,7 @@ class WebGLRenderer : SceneRenderer {
         window.requestAnimationFrame { t -> renderFrame(t, false) }
         window.addEventListener("resize", {
             projectionMatrix = Mat4().perspective(
-                    GlMatrix.toRad(40.0),
+                    GlMatrix.toRadian(40.0),
                     gl.canvas.width.toDouble() / gl.canvas.height.toDouble(),
                     1.0,
                     100.0)
@@ -394,8 +393,8 @@ class WebGLRenderer : SceneRenderer {
                 val newY = e.clientY
                 val deltaX = newX - clickPosX
                 val deltaY = newY - clickPosY
-                viewMatrix = viewMatrix.rotateX(GlMatrix.toRad(deltaX.toDouble()))
-                viewMatrix = viewMatrix.rotateY(GlMatrix.toRad(deltaY.toDouble()))
+                viewMatrix = viewMatrix.rotateX(GlMatrix.toRadian(deltaX.toDouble()))
+                viewMatrix = viewMatrix.rotateY(GlMatrix.toRadian(deltaY.toDouble()))
 
                 clickPosX = newX
                 clickPosY = newY
