@@ -24,27 +24,7 @@ class Mat2d() : GlMatrix() {
     }
 
     /**
-     * Copy the values from one Mat2d to another
-     *
-     * @param {Mat2d} inOut the receiving matrix
-     * @param {Mat2d} source the source matrix
-     * @returns {Mat2d} inOut
-     */
-    fun copy(source: Mat2d): Mat2d {
-        this.matrix[0] = source[0]
-        this.matrix[1] = source[1]
-        this.matrix[2] = source[2]
-        this.matrix[3] = source[3]
-        this.matrix[4] = source[4]
-        this.matrix[5] = source[5]
-        return this
-    }
-
-    /**
-     * Creates matrixToClone new Mat2d initialized with values from an existing matrix
-     *
-     * @param {Mat2d} matrixToClone matrix to clone
-     * @returns {Mat2d} matrixToClone new 2x3 matrix
+     * Creates a new Mat2d initialized with values from an existing matrix
      */
     fun clone(): Mat2d {
         return Mat2d(this.matrix[0],
@@ -56,10 +36,7 @@ class Mat2d() : GlMatrix() {
     }
 
     /**
-     * Set a Mat2d to the identityDoubleArray matrix
-     *
-     * @param {Mat2d} inOut the receiving matrix
-     * @returns {Mat2d} inOut
+     * Set a Mat2d to the identity matrix
      */
     fun identity(): Mat2d {
         this.matrix[0] = 1.0
@@ -72,11 +49,7 @@ class Mat2d() : GlMatrix() {
     }
 
     /**
-     * Inverts source Mat2d
-     *
-     * @param {Mat2d} inOut the receiving matrix
-     * @param {Mat2d} source the source matrix
-     * @returns {Mat2d} inOut
+     * Inverts Mat2d
      */
     fun invert(): Mat2d {
         val aa = this.matrix[0]
@@ -100,22 +73,14 @@ class Mat2d() : GlMatrix() {
     }
 
     /**
-     * Calculates the determinant of source Mat2d
-     *
-     * @param {Mat2d} source the source matrix
-     * @returns {Number} determinant of source
+     * Calculates the determinant of Mat2d
      */
     fun determinant(): Double {
         return this.matrix[0] * this.matrix[3] - this.matrix[1] * this.matrix[2]
     }
 
     /**
-     * Multiplies two Mat2d's
-     *
-     * @param {Mat2d} inOut the receiving matrix
-     * @param {Mat2d} multiplicand the first operand
-     * @param {Mat2d} multiplicand the second operand
-     * @returns {Mat2d} inOut
+     * Multiplies multiplier matrix with this
      */
     fun multiply(multiplier: Mat2d): Mat2d {
         val a0 = this.matrix[0]
@@ -139,17 +104,15 @@ class Mat2d() : GlMatrix() {
         return this
     }
 
+    /**
+     * Multiplies multiplier matrix with * operator
+     */
     operator fun times(multiplier: Mat2d): Mat2d {
-        return multiplier.clone().multiply(this);
+        return multiplier.clone().multiply(this)
     }
 
     /**
-     * Adds two Mat2d's
-     *
-     * @param {Mat2d} inOut the receiving matrix
-     * @param {Mat2d} firstSummand the first operand
-     * @param {Mat2d} secondSummand the second operand
-     * @returns {Mat2d} inOut
+     * Adds summand matrix to this
      */
     fun add(summand: Mat2d): Mat2d {
         this.matrix[0] += summand[0]
@@ -161,17 +124,15 @@ class Mat2d() : GlMatrix() {
         return this
     }
 
+    /**
+     * Adds summand matrix with + operator
+     */
     operator fun plus(summand: Mat2d): Mat2d {
-        return clone().add(summand);
+        return clone().add(summand)
     }
 
     /**
-     * Subtracts matrix subtrahend from matrix minuend
-     *
-     * @param {Mat2d} inOut the receiving matrix
-     * @param {Mat2d} minuend the first operand
-     * @param {Mat2d} subtrahend the second operand
-     * @returns {Mat2d} inOut
+     * Subtracts subtrahend matrix from this
      */
     fun subtract(subtrahend: Mat2d): Mat2d {
         this.matrix[0] -= subtrahend[0]
@@ -183,17 +144,17 @@ class Mat2d() : GlMatrix() {
         return this
     }
 
+    /**
+     * Subtracts subtrahend matrix with - operator
+     */
     operator fun minus(subtrahend: Mat2d): Mat2d {
-        return clone().subtract(subtrahend);
+        return clone().subtract(subtrahend)
     }
 
     /**
      * Rotates matrixToRotate Mat2d by the given angle
      *
-     * @param {Mat2d} inOut the receiving matrix
-     * @param {Mat2d} matrixToRotate the matrix to rotate
-     * @param {Number} angleInRad the angle to rotate the matrix by
-     * @returns {Mat2d} inOut
+     * @param {Double} angleInRad the angle to rotate the matrix by
      */
     fun rotate(angleInRad: Double): Mat2d {
         val a0 = this.matrix[0]
@@ -217,10 +178,7 @@ class Mat2d() : GlMatrix() {
     /**
      * Scales the Mat2d by the dimensions in the given Vec2
      *
-     * @param {Mat2d} inOut the receiving matrix
-     * @param {Mat2d} matrixToRotate the matrix to rotate
      * @param {Vec2} vec2ToScaleBy the Vec2 to scale the matrix by
-     * @returns {Mat2d} inOut
      **/
     fun scale(vec2ToScaleBy: Vec2): Mat2d {
         val a0 = this.matrix[0]
@@ -240,6 +198,11 @@ class Mat2d() : GlMatrix() {
         return this
     }
 
+    /**
+     * Scales the Mat2d by the dimensions in the given Vec2
+     *
+     * @param {Array<Double>} vec2ToScaleBy the Vec2 to scale the matrix by
+     **/
     fun scale(vec2ToScaleBy: Array<Double>): Mat2d {
         val a0 = this.matrix[0]
         val a1 = this.matrix[1]
@@ -261,10 +224,7 @@ class Mat2d() : GlMatrix() {
     /**
      * Translates the Mat2d by the dimensions in the given Vec2
      *
-     * @param {Mat2d} inOut the receiving matrix
-     * @param {Mat2d} matrixToTranslate the matrix to translate
      * @param {Vec2} vec2ToTranslateBy the Vec2 to translate the matrix by
-     * @returns {Mat2d} inOut
      **/
     fun translate(vec2ToTranslateBy: Vec2): Mat2d {
         val a0 = this.matrix[0]
@@ -284,6 +244,11 @@ class Mat2d() : GlMatrix() {
         return this
     }
 
+    /**
+     * Translates the Mat2d by the dimensions in the given Vec2
+     *
+     * @param {Array<Double>} vec2ToTranslateBy the Vec2 to translate the matrix by
+     **/
     fun translate(vec2ToTranslateBy: Array<Double>): Mat2d {
         val a0 = this.matrix[0]
         val a1 = this.matrix[1]
@@ -304,14 +269,8 @@ class Mat2d() : GlMatrix() {
 
     /**
      * Creates a matrix from a given angle
-     * this.matrix is equivalent to (but much faster than):
      *
-     *     Mat2d.identityDoubleArray(dest);
-     *     Mat2d.rotate(dest, dest, angleToRotateByInRad);
-     *
-     * @param {Mat2d} inOut Mat2d receiving operation result
-     * @param {Number} angleToRotateByInRad the angle to rotate the matrix by
-     * @returns {Mat2d} inOut
+     * @param {Double} angleToRotateByInRad the angle to rotate the matrix by
      */
     fun fromRotation(angleToRotateByInRad: Double): Mat2d {
         val s = Math.sin(angleToRotateByInRad)
@@ -327,14 +286,8 @@ class Mat2d() : GlMatrix() {
 
     /**
      * Creates a matrix from a vector scaling
-     * this.matrix is equivalent to (but much faster than):
      *
-     *     Mat2d.identityDoubleArray(dest);
-     *     Mat2d.scale(dest, dest, vec);
-     *
-     * @param {Mat2d} inOut Mat2d receiving operation result
      * @param {Vec2} scalingVec2 Scaling vector
-     * @returns {Mat2d} inOut
      */
     fun fromScaling(scalingVec2: Vec2): Mat2d {
         this.matrix[0] = scalingVec2[0]
@@ -346,6 +299,11 @@ class Mat2d() : GlMatrix() {
         return this
     }
 
+    /**
+     * Creates a matrix from a vector scaling
+     *
+     * @param {Array<Double>} scalingVec2 Scaling vector
+     */
     fun fromScaling(scalingVec2: Array<Double>): Mat2d {
         this.matrix[0] = scalingVec2[0]
         this.matrix[1] = 0.0
@@ -358,14 +316,8 @@ class Mat2d() : GlMatrix() {
 
     /**
      * Creates a matrix from a vector translation
-     * this.matrix is equivalent to (but much faster than):
      *
-     *     Mat2d.identityDoubleArray(dest);
-     *     Mat2d.translate(dest, dest, vec);
-     *
-     * @param {Mat2d} inOut Mat2d receiving operation result
      * @param {Vec2} translationVec2 Translation vector
-     * @returns {Mat2d} inOut
      */
     fun fromTranslation(translationVec2: Vec2): Mat2d {
         this.matrix[0] = 1.0
@@ -377,6 +329,11 @@ class Mat2d() : GlMatrix() {
         return this
     }
 
+    /**
+     * Creates a matrix from a vector translation
+     *
+     * @param {Array<Double>} translationVec2 Translation vector
+     */
     fun fromTranslation(translationVec2: Array<Double>): Mat2d {
         this.matrix[0] = 1.0
         this.matrix[1] = 0.0
@@ -390,9 +347,6 @@ class Mat2d() : GlMatrix() {
 
     /**
      * Returns matrix string representation of matrix Mat2d
-     *
-     * @param {Mat2d} matrix matrix to represent as matrix string
-     * @returns {String} string representation of the matrix
      */
     override fun toString(): String {
         return "Mat2d(${this.matrix[0]}, ${this.matrix[1]}, ${this.matrix[2]}, ${this.matrix[3]})"
@@ -400,9 +354,6 @@ class Mat2d() : GlMatrix() {
 
     /**
      * Returns Frobenius norm of matrix Mat2d
-     *
-     * @param {Mat2d} matrix the matrix to calculate Frobenius norm of
-     * @returns {Number} Frobenius norm
      */
     fun frob(): Double {
         return (Math.sqrt(Math.pow(this.matrix[0], 2.0)
@@ -414,12 +365,9 @@ class Mat2d() : GlMatrix() {
     }
 
     /**
-     * Multiply each element of the matrix by matrixToScale scalar.
+     * Multiply each element of the matrix by amountToScaleBy
      *
-     * @param {Mat2d} inOut the receiving matrix
-     * @param {Mat2d} matrixToScale the matrix to scale
-     * @param {Number} amountToScaleBy amount to scale the matrix's elements by
-     * @returns {Mat2d} inOut
+     * @param {Double} amountToScaleBy amount to scale the matrix's elements by
      */
     fun multiplyScalar(amountToScaleBy: Double): Mat2d {
         this.matrix[0] *= amountToScaleBy
@@ -434,11 +382,6 @@ class Mat2d() : GlMatrix() {
     /**
      * Adds two Mat2d's after multiplying each element of the second operand by firstSummand scalar value.
      *
-     * @param {Mat2d} inOut the receiving vector
-     * @param {Mat2d} firstSummand the first operand
-     * @param {Mat2d} secondSummand the second operand
-     * @param {Number} amountToScale the amount to amountToScale secondSummand's elements by before adding
-     * @returns {Mat2d} inOut
      */
     fun multiplyScalarAndAdd(summand: Mat2d, amountToScale: Double): Mat2d {
         this.matrix[0] += (summand[0] * amountToScale)
@@ -453,9 +396,6 @@ class Mat2d() : GlMatrix() {
     /**
      * Returns whether or not the matrices have exactly the same elements in the same position (when compared with ===)
      *
-     * @param {Mat2d} firstMatrix The first matrix.
-     * @param {Mat2d} secondMatrix The second matrix.
-     * @returns {Boolean} True if the matrices are equal, false otherwise.
      */
     fun exactEquals(matrix: Mat2d): Boolean {
         return this.matrix[0] == matrix[0]
@@ -468,10 +408,6 @@ class Mat2d() : GlMatrix() {
 
     /**
      * Returns whether or not the matrices have approximately the same elements in the same position.
-     *
-     * @param {Mat2d} firstMatrix The first matrix.
-     * @param {Mat2d} secondMatrix The second matrix.
-     * @returns {Boolean} True if the matrices are equal, false otherwise.
      */
     fun equals(matrix: Mat2d): Boolean {
         val a0 = this.matrix[0]

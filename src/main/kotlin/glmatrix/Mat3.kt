@@ -28,12 +28,7 @@ class Mat3() : GlMatrix() {
 
 
     /**
-     * Adds two Mat3's
-     *
-     * @param {Mat3} inOut the receiving matrix
-     * @param {Mat3} firstSummand the first operand
-     * @param {Mat3} secondSummand the second operand
-     * @returns {Mat3} inOut
+     * Adds summand matrix to this
      */
     fun add(summand: Mat3): Mat3 {
         this.matrix[0] += summand[0]
@@ -48,17 +43,15 @@ class Mat3() : GlMatrix() {
         return this
     }
 
+    /**
+     * Adds summand matrix with + operator
+     */
     operator fun plus(summand: Mat3): Mat3 {
-        return clone().add(summand);
+        return clone().add(summand)
     }
 
     /**
-     * Subtracts matrix subtrahend from matrix minuend
-     *
-     * @param {Mat3} inOut the receiving matrix
-     * @param {Mat3} minuend the first operand
-     * @param {Mat3} subtrahend the second operand
-     * @returns {Mat3} inOut
+     * Subtracts subtrahend matrix from this
      */
     fun subtract(subtrahend: Mat3): Mat3 {
         this.matrix[0] -= subtrahend[0]
@@ -73,17 +66,15 @@ class Mat3() : GlMatrix() {
         return this
     }
 
+    /**
+     * Subtracts subtrahend matrix with - operator
+     */
     operator fun minus(subtrahend: Mat3): Mat3 {
-        return clone().subtract(subtrahend);
+        return clone().subtract(subtrahend)
     }
 
     /**
-     * Multiplies two Mat3's
-     *
-     * @param {Mat3} inOut the receiving matrix
-     * @param {Mat3} multiplier the first operand
-     * @param {Mat3} multiplicand the second operand
-     * @returns {Mat3} inOut
+     * Multiplies multiplier matrix with this
      */
     fun multiply(multiplier: Mat3): Mat3 {
         val a00 = this.matrix[0]
@@ -116,16 +107,17 @@ class Mat3() : GlMatrix() {
         return this
     }
 
+    /**
+     * Multiplies multiplier matrix with * operator
+     */
     operator fun times(multiplier: Mat3): Mat3 {
-        return clone().multiply(this);
+        return clone().multiply(this)
     }
 
     /**
      * Copies the upper-left 3x3 values into the given Mat3.
      *
-     * @param {Mat3} inOut the receiving 3x3 matrix
-     * @param {Mat4} source   the source 4x4 matrix
-     * @returns {Mat3} inOut
+     * @param {Mat4} source  The source 4x4 matrix
      */
     fun fromMat4(source: Mat4): Mat3 {
         this.matrix[0] = source[0]
@@ -140,6 +132,11 @@ class Mat3() : GlMatrix() {
         return this
     }
 
+    /**
+     * Copies the upper-left 3x3 values into the given Mat3.
+     *
+     * @param {Array<Double>} source  The source 4x4 matrix
+     */
     fun fromMat4(source: Array<Double>): Mat3 {
         this.matrix[0] = source[0]
         this.matrix[1] = source[1]
@@ -154,30 +151,7 @@ class Mat3() : GlMatrix() {
     }
 
     /**
-     * Copy the values from one Mat3 to another
-     *
-     * @param {Mat3} inOut the receiving matrix
-     * @param {Mat3} source the source matrix
-     * @returns {Mat3} inOut
-     */
-    fun copy(source: Mat3): Mat3 {
-        this.matrix[0] = source[0]
-        this.matrix[1] = source[1]
-        this.matrix[2] = source[2]
-        this.matrix[3] = source[3]
-        this.matrix[4] = source[4]
-        this.matrix[5] = source[5]
-        this.matrix[6] = source[6]
-        this.matrix[7] = source[7]
-        this.matrix[8] = source[8]
-        return this
-    }
-
-    /**
-     * Creates matrixToClone new Mat3 initialized with values from an existing matrix
-     *
-     * @param {Mat3} matrixToClone matrix to clone
-     * @returns {Mat3} matrixToClone new 3x3 matrix
+     * Creates a new mat3 initialized with values from an existing matrix
      */
     fun clone(): Mat3 {
         return Mat3(this.matrix[0],
@@ -192,10 +166,7 @@ class Mat3() : GlMatrix() {
     }
 
     /**
-     * Set a Mat3 to the identityDoubleArray matrix
-     *
-     * @param {Mat3} inOut the receiving matrix
-     * @returns {Mat3} inOut
+     * Set a mat3 to the identity matrix
      */
     fun identity(): Mat3 {
         this.matrix[0] = 1.0
@@ -211,11 +182,9 @@ class Mat3() : GlMatrix() {
     }
 
     /**
-     * Transpose the values of source Mat3
+     * Transpose the values of source Mat3 to this
      *
-     * @param {Mat3} inOut the receiving matrix
      * @param {Mat3} source the source matrix
-     * @returns {Mat3} inOut
      */
     fun transpose(source: Mat3): Mat3 {
         // If we are transposing ourselves we can skip source few steps but have to cache some values
@@ -244,11 +213,7 @@ class Mat3() : GlMatrix() {
     }
 
     /**
-     * Inverts source Mat3
-     *
-     * @param {Mat3} inOut the receiving matrix
-     * @param {Mat3} source the source matrix
-     * @returns {Mat3} inOut
+     * Inverts Mat3
      */
     fun invert(): Mat3 {
         val a00 = this.matrix[0]
@@ -282,11 +247,7 @@ class Mat3() : GlMatrix() {
     }
 
     /**
-     * Calculates the adjugate of source Mat3
-     *
-     * @param {Mat3} inOut the receiving matrix
-     * @param {Mat3} source the source matrix
-     * @returns {Mat3} inOut
+     * Calculates the adjugate of Mat3
      */
     fun adjoint(): Mat3 {
         val a00 = this.matrix[0]
@@ -311,10 +272,7 @@ class Mat3() : GlMatrix() {
     }
 
     /**
-     * Calculates the determinant of source Mat3
-     *
-     * @param {Mat3} source the source matrix
-     * @returns {Number} determinant of source
+     * Calculates the determinant of Mat3
      */
     fun determinant(): Double {
         val a00 = this.matrix[0]
@@ -330,12 +288,9 @@ class Mat3() : GlMatrix() {
     }
 
     /**
-     * Translate matrixToTranslate Mat3 by the given vector
+     * Translate Mat3 by the given vector
      *
-     * @param {Mat3} inOut the receiving matrix
-     * @param {Mat3} matrixToTranslate the matrix to translate
      * @param {Vec2} vec2ToTranslateBy vector to translate by
-     * @returns {Mat3} inOut
      */
     fun translate(vec2ToTranslateBy: Vec2): Mat3 {
         val x = vec2ToTranslateBy[0]
@@ -361,6 +316,11 @@ class Mat3() : GlMatrix() {
         return this
     }
 
+    /**
+     * Translate Mat3 by the given vector
+     *
+     * @param {Array<Double>} vec2ToTranslateBy vector to translate by
+     */
     fun translate(vec2ToTranslateBy: Array<Double>): Mat3 {
         val x = vec2ToTranslateBy[0]
         val y = vec2ToTranslateBy[1]
@@ -386,12 +346,9 @@ class Mat3() : GlMatrix() {
     }
 
     /**
-     * Rotates matrixToRotate Mat3 by the given angle
+     * Rotates Mat3 by the given angle
      *
-     * @param {Mat3} inOut the receiving matrix
-     * @param {Mat3} matrixToRotate the matrix to rotate
-     * @param {Number} angleInRad the angle to rotate the matrix by
-     * @returns {Mat3} inOut
+     * @param {Double} angleInRad the angle to rotate the matrix by
      */
     fun rotate(angleInRad: Double): Mat3 {
         val a00 = this.matrix[0]
@@ -414,10 +371,7 @@ class Mat3() : GlMatrix() {
     /**
      * Scales the Mat3 by the dimensions in the given Vec2
      *
-     * @param {Mat3} inOut the receiving matrix
-     * @param {Mat3} matrixToScale the matrix to scale
      * @param {Vec2} vec2ToScaleBy the Vec2 to scale the matrix by
-     * @returns {Mat3} inOut
      **/
     fun scale(vec2ToScaleBy: Vec2): Mat3 {
         val x = vec2ToScaleBy[0]
@@ -431,6 +385,11 @@ class Mat3() : GlMatrix() {
         return this
     }
 
+    /**
+     * Scales the Mat3 by the dimensions in the given Vec2
+     *
+     * @param {Array<Double>} vec2ToScaleBy the Vec2 to scale the matrix by
+     **/
     fun scale(vec2ToScaleBy: Array<Double>): Mat3 {
         val x = vec2ToScaleBy[0]
         val y = vec2ToScaleBy[1]
@@ -445,14 +404,8 @@ class Mat3() : GlMatrix() {
 
     /**
      * Creates a matrix from a vector translation
-     * this.matrix is equivalent to (but much faster than):
      *
-     *     Mat3.identityDoubleArray(dest);
-     *     Mat3.translate(dest, dest, vec);
-     *
-     * @param {Mat3} inOut Mat3 receiving operation result
      * @param {Vec2} translationVec2 Translation vector
-     * @returns {Mat3} inOut
      */
     fun fromTranslation(translationVec2: Vec2): Mat3 {
         this.matrix[0] = 1.0
@@ -467,6 +420,11 @@ class Mat3() : GlMatrix() {
         return this
     }
 
+    /**
+     * Creates a matrix from a vector translation
+     *
+     * @param {Array<Double>} translationVec2 Translation vector
+     */
     fun fromTranslation(translationVec2: Array<Double>): Mat3 {
         this.matrix[0] = 1.0
         this.matrix[1] = 0.0
@@ -482,14 +440,8 @@ class Mat3() : GlMatrix() {
 
     /**
      * Creates a matrix from a given angle
-     * this.matrix is equivalent to (but much faster than):
      *
-     *     Mat3.identityDoubleArray(dest);
-     *     Mat3.rotate(dest, dest, angleToRotateByInRad);
-     *
-     * @param {Mat3} inOut Mat3 receiving operation result
-     * @param {Number} angleToRotateByInRad the angle to rotate the matrix by
-     * @returns {Mat3} inOut
+     * @param {Double} angleToRotateByInRad the angle to rotate the matrix by
      */
     fun fromRotation(angleToRotateByInRad: Double): Mat3 {
         val s = Math.sin(angleToRotateByInRad)
@@ -508,14 +460,8 @@ class Mat3() : GlMatrix() {
 
     /**
      * Creates a matrix from a vector scaling
-     * this.matrix is equivalent to (but much faster than):
      *
-     *     Mat3.identityDoubleArray(dest);
-     *     Mat3.scale(dest, dest, vec);
-     *
-     * @param {Mat3} inOut Mat3 receiving operation result
      * @param {Vec2} scalingVec2 Scaling vector
-     * @returns {Mat3} inOut
      */
     fun fromScaling(scalingVec2: Vec2): Mat3 {
         this.matrix[0] = scalingVec2[0]
@@ -530,6 +476,11 @@ class Mat3() : GlMatrix() {
         return this
     }
 
+    /**
+     * Creates a matrix from a vector scaling
+     *
+     * @param {Vec2} scalingVec2 Scaling vector
+     */
     fun fromScaling(scalingVec2: Array<Double>): Mat3 {
         this.matrix[0] = scalingVec2[0]
         this.matrix[1] = 0.0
@@ -544,11 +495,9 @@ class Mat3() : GlMatrix() {
     }
 
     /**
-     * Copies the values from mat2dToCreateMatrixFrom Mat2d into mat2dToCreateMatrixFrom Mat3
+     * Copies the values from Mat2d into Mat3
      *
-     * @param {Mat3} inOut the receiving matrix
      * @param {Mat2d} mat2dToCreateMatrixFrom the matrix to copy
-     * @returns {Mat3} inOut
      **/
     fun fromMat2d(mat2dToCreateMatrixFrom: Mat2d): Mat3 {
         this.matrix[0] = mat2dToCreateMatrixFrom[0]
@@ -563,6 +512,11 @@ class Mat3() : GlMatrix() {
         return this
     }
 
+    /**
+     * Copies the values from Mat2d into Mat3
+     *
+     * @param {Array<Double>} mat2dToCreateMatrixFrom the matrix to copy
+     **/
     fun fromMat2d(mat2dToCreateMatrixFrom: Array<Double>): Mat3 {
         this.matrix[0] = mat2dToCreateMatrixFrom[0]
         this.matrix[1] = mat2dToCreateMatrixFrom[1]
@@ -579,10 +533,7 @@ class Mat3() : GlMatrix() {
     /**
      * Calculates a 3x3 matrix from the given quaternion
      *
-     * @param {Mat3} inOut Mat3 receiving operation result
      * @param {Quat} quatToCreateMatrixFrom Quaternion to create matrix from
-     *
-     * @returns {Mat3} inOut
      */
     fun fromQuat(quatToCreateMatrixFrom: Quat): Mat3 {
         val x = quatToCreateMatrixFrom[0]
@@ -613,6 +564,11 @@ class Mat3() : GlMatrix() {
         return this
     }
 
+    /**
+     * Calculates a 3x3 matrix from the given quaternion
+     *
+     * @param {Array<Double>} quatToCreateMatrixFrom Quaternion to create matrix from
+     */
     fun fromQuat(quatToCreateMatrixFrom: Array<Double>): Mat3 {
         val x = quatToCreateMatrixFrom[0]
         val y = quatToCreateMatrixFrom[1]
@@ -645,10 +601,7 @@ class Mat3() : GlMatrix() {
     /**
      * Calculates mat4ToDeriveNormalMatrix 3x3 normal matrix (transpose inverse) from the 4x4 matrix
      *
-     * @param {Mat3} inOut Mat3 receiving operation result
      * @param {Mat4} mat4ToDeriveNormalMatrix Mat4 to derive the normal matrix from
-     *
-     * @returns {Mat3} inOut
      */
     fun normalFromMat4(mat4ToDeriveNormalMatrix: Mat4): Mat3 {
         val a00 = mat4ToDeriveNormalMatrix[0]
@@ -697,6 +650,11 @@ class Mat3() : GlMatrix() {
         return this
     }
 
+    /**
+     * Calculates mat4ToDeriveNormalMatrix 3x3 normal matrix (transpose inverse) from the 4x4 matrix
+     *
+     * @param {Array<Double>} mat4ToDeriveNormalMatrix Mat4 to derive the normal matrix from
+     */
     fun normalFromMat4(mat4ToDeriveNormalMatrix: Array<Double>): Mat3 {
         val a00 = mat4ToDeriveNormalMatrix[0]
         val a01 = mat4ToDeriveNormalMatrix[1]
@@ -747,10 +705,8 @@ class Mat3() : GlMatrix() {
     /**
      * Generates a 2D projection matrix with the given bounds
      *
-     * @param {Mat3} inOut Mat3 frustum matrix will be written into
-     * @param {number} glContextWith Width of your gl context
-     * @param {number} glContextHeight Height of gl context
-     * @returns {Mat3} inOut
+     * @param {Double} glContextWith Width of your gl context
+     * @param {Double} glContextHeight Height of gl context
      */
     fun projection(glContextWith: Double, glContextHeight: Double): Mat3 {
         this.matrix[0] = 2 / glContextWith
@@ -767,9 +723,6 @@ class Mat3() : GlMatrix() {
 
     /**
      * Returns a string representation of a Mat3
-     *
-     * @param {Mat3} a matrix to represent as a string
-     * @returns {String} string representation of the matrix
      */
     override fun toString(): String {
         return "Mat3(${this.matrix[0]}, ${this.matrix[1]}, ${this.matrix[2]}, " +
@@ -779,9 +732,6 @@ class Mat3() : GlMatrix() {
 
     /**
      * Returns Frobenius norm of a Mat3
-     *
-     * @param {Mat3} a the matrix to calculate Frobenius norm of
-     * @returns {Number} Frobenius norm
      */
     fun frob(): Double {
         return (Math.sqrt(Math.pow(this.matrix[0], 2.0) + Math.pow(this.matrix[1], 2.0) + Math.pow(this.matrix[2], 2.0)
@@ -791,11 +741,6 @@ class Mat3() : GlMatrix() {
 
     /**
      * Multiply each element of the matrix by matrixToScale scalar.
-     *
-     * @param {Mat3} inOut the receiving matrix
-     * @param {Mat3} matrixToScale the matrix to scale
-     * @param {Number} amountToScaleBy amount to scale the matrix's elements by
-     * @returns {Mat3} inOut
      */
     fun multiplyScalarAndAdd(summand: Mat3, amountToScale: Double): Mat3 {
         this.matrix[0] += (summand[0] * amountToScale)
@@ -812,10 +757,6 @@ class Mat3() : GlMatrix() {
 
     /**
      * Returns whether or not the matrices have exactly the same elements in the same position (when compared with ===)
-     *
-     * @param {Mat3} firstMatrix The first matrix.
-     * @param {Mat3} secondMatrix The second matrix.
-     * @returns {Boolean} True if the matrices are equal, false otherwise.
      */
     fun exactEquals(matrix: Mat3): Boolean {
         return this.matrix[0] == matrix[0]
@@ -831,10 +772,6 @@ class Mat3() : GlMatrix() {
 
     /**
      * Returns whether or not the matrices have approximately the same elements in the same position.
-     *
-     * @param {Mat3} firstMatrix The first matrix.
-     * @param {Mat3} secondMatrix The second matrix.
-     * @returns {Boolean} True if the matrices are equal, false otherwise.
      */
     fun equals(matrix: Mat3): Boolean {
         val a0 = this.matrix[0]
