@@ -4,7 +4,6 @@ import glmatrix.*
 import org.khronos.webgl.*
 import org.w3c.dom.HTMLCanvasElement
 import org.w3c.dom.HTMLElement
-import org.w3c.dom.NodeList
 import org.w3c.dom.events.KeyboardEvent
 import org.w3c.dom.events.MouseEvent
 import org.w3c.dom.events.WheelEvent
@@ -34,12 +33,11 @@ class WebGLRenderer : SceneRenderer {
     private var modelMatrixUniform: WebGLUniformLocation
     private var pickingUniform: WebGLUniformLocation
     private var diffuseUniform: WebGLUniformLocation
+    private var viewMatrix = Mat4().translate(arrayOf(0.0, 0.0, -15.0))
 
     private var nodes: List<SceneNode> = listOf()
 
     private var projectionMatrix: Mat4
-    private var viewMatrixV3 = Vec3(0.0, 0.0, -15.0)
-    private var viewMatrix = Mat4().translate(viewMatrixV3)
 
     private var clickPosX = 950
     private var clickPosY = 600
@@ -123,8 +121,6 @@ class WebGLRenderer : SceneRenderer {
                 gl.canvas.width.toDouble() / gl.canvas.height.toDouble(),
                 1.0,
                 100.0)
-        viewMatrix = Mat4().translate(arrayOf(0.0, 0.0, -15.0))
-        //modelMatrix = Mat4().translate(arrayOf(-2.0, 1.0, 0.0))
 
         window.requestAnimationFrame { t -> renderFrame(t, false) }
         window.addEventListener("resize", {
